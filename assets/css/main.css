@@ -1,0 +1,350 @@
+/* ============================================================
+   TABULA PYRENAEI — Hoja de estilos principal
+   ============================================================ */
+
+:root {
+  --color-texto: #1a1a1a;
+  --color-fondo: #fff;
+  --color-enlace: #8B1A1A;
+  --color-enlace-hover: #5a1010;
+  --color-borde: #ddd;
+  --color-meta: #666;
+  --fuente-principal: 'EB Garamond', Georgia, serif;
+  --ancho-contenido: 980px;
+  --ancho-total: 1200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 19px; }
+
+body {
+  font-family: var(--fuente-principal);
+  font-weight: 400;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+  line-height: 1.75;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.8em 0 0.6em;
+}
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+  margin-bottom: 1.2em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+a { color: var(--color-enlace); text-decoration: none; }
+a:hover { color: var(--color-enlace-hover); text-decoration: underline; }
+
+em { font-style: italic; }
+strong { font-weight: 600; }
+
+/* Drop cap — 3 líneas */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 5.2em;
+  line-height: 0.72;
+  margin: 0.04em 0.08em 0 0;
+  font-weight: 400;
+}
+
+/* --- Cabecera con imagen --- */
+.site-header {
+  border-bottom: 2px solid var(--color-borde);
+  background: var(--color-fondo);
+}
+.site-header-logo {
+  display: block;
+  line-height: 0;
+  text-align: center;
+}
+.site-header-logo a {
+  display: inline-block;
+}
+.site-header-logo img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.site-nav {
+  max-width: var(--ancho-total);
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
+  display: flex;
+  gap: 2rem;
+  border-top: 1px solid var(--color-borde);
+}
+.site-nav a {
+  font-size: 0.88rem;
+  color: var(--color-meta);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.site-nav a:hover { color: var(--color-enlace); text-decoration: none; }
+
+/* --- Contenido principal --- */
+.site-main {
+  max-width: var(--ancho-total);
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+/* --- Post --- */
+.post-header {
+  max-width: var(--ancho-total);
+  margin: 0 auto 2rem auto;
+}
+.post-title { font-size: 2rem; margin-top: 0; }
+.post-meta { color: var(--color-meta); font-size: 0.85rem; margin-top: 0.4rem; }
+.post-content { width: 100%; }
+
+/* --- Mapa a ancho de ventana completo --- */
+.mapa-pantalla-completa {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0 0 1.5rem 0;
+}
+.mapa-pantalla-completa iframe {
+  width: 100%;
+  display: block;
+  border: none;
+}
+
+/* --- Columnas 2/3 + 1/3 centradas --- */
+.col-2-1-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+.col-2-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: var(--ancho-total);
+}
+
+/* Notas alineadas al fondo */
+.nota-margen {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--color-meta);
+  font-size: 0.85rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--color-borde);
+}
+.nota-margen p { text-align: left; margin-bottom: 0; }
+
+/* Vídeo responsivo */
+.video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+}
+.video-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --- Anchos de bloque --- */
+.ancho-total {
+  max-width: var(--ancho-total);
+  margin: 1.5rem auto;
+}
+.ancho-contenido {
+  max-width: var(--ancho-contenido);
+  margin: 1.5rem auto;
+}
+.imagen-total {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 1.5rem 0;
+}
+
+/* --- Figuras e imágenes --- */
+figure { margin: 1.5rem 0; }
+figure img { width: 100%; height: auto; display: block; }
+figcaption {
+  font-size: 0.8rem;
+  color: var(--color-meta);
+  margin-top: 0.4rem;
+  font-style: normal;
+  text-align: center;
+}
+
+/* --- Blockquote --- */
+blockquote {
+  border-left: 3px solid var(--color-borde);
+  margin: 1.5rem 0;
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  color: #444;
+}
+blockquote p { text-align: left; }
+blockquote cite {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-meta);
+  margin-top: 0.5rem;
+  font-style: normal;
+}
+
+/* --- Glosario --- */
+.glosario {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #e8eef5 0%, #f5f5f5 100%);
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: var(--ancho-total);
+}
+.glosario-item h4 { margin-top: 0; font-size: 1rem; }
+.glosario-item p  { font-size: 0.85rem; margin-bottom: 0; text-align: left; }
+
+/* --- Lista de topónimos en párrafo corrido --- */
+.lista-toponimos {
+  max-width: var(--ancho-total);
+  margin: 1rem auto;
+}
+.lista-toponimos p {
+  font-size: 0.82rem;
+  line-height: 1.8;
+  text-align: left;
+  color: var(--color-meta);
+}
+
+/* --- Mapas --- */
+.mapa-contenedor { width: 100%; margin: 1.5rem 0; }
+
+/* --- Tablas --- */
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 1.5rem 0; }
+th, td { border: 1px solid var(--color-borde); padding: 0.5rem 0.75rem; text-align: left; }
+th { background: #f0ede8; font-weight: 600; }
+
+/* --- Pie de página --- */
+.site-footer {
+  border-top: 1px solid var(--color-borde);
+  padding: 1.5rem 2rem;
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  color: var(--color-meta);
+}
+.site-footer-inner { max-width: var(--ancho-total); margin: 0 auto; }
+
+/* --- Lista de entradas (home) --- */
+.post-list { list-style: none; padding: 0; }
+.post-list li { padding: 1rem 0; border-bottom: 1px solid var(--color-borde); }
+.post-list .post-link { font-size: 1.15rem; font-weight: 600; }
+.post-list .post-meta { font-size: 0.85rem; color: var(--color-meta); }
+
+/* --- Páginas de categoría --- */
+.categoria-titulo {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* --- Cuadrícula de tarjetas (página de inicio) --- */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  padding: 1rem 0;
+}
+.post-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-borde);
+  border-radius: 3px;
+  overflow: hidden;
+  color: var(--color-texto);
+  transition: box-shadow 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+.post-card:hover {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--color-texto);
+}
+.post-card-img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #e8e0d4;
+}
+.post-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s;
+}
+.post-card:hover .post-card-img-wrap img {
+  transform: scale(1.04);
+}
+.post-card-no-img {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #d9cfc4 0%, #b8a898 100%);
+}
+.post-card-body {
+  padding: 0.9rem 1.1rem 1.1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.post-card-date {
+  font-size: 0.78rem;
+  color: var(--color-meta);
+  letter-spacing: 0.03em;
+}
+.post-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .post-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  html { font-size: 16px; }
+  p { text-align: left; hyphens: none; }
+  .col-2-1 { grid-template-columns: 1fr; }
+  .glosario { grid-template-columns: 1fr; }
+  .nota-margen {
+    justify-content: flex-start;
+    border-left: none;
+    border-top: 1px solid var(--color-borde);
+    padding: 1rem 0 0;
+  }
+  .post-grid { grid-template-columns: 1fr; }
+  .site-header-img { height: 140px; }
+  .site-title { font-size: 1.4rem; }
+  .site-nav { flex-wrap: wrap; gap: 1rem; }
+}

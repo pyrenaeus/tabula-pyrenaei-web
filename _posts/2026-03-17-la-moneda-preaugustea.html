@@ -1,0 +1,505 @@
+---
+layout: post
+title: "La moneda preaugustea entre los Pirineos y el Hérault"
+date: 2026-03-17
+permalink: /la-moneda-preaugustea-entre-los-pirineos-y-el-herault/
+image: https://tabulapyrenaei.eu/wp-content/uploads/2026/03/ImagenDestacadaMonedaPirineosHerault.png
+categories: [numismatica]
+---
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&display=swap" rel="stylesheet"/>
+<script src="{{ '/assets/js/datos-monedas-narbonense.js' | relative_url }}"></script>
+
+<style>
+@keyframes girar { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+.contenedor-grafico { overflow:visible !important; transition:left .15s ease-out,top .15s ease-out,width .3s,height .3s; }
+canvas { width:100% !important; height:100% !important; }
+.label-sitio {
+  position:absolute;
+  bottom:-22px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  pointer-events:none;
+  font-family:'Marcellus',serif;
+  font-size:12px;
+  color:#2c3e50;
+  background:transparent;
+  display:none;
+}
+.chartjs-tooltip-custom {
+  background:rgba(0,0,0,.82); color:#fff; padding:7px 11px; border-radius:5px;
+  font-family:'EB Garamond',serif; font-size:14px; line-height:1.5;
+  box-shadow:0 2px 8px rgba(0,0,0,.3); white-space:nowrap; pointer-events:none;
+  position:fixed; z-index:9500; transition:opacity .15s;
+}
+.tooltip-mn3 {
+  background:rgba(255,255,255,.93) !important; border:1px solid rgba(0,0,0,.12) !important;
+  box-shadow:0 1px 5px rgba(0,0,0,.18) !important; font-family:'EB Garamond',serif !important;
+  font-size:13px !important; color:#2c3e50 !important; padding:4px 9px !important;
+  border-radius:3px !important; white-space:nowrap !important;
+}
+.tooltip-mn3::before { display:none !important; }
+.leaflet-popup-content { font-family:'EB Garamond',serif; font-size:15px; line-height:1.65; }
+.leaflet-control, .leaflet-top, .leaflet-bottom { z-index:9999 !important; pointer-events:auto !important; }
+.panel-info-cecas {
+  position:fixed; top:0; right:-430px; width:430px; height:100%;
+  background:#fff; box-shadow:-2px 0 10px rgba(0,0,0,.2);
+  z-index:10001; transition:right .3s; overflow-y:auto; padding:20px; box-sizing:border-box;
+}
+.panel-info-cecas.panel-info-visible { right:0; }
+.panel-info-close {
+  position:absolute; top:15px; right:15px; width:30px; height:30px;
+  background:#e74c3c; color:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:18px; font-weight:bold;
+}
+.panel-info-close:hover { background:#c0392b; }
+.panel-info-contenido { margin-top:10px; font-family:'EB Garamond',serif; }
+.panel-info-contenido a { color:#2980b9; text-decoration:none; border-bottom:1px solid #2980b9; }
+</style>
+
+<!-- INTRO -->
+<div class="col-2-1-wrap">
+  <div class="col-2-1">
+    <div>
+      <p class="drop-cap">Entre los Pirineos y el río Hérault, el <em>Arauris</em> de las fuentes literarias, en el territorio donde se extiende la <a href="/epigrafia-paleohispanica/">epigrafía ibérica</a> desde finales del siglo IV a.&thinsp;C., se produjo en los siglos previos a Augusto un conjunto numismático característico. Emisiones en bronce y en plata, en ocasiones con leyendas monetales, bien en signario ibérico o en alfabeto griego, tuvieron su origen en —o en las proximidades— de las antiguas <em>Narbo, Baeterrae, Ruscino</em>… Portando el nombre de sus ciudades, de sus dirigentes o sin texto, circularon a lo largo de la mitad occidental del Golfo de León proyectándose hacia el interior hasta alcanzar <em>Tolosa</em> y el río Garona.</p>
+      <p>No fueron las únicas monedas de uso por parte de los pobladores de este pequeño territorio multicultural. Allí se mezclaban con monedas llegadas de otras regiones de la Galia e Iberia. Un rico abanico de tipos no solo por su variedad sino por su cantidad, un volumen inmenso de piezas que en su mayoría se ha querido recoger en los mapas que se publican en esta entrada. Por la envergadura del conjunto, para intentar hacerla más accesible y comprensible, la información se ha dividido fundamentalmente en dos mapas. Un primer mapa que recoge los diferentes tipos recuperados en el área nororiental del Pirineo, tanto de producción local como externa, y un segundo mapa que se centra en las monedas emitidas entre los Pirineos y el Hérault tanto dentro de esta región como fuera de ella.</p>
+      <p>La imagen obtenida es en cierta medida parcial, es decir, no refleja la totalidad de monedas que circularon por la zona objeto de atención. Estas fueron aún más, pero ha sido necesario establecer una selección para poder ofrecer una imagen que pudiera ser razonablemente comprensible. Por ello se han excluido las monedas griegas y romanas que fueron contemporáneas de las aquí representadas. Finalmente se ha añadido un tercer mapa con las monedas «à la croix» con leyenda ibérica.</p>
+      <p>El repertorio de monedas representado en los mapas se basa en <span class="sc">Py, M.</span> <em>Les monnaies préaugustéennes de Lattes et la circulation monétaire protohistorique en Gaule méridionale</em>. <em>Lattara</em> 19, Lattes, 2006, al que se han hecho algunas puntuales actualizaciones. Hay por tanto aquí otra advertencia, pues el catálogo precisaría de nuevas adiciones.</p>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <figure style="margin:0;"><a href="https://monedaiberica.org/v5/type/2693" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121584.jpg" alt="eba" style="width:100%;display:block;"/></a><figcaption>eba</figcaption></figure>
+        <figure style="margin:0;"><a href="https://monedaiberica.org/v5/type/2693" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121585.jpg" alt="neronken" style="width:100%;display:block;"/></a><figcaption>neronken</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAPA 1 -->
+<div class="mapa-pantalla-completa" style="margin:2em 0;">
+  <div style="position:relative;">
+    <div id="carga1" style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,10,9,.72),rgba(160,160,160,.18));z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Marcellus',serif;pointer-events:none;">
+      <div style="border:8px solid #f3f3f3;border-top:8px solid #2980b9;border-radius:50%;width:60px;height:60px;animation:girar 1s linear infinite;margin-bottom:20px;"></div>
+      <p style="margin:0;font-size:18px;color:#fff;">Cargando mapa…</p>
+    </div>
+    <div id="mapa1" style="height:900px;width:100%;"></div>
+  </div>
+</div>
+
+<div class="col-2-1-wrap">
+  <div class="col-2-1">
+    <div><p>El menú lateral derecho permite activar y desactivar capas por lo que pueden seleccionarse los tipos que se considere oportuno haciendo combinaciones para comprobar sus interrelaciones o aislando la distribución de un tipo de moneda determinado. El diámetro de los gráficos se modifica en función del número de monedas visualizadas.</p></div>
+    <div></div>
+  </div>
+</div>
+
+<!-- MAPA 2 -->
+<div class="mapa-pantalla-completa" style="margin:2em 0;">
+  <div style="position:relative;">
+    <div id="carga2" style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,10,9,.72),rgba(160,160,160,.18));z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Marcellus',serif;pointer-events:none;">
+      <div style="border:8px solid #f3f3f3;border-top:8px solid #2980b9;border-radius:50%;width:60px;height:60px;animation:girar 1s linear infinite;margin-bottom:20px;"></div>
+      <p style="margin:0;font-size:18px;color:#fff;">Cargando mapa…</p>
+    </div>
+    <div id="mapa2" style="height:900px;width:100%;"></div>
+  </div>
+</div>
+
+<!-- MAPA 3 + imágenes -->
+<div class="col-2-1-wrap">
+  <div class="col-2-1">
+    <div><div id="mapa3" style="height:500px;width:100%;"></div></div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <figure style="margin:0;"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/308000/rsc29_rsc170_308003.jpg" alt="à la croix" style="width:100%;display:block;"/></figure>
+        <figure style="margin:0;"><a href="https://monedaiberica.org/v2/type/2673" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/308000/rsc29_rsc170_308004.jpg" alt="auntiki" style="width:100%;display:block;"/></a><figcaption>auntiki</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var CFG={BASE:180,MAX_MON:360,MIN:30,MAX:220};
+
+/* Umbral para mostrar etiqueta de nombre: sitios con totalInicial >= este valor */
+var UMBRAL_ETIQUETA = 30;
+
+/* Sitios excluidos explícitamente del mapa1 (fuera del área MN)
+   identificados por coordenada exacta para evitar coincidencias parciales de nombre */
+var EXCLUIDOS_MN = [
+  'Clermont-le-Fort',    /* 43.458, 1.432 */
+  'Auterive',            /* 43.352, 1.478 */
+  'Cazères',             /* 43.208, 1.083 */
+  'Tarascon-sur-Ariège', /* 42.843, 1.607 */
+  'Sant Julià de Lòria', /* 42.464, 1.498 */
+  'Oliana',              /* 42.068, 1.313 */
+  'Montmajor'            /* 41.910, 1.836 */
+];
+
+/* Bbox ajustado: norte subido a 43.66 para incluir Murviel-lès-Montpellier
+   (43.605), Peyre-Plantade (43.632) y Castres (43.607).
+   Oeste en 1.55 para excluir Clermont-le-Fort/Auterive (lng ~1.43-1.48)
+   pero la exclusión nominal es más fiable para casos límite. */
+var MN_BBOX={latMin:41.95,latMax:43.64,lngMin:1.55,lngMax:3.85};
+
+function enMN(s){
+  if(!s.lat||!s.lng) return false;
+  /* Exclusión nominal explícita */
+  if(EXCLUIDOS_MN.indexOf(s.nombre)!==-1) return false;
+  /* Bbox */
+  return s.lat>=MN_BBOX.latMin && s.lat<=MN_BBOX.latMax
+      && s.lng>=MN_BBOX.lngMin && s.lng<=MN_BBOX.lngMax;
+}
+
+/* MAPA 2: índices 0-17 */
+var ESTR2=[{
+  nombre:'Monnaies ibéro-languedociennes',
+  subgrupos:[
+    {nombre:'Bronzes des chefs gaulois',indices:[0,1,2,3,4,5]},
+    {nombre:'À légende ibérique',       indices:[6,7,8,9,10,11,12,13,14]}
+  ],
+  sueltos:[17,15,16]
+}];
+
+/* MAPA 1: índices 0-23 */
+var ESTR1=[
+  {
+    nombre:'Monnaies ibéro-languedociennes',
+    subgrupos:[
+      {nombre:'Bronzes des chefs gaulois',indices:[0,1,2,3,4,5]},
+      {nombre:'À légende ibérique',       indices:[6,7,8,9,10,11,12,13,14]}
+    ],
+    sueltos:[17,15,16]
+  },
+  {
+    nombre:'Monnaies gauloises étrangères',
+    subgrupos:[
+      {nombre:'À la croix',indices:[21,22,23]}
+    ],
+    sueltos:[20]
+  },
+  {
+    nombre:'Monnaies ibériques',
+    subgrupos:[],
+    sueltos:[18,19]
+  }
+];
+
+function tamano(t){if(t===1)return 12;if(t<=10)return 20;return Math.max(CFG.MIN,Math.min(CFG.MAX,Math.round(CFG.BASE*(t/CFG.MAX_MON))));}
+function norm(t){try{return (t||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();}catch(e){return (t||'').toLowerCase();}}
+
+/* Panel lateral */
+var panelG=null;
+function mostrarPanel(ci,nom,cant){
+  if(!panelG){
+    panelG=document.createElement('div');
+    panelG.className='panel-info-cecas';
+    panelG.innerHTML='<div class="panel-info-close">✕</div><div class="panel-info-contenido"></div>';
+    document.body.appendChild(panelG);
+    panelG.querySelector('.panel-info-close').onclick=function(){panelG.classList.remove('panel-info-visible');};
+  }
+  var ceca=CECAS_BASE[ci];
+  var sitio=SITIOS.find(function(s){return s.nombre===nom;});
+  var c=panelG.querySelector('.panel-info-contenido');
+  var h='<h3 style="color:'+ceca.color+';margin-top:0;margin-bottom:14px;font-family:Marcellus,serif;font-size:21px;font-weight:normal;">'+ceca.nombre+'</h3>';
+  h+='<p style="margin:5px 0;font-size:14px;"><strong>Sitio:</strong> '+nom+'</p>';
+  h+='<p style="margin:5px 0;font-size:14px;"><strong>Monedas:</strong> '+cant+'</p>';
+  if(sitio&&sitio.infoEspecifica&&sitio.infoEspecifica[ci]){
+    var inf=sitio.infoEspecifica[ci];
+    h+='<hr style="margin:11px 0;border:none;border-top:1px solid #e0e0e0;">';
+    if(inf.textoIntro) h+='<p style="margin:9px 0;line-height:1.7;font-size:14px;">'+inf.textoIntro+'</p>';
+    if(inf.fuentes&&inf.fuentes.length){inf.fuentes.forEach(function(f){h+='<p style="margin:5px 0;font-size:13px;">'+(f.enlace?'<a href="'+f.enlace+'" target="_blank">'+f.texto+'</a>':f.texto)+'</p>';});}
+    else if(inf.textoPaper){h+='<p style="margin:9px 0;font-size:13px;">'+(inf.enlace?'<a href="'+inf.enlace+'" target="_blank">'+inf.textoPaper+'</a>':inf.textoPaper)+'</p>';}
+  } else if(ceca.info){
+    h+='<hr style="margin:11px 0;border:none;border-top:1px solid #e0e0e0;">';
+    h+='<p style="margin:9px 0;font-size:13px;"><a href="'+ceca.info.enlace+'" target="_blank">'+ceca.info.texto+'</a></p>';
+  }
+  c.innerHTML=h;
+  panelG.classList.add('panel-info-visible');
+}
+
+/* Tooltip */
+function getTip(id){var el=document.getElementById(id);if(!el){el=document.createElement('div');el.id=id;el.className='chartjs-tooltip-custom';el.style.opacity='0';document.body.appendChild(el);}return el;}
+function showTip(ctx,el){
+  var tm=ctx.tooltip;
+  if(tm.opacity===0){el.style.opacity='0';return;}
+  var h='';
+  (tm.title||[]).forEach(function(t){h+='<div style="font-weight:600;margin-bottom:3px;">'+t+'</div>';});
+  (tm.body||[]).forEach(function(b,i){var col=tm.labelColors[i];h+='<div><span style="display:inline-block;width:9px;height:9px;margin-right:5px;background:'+col.backgroundColor+'"></span>'+b.lines+' monedas</div>';});
+  el.innerHTML=h;
+  var r=ctx.chart.canvas.getBoundingClientRect();
+  el.style.opacity='1';el.style.left=(r.left+tm.caretX)+'px';el.style.top=(r.top+tm.caretY)+'px';
+}
+
+/* Checkboxes */
+function genCtrl(ctrlEl,estr,charts,map,ctrlId){
+  var h='',gi=0;
+  estr.forEach(function(gr){
+    var gId=ctrlId+'_g'+gi;
+    h+='<div style="margin-bottom:14px;border-bottom:2px solid #aaa;padding-bottom:7px;">';
+    h+='<label style="cursor:pointer;display:flex;align-items:center;font-weight:bold;font-size:13px;"><input type="checkbox" class="gm" data-g="'+gi+'" checked style="margin-right:7px;"> <span class="gt" data-gid="'+gId+'" style="cursor:pointer;margin-right:4px;">▼</span>'+gr.nombre+'</label>';
+    h+='<div class="gc" id="'+gId+'">';
+    (gr.subgrupos||[]).forEach(function(sub,si){
+      var sId=gId+'_s'+si;
+      h+='<div style="margin:4px 0 4px 14px;"><label style="cursor:pointer;display:flex;align-items:center;font-weight:600;font-size:11px;border-left:3px solid #ccc;padding-left:7px;"><input type="checkbox" class="sm" data-g="'+gi+'" data-s="'+si+'" checked style="margin-right:5px;"> <span class="st" data-sid="'+sId+'" style="cursor:pointer;margin-right:4px;">▼</span>'+sub.nombre+'</label>';
+      h+='<div class="sc" id="'+sId+'" style="margin-left:18px;">';
+      sub.indices.forEach(function(idx){
+        if(idx<CECAS_BASE.length) h+='<label style="display:block;margin:2px 0;cursor:pointer;font-size:11px;"><input type="checkbox" class="cc" data-index="'+idx+'" data-g="'+gi+'" data-s="'+si+'" checked> '+CECAS_BASE[idx].nombre+'</label>';
+      });
+      h+='</div></div>';
+    });
+    (gr.sueltos||[]).forEach(function(idx){
+      if(idx<CECAS_BASE.length) h+='<label style="display:block;margin:4px 0 4px 14px;cursor:pointer;font-size:11px;"><input type="checkbox" class="cc" data-index="'+idx+'" data-g="'+gi+'" checked> '+CECAS_BASE[idx].nombre+'</label>';
+    });
+    h+='</div></div>'; gi++;
+  });
+  ctrlEl.innerHTML=h;
+  ctrlEl.querySelectorAll('.gt').forEach(function(t){t.addEventListener('click',function(e){e.stopPropagation();var c=document.getElementById(this.dataset.gid),o=c.style.display!=='none';c.style.display=o?'none':'block';this.textContent=o?'▶':'▼';});});
+  ctrlEl.querySelectorAll('.st').forEach(function(t){t.addEventListener('click',function(e){e.stopPropagation();var c=document.getElementById(this.dataset.sid),o=c.style.display!=='none';c.style.display=o?'none':'block';this.textContent=o?'▶':'▼';});});
+  ctrlEl.querySelectorAll('.gm').forEach(function(cb){cb.addEventListener('change',function(){var g=this.dataset.g,chk=this.checked;ctrlEl.querySelectorAll('.cc[data-g="'+g+'"]').forEach(function(c){c.checked=chk;});ctrlEl.querySelectorAll('.sm[data-g="'+g+'"]').forEach(function(c){c.checked=chk;});SITIOS.forEach(function(s){updChart(s,ctrlEl,ctrlId,charts,map);});});});
+  ctrlEl.querySelectorAll('.sm').forEach(function(cb){cb.addEventListener('change',function(){var g=this.dataset.g,s=this.dataset.s,chk=this.checked;ctrlEl.querySelectorAll('.cc[data-g="'+g+'"][data-s="'+s+'"]').forEach(function(c){c.checked=chk;});SITIOS.forEach(function(si){updChart(si,ctrlEl,ctrlId,charts,map);});});});
+  ctrlEl.querySelectorAll('.cc').forEach(function(cb){cb.addEventListener('change',function(){SITIOS.forEach(function(s){updChart(s,ctrlEl,ctrlId,charts,map);});});});
+}
+
+/* Filtrado */
+function filtrar(sitio,ctrlEl,maxIdx){
+  var d=[],l=[],c=[];
+  sitio.valores.slice(0,maxIdx).forEach(function(v,i){
+    if(v<=0||i>=CECAS_BASE.length) return;
+    var cb=ctrlEl?ctrlEl.querySelector('.cc[data-index="'+i+'"]'):null;
+    if(cb&&!cb.checked) return;
+    d.push(v);l.push(CECAS_BASE[i].nombre);c.push(CECAS_BASE[i].color);
+  });
+  return {d:d,l:l,c:c};
+}
+
+/* Contenedores con etiqueta de nombre para sitios importantes */
+function crearConts(contEl,pfx,sitiosSet){
+  var ord=sitiosSet.slice().sort(function(a,b){return (b.totalInicial||0)-(a.totalInicial||0);});
+  sitiosSet.forEach(function(s){
+    var sid=s.nombre.replace(/[^a-zA-Z0-9]/g,'');
+    var div=document.createElement('div');
+    div.id=pfx+sid; div.className='contenedor-grafico';
+    div.style.cssText='display:none;position:absolute;pointer-events:none;overflow:visible;';
+    div.style.zIndex=1000+ord.findIndex(function(x){return x.nombre===s.nombre;});
+
+    var cvs=document.createElement('canvas');
+    cvs.id=pfx+'c'+sid; cvs.style.pointerEvents='auto'; cvs.style.cursor='pointer';
+    div.appendChild(cvs);
+
+    /* Etiqueta: solo para sitios con totalInicial >= UMBRAL_ETIQUETA */
+    if((s.totalInicial||0) >= UMBRAL_ETIQUETA){
+      var lbl=document.createElement('div');
+      lbl.className='label-sitio';
+      lbl.textContent=s.nombre;
+      div.appendChild(lbl);
+    }
+
+    contEl.appendChild(div);
+  });
+}
+
+/* Mostrar/ocultar etiquetas según zoom */
+function actualizarEtiquetas(pfx,sitiosSet,map){
+  var zoom=map.getZoom();
+  sitiosSet.forEach(function(s){
+    if((s.totalInicial||0) < UMBRAL_ETIQUETA) return;
+    var sid=s.nombre.replace(/[^a-zA-Z0-9]/g,'');
+    var lbl=document.querySelector('#'+pfx+sid+' .label-sitio');
+    if(!lbl) return;
+    /* A zoom bajo solo los más grandes; a zoom alto todos los etiquetados */
+    var visible = zoom>=10 || (s.totalInicial>=100 && zoom>=9) || (s.totalInicial>=400 && zoom>=8);
+    lbl.style.display = visible ? 'block' : 'none';
+  });
+}
+
+/* Chart */
+function buildChart(cvs,dat,sitio,pfx,charts){
+  var tip=getTip(pfx+'tip'+sitio.nombre.replace(/[^a-zA-Z0-9]/g,''));
+  if(charts[sitio.nombre]){try{charts[sitio.nombre].destroy();}catch(e){}}
+  charts[sitio.nombre]=new Chart(cvs.getContext('2d'),{
+    type:'pie',
+    data:{labels:dat.l,datasets:[{data:dat.d,backgroundColor:dat.c,borderColor:'#fff',borderWidth:.2}]},
+    options:{responsive:false,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{enabled:false,external:function(ctx){showTip(ctx,tip);}}},
+      onClick:function(ev,els){if(!els.length)return;var lbl=this.data.labels[els[0].index],val=this.data.datasets[0].data[els[0].index],ci=CECAS_BASE.findIndex(function(x){return x.nombre===lbl;});if(ci!==-1)mostrarPanel(ci,sitio.nombre,val);}
+    }
+  });
+}
+
+function crearChart(sitio,pfx,ctrlEl,maxIdx,charts,map){
+  var sid=sitio.nombre.replace(/[^a-zA-Z0-9]/g,'');
+  var div=document.getElementById(pfx+sid),cvs=document.getElementById(pfx+'c'+sid);
+  if(!div||!cvs) return;
+  var dat=filtrar(sitio,ctrlEl,maxIdx);
+  if(!dat.d.length){div.style.display='none';return;}
+  div.style.display='block';
+  var sz=tamano(dat.d.reduce(function(a,b){return a+b;},0));
+  div.style.width=sz+'px';div.style.height=sz+'px';cvs.width=sz;cvs.height=sz;
+  buildChart(cvs,dat,sitio,pfx,charts);
+  ponerGrafico(sitio,pfx,map);
+}
+function updChart(sitio,ctrlEl,ctrlId,charts,map){
+  var pfx=ctrlId==='ctrl1'?'g1':'g2';
+  var maxIdx=ctrlId==='ctrl1'?CECAS_BASE.length:18;
+  crearChart(sitio,pfx,ctrlEl,maxIdx,charts,map);
+  setTimeout(function(){reorder(pfx);},50);
+}
+
+/* Posicionamiento */
+function ponerGrafico(sitio,pfx,map){
+  var div=document.getElementById(pfx+sitio.nombre.replace(/[^a-zA-Z0-9]/g,''));
+  if(!div||div.style.display==='none') return;
+  var sz=parseInt(div.style.width)||CFG.MIN;
+  var pt=map.latLngToContainerPoint([sitio.lat,sitio.lng]);
+  div.style.left=(pt.x-sz/2)+'px';div.style.top=(pt.y-sz/2)+'px';
+}
+function updAll(pfx,sitiosSet,map){
+  sitiosSet.forEach(function(s){ponerGrafico(s,pfx,map);});
+  actualizarEtiquetas(pfx,sitiosSet,map);
+  reorder(pfx);
+}
+function reorder(pfx){
+  var arr=[];
+  document.querySelectorAll('[id^="'+pfx+'"].contenedor-grafico').forEach(function(el){var w=parseInt(el.style.width)||0;if(w>0)arr.push({el:el,w:w});});
+  arr.sort(function(a,b){return b.w-a.w;});
+  arr.forEach(function(item,i){item.el.style.zIndex=1000+i;});
+}
+
+/* Búsqueda */
+function addBusqueda(map,sitiosSet){
+  var SC=L.Control.extend({onAdd:function(){
+    var w=L.DomUtil.create('div','leaflet-bar leaflet-control');
+    w.style.cssText='display:flex;align-items:center;gap:5px;padding:4px 5px;background:#fff;border-radius:4px;position:relative;';
+    var inp=L.DomUtil.create('input','',w);inp.placeholder='Buscar…';
+    inp.style.cssText='width:135px;font-family:"EB Garamond",serif;padding:4px 6px;border:1px solid rgba(0,0,0,.15);border-radius:3px;font-size:14px;';
+    var btn=L.DomUtil.create('a','',w);btn.href='#';btn.textContent='Ir';
+    btn.style.cssText='background:#2980b9;color:#fff;padding:4px 8px;text-decoration:none;border-radius:3px;font-family:"EB Garamond",serif;font-size:14px;';
+    var sg=L.DomUtil.create('div','',w);
+    sg.style.cssText='display:none;position:absolute;top:36px;left:0;right:0;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:4px;box-shadow:0 5px 15px rgba(0,0,0,.12);max-height:200px;overflow-y:auto;z-index:9500;';
+    L.DomEvent.disableClickPropagation(w);
+    this._w=w;this._i=inp;this._sg=sg;return w;
+  }});
+  var sc=new SC({position:'topleft'});map.addControl(sc);
+  var ms=[],sel=-1;
+  function show(m){var s=sc._sg;s.innerHTML='';sel=-1;ms=m||[];if(!m||!m.length){s.style.display='none';return;}m.slice(0,10).forEach(function(x,i){var it=document.createElement('div');it.textContent=x.nombre;it.style.cssText='padding:6px 9px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);font-family:"EB Garamond",serif;font-size:14px;';it.onmouseover=function(){it.style.background='rgba(41,128,185,.08)';};it.onmouseout=function(){it.style.background='';};it.onclick=function(){go(i);};s.appendChild(it);});s.style.display='block';}
+  function hide(){sc._sg.style.display='none';sc._sg.innerHTML='';ms=[];sel=-1;}
+  function go(i){var s=ms[i];if(!s)return;sc._i.value=s.nombre;hide();map.setView([s.lat,s.lng],Math.max(map.getZoom(),8));}
+  function buscar(){var q=norm(sc._i.value||'');if(!q)return;var r=sitiosSet.filter(function(s){return s.lat&&norm(s.nombre).indexOf(q)!==-1;});show(r);if(r.length===1)go(0);}
+  L.DomEvent.on(sc._i,'input',function(){var q=norm(sc._i.value||'');if(!q){hide();return;}show(sitiosSet.filter(function(s){return s.lat&&norm(s.nombre).indexOf(q)!==-1;}));});
+  L.DomEvent.on(sc._i,'keydown',function(e){if(e.key==='Enter'){L.DomEvent.stop(e);if(sel>=0)go(sel);else buscar();}else if(e.key==='ArrowDown'){L.DomEvent.stop(e);sel=Math.min(ms.length-1,sel+1);}else if(e.key==='ArrowUp'){L.DomEvent.stop(e);sel=Math.max(0,sel-1);}});
+  L.DomEvent.on(sc._w.querySelector('a'),'click',function(e){L.DomEvent.stop(e);buscar();});
+  document.addEventListener('click',function(e){if(!sc._w.contains(e.target))hide();});
+}
+
+/* Inicializar mapa */
+function initMapa(mapaId,centro,zoom,conMN,estr,ctrlId,pfx,loaderId){
+  var sitiosSet=(ctrlId==='ctrl1') ? SITIOS.filter(enMN) : SITIOS;
+
+  var map=L.map(mapaId,{zoomControl:true}).setView(centro,zoom);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles &copy; Esri',maxZoom:18}).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}',{attribution:'Hillshade &copy; Esri',opacity:.4,zIndex:2}).addTo(map);
+  if(conMN) L.tileLayer('https://pyrenaeus.github.io/mapas-tiles/MN/{z}/{x}/{y}.png',{opacity:1,zIndex:3,maxZoom:18}).addTo(map);
+
+  var mc=map.getContainer();
+  var ctrlEl=document.createElement('div');
+  ctrlEl.id=ctrlId;
+  ctrlEl.style.cssText='display:none;position:absolute;top:10px;right:10px;z-index:2000;background:rgba(255,255,255,.92);padding:10px 15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.3);font-size:13px;pointer-events:auto;font-family:Marcellus,serif;max-height:80vh;overflow-y:auto;';
+  mc.appendChild(ctrlEl);
+
+  var contEl=document.createElement('div');
+  contEl.id=pfx+'cont';
+  contEl.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:400;overflow:hidden;';
+  mc.appendChild(contEl);
+
+  var charts={};
+  var maxIdx=ctrlId==='ctrl1'?CECAS_BASE.length:18;
+  genCtrl(ctrlEl,estr,charts,map,ctrlId);
+  crearConts(contEl,pfx,sitiosSet);
+  ctrlEl.style.display='block';
+  sitiosSet.forEach(function(s){crearChart(s,pfx,ctrlEl,maxIdx,charts,map);});
+  setTimeout(function(){reorder(pfx);actualizarEtiquetas(pfx,sitiosSet,map);},800);
+  document.getElementById(loaderId).style.display='none';
+  map.on('zoom move resize',function(){updAll(pfx,sitiosSet,map);});
+  addBusqueda(map,sitiosSet);
+  return map;
+}
+
+var mapa1=initMapa('mapa1',[42.8,2.85],10,true, ESTR1,'ctrl1','g1','carga1');
+var mapa2=initMapa('mapa2',[43.18,3.03],9,false,ESTR2,'ctrl2','g2','carga2');
+
+})();
+</script>
+
+<!-- MAPA 3 -->
+<script>
+(function(){
+'use strict';
+var mapa3=L.map('mapa3',{zoomControl:false}).setView([43.8,1.8],7);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles &copy; Esri',maxZoom:18}).addTo(mapa3);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}',{attribution:'Hillshade &copy; Esri',opacity:.4}).addTo(mapa3);
+L.control.zoom({position:'topleft'}).addTo(mapa3);
+
+var tit=L.control({position:'bottomleft'});
+tit.onAdd=function(){var d=L.DomUtil.create('div');d.style.cssText="background:rgba(255,255,255,.88);padding:7px 11px;font-size:1.05em;max-width:320px;line-height:1.4;border-radius:2px;font-family:'Marcellus',serif;";d.textContent="Monnaies à la croix, séries à légende ibérique";return d;};
+tit.addTo(mapa3);
+
+var datos3=[
+  {nombre:"Béziers",                  lat:43.344,lng: 3.216,cantidad:1,desc:"—Type DCR-284. M/Ar. D/Tête à droite. R/Croix bouletée au centre&thinsp;; un globule dans chaque canton accompagné d'une ou deux lettres ibériques&thinsp;: légende lue AU N TI KI&thinsp;: 1 ex.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Blaye",                    lat:45.122,lng:-0.654,cantidad:2,desc:"—Type DCR-285. M/Ar. D/Tête informe ou non figurée. R/Croix bouletée; légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Caunette-sur-Lauquet",    lat:43.028,lng: 2.424,cantidad:1,desc:"—Type DCR-285. M/Ar. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Vieille-Toulouse",         lat:43.526,lng: 1.446,cantidad:4,desc:"—Type DCR-285: 3 ex.<br>—Type DCR-286. D/Tête figurée à gauche, chevelure en 4 rangées: 1 ex.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Bouriège",                 lat:42.984,lng: 2.165,cantidad:1,desc:"—Type DCR-286. M/Ar. D/Tête figurée à gauche, chevelure en 4 rangées de petites mèches. R/Croix bouletée; légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Cugnaux",                  lat:43.539,lng: 1.343,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Dunes",                    lat:44.087,lng: 0.770,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Lacoste",                  lat:44.832,lng:-0.028,cantidad:3,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Lattes",                   lat:43.567,lng: 3.900,cantidad:5,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Limogne",                  lat:44.397,lng: 1.770,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Martiel",                  lat:44.376,lng: 1.922,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Saint-Étienne-des-Landes", lat:44.633,lng: 1.150,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]},
+  {nombre:"Sigean",                   lat:43.034,lng: 2.972,cantidad:1,desc:"—Type DCR-286. Légende AKE RE KON TON.",fuentes:[{t:"Py, M. <em>Les monnaies préaugustéennes de Lattes…</em> tome 1.",u:"https://www.academia.edu/5905982/Lattara_19_1_Les_monnaies_pr%C3%A9august%C3%A9ennes_de_Lattes_et_la_circulation_mon%C3%A9taire_protohistorique_en_Gaule_m%C3%A9ridionale_tome_1"}]}
+];
+datos3.sort(function(a,b){return b.cantidad-a.cantidad;});
+
+datos3.forEach(function(l){
+  var r=4+(l.cantidad-1)*4;
+  var h="<strong style='font-family:\"Marcellus\",serif;font-size:1.05em;'>"+l.nombre+"</strong><br><em style='color:#666;'>Monedas halladas: "+l.cantidad+"</em>";
+  if(l.desc) h+="<br><br><span>"+l.desc+"</span>";
+  if(l.fuentes&&l.fuentes.length){l.fuentes.forEach(function(f){h+="<br><span>"+(f.u?"<a href='"+f.u+"' target='_blank' rel='noopener'>"+f.t+"</a>":f.t)+"</span>";});}
+  L.circleMarker([l.lat,l.lng],{radius:r,color:"#D1D5DC",fillColor:"#10598A",fillOpacity:.55,weight:.5})
+    .addTo(mapa3).bindPopup(h,{maxWidth:340})
+    .bindTooltip(l.nombre,{permanent:false,direction:'top',offset:[0,-r],className:'tooltip-mn3'});
+});
+
+function norm3(t){try{return (t||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();}catch(e){return (t||'').toLowerCase();}}
+var SC3=L.Control.extend({onAdd:function(){
+  var w=L.DomUtil.create('div','leaflet-bar leaflet-control');
+  w.style.cssText='display:flex;align-items:center;gap:5px;padding:4px 5px;background:#fff;border-radius:4px;position:relative;';
+  var inp=L.DomUtil.create('input','',w);inp.placeholder='Buscar…';
+  inp.style.cssText='width:130px;font-family:"EB Garamond",serif;padding:4px 6px;border:1px solid rgba(0,0,0,.15);border-radius:3px;font-size:14px;';
+  var btn=L.DomUtil.create('a','',w);btn.href='#';btn.textContent='Ir';
+  btn.style.cssText='background:#2980b9;color:#fff;padding:4px 8px;text-decoration:none;border-radius:3px;font-family:"EB Garamond",serif;font-size:14px;';
+  var sg=L.DomUtil.create('div','',w);
+  sg.style.cssText='display:none;position:absolute;top:36px;left:0;right:0;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:4px;box-shadow:0 5px 15px rgba(0,0,0,.12);max-height:200px;overflow-y:auto;z-index:9500;';
+  L.DomEvent.disableClickPropagation(w);
+  this._w=w;this._i=inp;this._sg=sg;return w;
+}});
+var sc3=new SC3({position:'topleft'});mapa3.addControl(sc3);
+var m3=[],s3=-1;
+function show3(m){var s=sc3._sg;s.innerHTML='';s3=-1;m3=m||[];if(!m||!m.length){s.style.display='none';return;}m.slice(0,10).forEach(function(x,i){var it=document.createElement('div');it.textContent=x.nombre;it.style.cssText='padding:6px 9px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);font-family:"EB Garamond",serif;font-size:14px;';it.onmouseover=function(){it.style.background='rgba(41,128,185,.08)';};it.onmouseout=function(){it.style.background='';};it.onclick=function(){go3(i);};s.appendChild(it);});s.style.display='block';}
+function hide3(){sc3._sg.style.display='none';sc3._sg.innerHTML='';m3=[];s3=-1;}
+function go3(i){var l=m3[i];if(!l)return;sc3._i.value=l.nombre;hide3();mapa3.setView([l.lat,l.lng],Math.max(mapa3.getZoom(),9));}
+function buscar3(){var q=norm3(sc3._i.value||'');if(!q)return;var r=datos3.filter(function(d){return norm3(d.nombre).indexOf(q)!==-1;});show3(r);if(r.length===1)go3(0);}
+L.DomEvent.on(sc3._i,'input',function(){var q=norm3(sc3._i.value||'');if(!q){hide3();return;}show3(datos3.filter(function(d){return norm3(d.nombre).indexOf(q)!==-1;}));});
+L.DomEvent.on(sc3._i,'keydown',function(e){if(e.key==='Enter'){L.DomEvent.stop(e);if(s3>=0)go3(s3);else buscar3();}else if(e.key==='ArrowDown'){L.DomEvent.stop(e);s3=Math.min(m3.length-1,s3+1);}else if(e.key==='ArrowUp'){L.DomEvent.stop(e);s3=Math.max(0,s3-1);}});
+L.DomEvent.on(sc3._w.querySelector('a'),'click',function(e){L.DomEvent.stop(e);buscar3();});
+document.addEventListener('click',function(e){if(!sc3._w.contains(e.target))hide3();});
+})();
+</script>

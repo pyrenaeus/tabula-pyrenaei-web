@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<h1 class="categoria-titulo">{{ page.categoria_label }}</h1>
+
+<div class="post-grid">
+  {% assign categoria = page.categoria %}
+  {% for post in site.posts %}
+    {% if post.categories contains categoria %}
+    {% unless post.path contains 'markers-part' %}
+    <a class="post-card" href="{{ post.url | relative_url }}">
+      <div class="post-card-img-wrap">
+        {% if post.image %}
+          <img src="{{ post.image }}" alt="{{ post.title }}">
+        {% else %}
+          <div class="post-card-no-img"></div>
+        {% endif %}
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-date">{{ post.date | date: "%d %b %Y" }}</span>
+        <h2 class="post-card-title">{{ post.title }}</h2>
+      </div>
+    </a>
+    {% endunless %}
+    {% endif %}
+  {% endfor %}
+</div>

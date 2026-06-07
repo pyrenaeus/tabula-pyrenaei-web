@@ -1,0 +1,13 @@
+title: Tabula Pyrenaei
+email: pyrenaeus@gmail.com
+description: Atlas historico de los Pirineos en la Antiguedad.
+url: "https://tabulapyrenaei.eu"
+baseurl: ""
+lang: es
+permalink: /:title/
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+exclude:
+  - Gemfile
+  - Gemfile.lock

@@ -1,0 +1,694 @@
+---
+layout: post
+title: "Epigrafía paleohispánica"
+date: 2025-05-09
+image: https://tabulapyrenaei.eu/wp-content/uploads/2025/02/Cerdanya-Epigrafia-paleohispanica-768x469.png
+categories: [epigrafia]
+---
+
+<div class="col-2-1-wrap">
+  <div class="col-2-1">
+    <div>
+      <p class="drop-cap">Restringiendo el significado de epigrafía paleohispánica a los textos que en los siglos previos al cambio de era emplearon una de las diferentes variantes del sistema de escritura derivado del utilizado por los fenicios en la antigua Iberia, esta entrada recoge la distribución geográfica de las inscripciones paleohispánicas en los Pirineos y entorno próximo en cualquiera de sus lenguas. Supone por tanto una visión parcial del fenómeno en tanto en cuanto solamente representa una parte del área en la que se emplearon los signarios paleohispánicos. Así mismo la restricción implica la exclusión de aquellos epígrafes que perteneciendo a una lengua paleohispánica fueron escritos en alfabeto griego o latino.</p>
+      <p>El mapa expone de forma gradual el número de inscripciones, es decir, el tamaño del círculo que los representa se corresponde con la cantidad de epígrafes documentados en una determinada localización. La información parte del banco de datos de lenguas paleohispánicas <a href="http://hesperia.ucm.es/index.php" target="_blank" rel="noreferrer noopener"><em>Hesperia</em></a>, dividiendo los epígrafes en dos categorías. Por un lado los textos escritos sobre cerámicas, estelas de piedra, inscripciones rupestres, láminas de plomo, etc. Por otro las leyendas monetales, seleccionando las cecas cuya localización es segura o muy probable. En ambos casos se incluye la referencia atribuida por <em>Hesperia</em> y si es posible un enlace directo a su correspondiente ficha en el banco de datos.</p>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-search@3.0.9/dist/leaflet-search.min.css"/>
+
+<style>
+  /* ── Mapas a ancho de pantalla completo ── */
+  .map-fullwidth {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .map-fullwidth > div[id^="map"] {
+    width: 100%;
+    border: 1px solid var(--color-borde, #ccc);
+  }
+  /* ── Controles ── */
+  .ly-control {
+    background: white;
+    padding: 8px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+    font-family: 'Marcellus', serif;
+    font-size: 0.82rem;
+    min-width: 160px;
+  }
+  .ly-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    font-family: 'Marcellus', serif;
+  }
+  /* ── Popups ── */
+  .leaflet-popup-content {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .leaflet-popup-content img {
+    max-width: 220px;
+    display: block;
+    margin: 0.4em auto;
+  }
+  /* ── Leyenda mapa1 ── */
+  .insc-legend {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    font-family: 'Marcellus', serif;
+    font-size: 0.78rem;
+    line-height: 2;
+  }
+  .insc-legend-item { display: flex; align-items: center; gap: 7px; }
+  .insc-legend-circle {
+    border-radius: 50%;
+    background: #E61876;
+    opacity: 0.75;
+    flex-shrink: 0;
+  }
+  /* ── Búsqueda ── */
+  .leaflet-control-search .search-input {
+    font-family: 'Marcellus', serif;
+    font-size: 0.82rem;
+  }
+  /* ── Slider opacidad ── */
+  .overlay-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.4em 0 1em 0;
+    font-family: 'Marcellus', serif;
+    font-size: 0.82rem;
+  }
+  .overlay-slider-wrap input[type=range] {
+    flex: 1;
+    max-width: 200px;
+    accent-color: #8B0000;
+  }
+</style>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.js"></script>
+<script src="https://unpkg.com/leaflet-search@3.0.9/dist/leaflet-search.min.js"></script>
+
+<!-- ═══════════════════════════════ MAPA 1 ═══════════════════════════════ -->
+<div class="map-fullwidth">
+  <div id="map1" style="height:1000px;"></div>
+</div>
+
+<script>
+  function getRadius(n) {
+    if (n === 1)  return 4;
+    if (n <= 5)   return 7;
+    if (n <= 10)  return 10;
+    if (n <= 20)  return 14;
+    if (n <= 50)  return 19;
+    if (n <= 100) return 26;
+    return 36;
+  }
+
+  var map1 = L.map('map1', { center: [42.3, 1.0], zoom: 9, minZoom:8, maxZoom:11});
+  L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://cawm.lib.uiowa.edu/">CAWM / University of Iowa</a>',
+    maxZoom: 18
+  }).addTo(map1);
+
+  var inscLayer  = L.layerGroup();
+  var cecasLayer = L.layerGroup();
+
+  const inscripciones = [
+    { count: 358, lat: 43.309722, lng: 3.110556, popup: `<em>Oppidum de Ensérune</em> (Nissan-lez-Enserune)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener">(HER.02)</a>` },
+    { count: 2, lat: 43.105268, lng: 3.089614, popup: `Gruissan<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener">(AUD.04)</a>` },
+    { count: 2, lat: 43.095711, lng: 2.985466, popup: `Moulin, Peyriac-de-Mer<br>(AUD.07)` },
+    { count: 10, lat: 43.219161, lng: 2.983805, popup: `<em>Oppidum</em> de <em>Montlaurès</em> (Narbonne)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(AUD.02)` },
+    { count: 70, lat: 43.045821, lng: 2.956481, popup: `<em>Oppidum</em> de <em>Pech Maho</em> (Sigean)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(AUD.05)` },
+    { count: 36, lat: 42.710686, lng: 2.946999, popup: `<em>Ruscino, Castell Rosselló</em> (Perpignan)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener">(PYO.01)</a><br><a href="https://www.academia.edu/8584762/L_%C3%A9pigraphie_ib%C3%A9rique_de_Ruscino_in_G_Baratta_ed_Studi_su_Ruscino_Universit%C3%A0_di_Macerata_Universitat_de_Barcelona_2016_45_66_ISBN_978_84_96786_72_1" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Moncunill Martí, N.</span> L’épigraphie ibérique de Ruscino.</a>` },
+    { count: 33, lat: 42.603956, lng: 2.970763, popup: `<em>Illiberis</em> (Elne)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(PYO.02)` },
+    { count: 3, lat: 43.309815, lng: 2.821723, popup: `<em>Oppidum du Cayla</em> (Mailhac)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(AUD.01)` },
+    { count: 2, lat: 43.66655, lng: -0.492026, popup: `<em>Lande des Mesplède</em> (Aubagnan)<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(LAN.01). <a href="https://ojs.ehu.eus/index.php/ASJU/article/view/9660" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Gorrochategui</span>, J. Nota sobre las inscripciones ibéricas de Aubagnan (Landas, Francia)</a>.` },
+    { count: 1, lat: 43.354968, lng: 2.940598, popup: `Cruzy<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_48.php&amp;filtrar=&amp;valor=&amp;id=349" target="_blank" rel="noreferrer noopener"><br></a>(HER.02.374) <a href="https://ojs.ehu.eus/index.php/Veleia/article/view/16981" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Moncunill, N. <em>et al.</em></span> Nueva lectura de la inscripción ibérica sobre piedra conservada en el Museo de Cruzy (Hérault).</a>` },
+    { count: 7, lat: 41.355152, lng: 2.019756, popup: `<em>El Camí Vell del Llor</em> (Sant Boi de Llobregat)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.36" target="_blank" rel="noreferrer noopener">(B.36)</a>` },
+    { count: 13, lat: 42.465736, lng: 1.888023, popup: `La Tor de Querol<br>(PYO.03)` },
+    { count: 1, lat: 42.491586, lng: 1.895912, popup: `Enveitg<br>(PYO.04.01)` },
+    { count: 6, lat: 42.441466, lng: 2.0319, popup: `Err<br>(PYO.05)` },
+    { count: 1, lat: 42.450731, lng: 2.067727, popup: `Sant Feliu de Llo<br>(PYO.06.01)` },
+    { count: 40, lat: 42.413774, lng: 1.98075, popup: `Osséja<br><a href="https://www.researchgate.net/publication/319623924" target="_blank" rel="noopener noreferrer"><img src="https://www.researchgate.net/profile/Joan-Ferrer-I-Jane/publication/319623924/figure/fig4/AS:599146406879233@1519859043009/Roche-7-de-la-Zone-1-dOsseja-ROCHE-12-DE-LA-ZONE-5-DOSSEJA-TABLEAU-1-N-39.png" alt="Osseja"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Roche 7 de la Zone 1 d'Osséja</div>(PYO.07)<br><a href="https://www.researchgate.net/publication/319623924" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Ferrer i Jané</span>, J. Le nouveau corpus d'inscriptions ibériques rupestres de la Cerdagne (3).</a>` },
+    { count: 3, lat: 42.44861, lng: 1.878727, popup: `Guils de Cerdaña<br>(GI.02)` },
+    { count: 35, lat: 43.535373, lng: 1.436532, popup: `<em>Tolosa</em> (Vieille-Toulouse)<br>(HGA.01)` },
+    { count: 1, lat: 43.802525, lng: 3.111628, popup: `<em>Mange-Homme Sud</em> (Ceilhes-et-Rocozels)<br>(HER.03.01)` },
+    { count: 1, lat: 43.253587, lng: 2.722076, popup: `Tourouzelle<br>(AUD.06.01)` },
+    { count: 1, lat: 42.417751, lng: 1.886153, popup: `<em>El Castellot de Bolvir</em><br>(GI.03.03)` },
+    { count: 3, lat: 42.419437, lng: 1.877246, popup: `<em>La Devesa de Sallent</em> (Bolvir)<br>(GI.03)` },
+    { count: 1, lat: 42.42422, lng: 1.997962, popup: `Nahuja (PYO.09.01)<br><a href="https://hal.science/hal-04844557" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Ferrer i Jané</span>, J. Un nouveau rocher de Nahuja (Cerdagne) avec des inscriptions ibériques.</a>` },
+    { count: 1, lat: 42.369743, lng: 1.77685, popup: `Bellver de Cerdaña<br>(L.04.01)` },
+    { count: 30, lat: 42.134677, lng: 3.120756, popup: `Ἐμπόριον (L'Escala)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.10" target="_blank" rel="noreferrer noopener">(GI.10)</a>` },
+    { count: 57, lat: 42.006117, lng: 3.079169, popup: `<em>Oppidum</em> del <em>Puig de Sant Andreu</em> (Ullastret)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.15" target="_blank" rel="noreferrer noopener">(GI.15)</a>` },
+    { count: 11, lat: 42.2011, lng: 2.90153, popup: `<em>Puig Castellar</em> (Pontós)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.08" target="_blank" rel="noreferrer noopener">(GI.08)</a>` },
+    { count: 2, lat: 41.860806, lng: 3.158383, popup: `<em>El Castell de la Fosca</em> (Palamós)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.20" target="_blank" rel="noreferrer noopener">(GI.20)</a>` },
+    { count: 1, lat: 41.788678, lng: 2.779201, popup: `Vidreres<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.21" target="_blank" rel="noreferrer noopener">(GI.21)</a>` },
+    { count: 1, lat: 41.642183, lng: 2.670258, popup: `<em>Montpalau</em> (Pineda de Mar)<br>(B.49.01)` },
+    { count: 17, lat: 41.5717, lng: 2.530393, popup: `<em>Torre dels Encantats</em> (Arenys de Mar)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.47" target="_blank" rel="noreferrer noopener">(B.47)</a>` },
+    { count: 47, lat: 41.526434, lng: 2.392527, popup: `Cabrera de Mar<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.44" target="_blank" rel="noreferrer noopener">(B.44)</a>` },
+    { count: 2, lat: 41.526434, lng: 2.392527, popup: `Mataró<br>(B.45)` },
+    { count: 23, lat: 41.451509, lng: 2.246922, popup: `Badalona<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.41" target="_blank" rel="noreferrer noopener">(B.41)</a>` },
+    { count: 4, lat: 41.4703, lng: 2.2066, popup: `<em>Puig Castellar</em> (Santa Coloma de Gramenet)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.40" target="_blank" rel="noreferrer noopener">(B.40)</a>` },
+    { count: 2, lat: 41.36358, lng: 2.162195, popup: `<em>Montjuïc</em> (Barcelona)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.37" target="_blank" rel="noreferrer noopener">(B.37)</a>` },
+    { count: 1, lat: 41.382677, lng: 2.177083, popup: `<em>Barcino</em> (Barcelona)<br>(B.37.02)` },
+    { count: 1, lat: 41.52682, lng: 2.18556, popup: `<em>La Granja Soldevila</em> (Santa Perpetua de Mogoda)<br>(B.21.01)` },
+    { count: 13, lat: 41.494028, lng: 2.025972, popup: `<em>Can Fatjó</em> (Rubí)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.17" target="_blank" rel="noreferrer noopener">(B.17)</a>` },
+    { count: 18, lat: 41.48078, lng: 2.134873, popup: `<em>Turó de Can n'Oliver</em> (Cerdanyola del Vallès)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.20" target="_blank" rel="noreferrer noopener">(B.20)</a>` },
+    { count: 1, lat: 41.70326, lng: 2.24174, popup: `<em>Puiggracios</em> (Montmany)<br>(B.24.01)` },
+    { count: 2, lat: 41.572361, lng: 1.833901, popup: `<em>Les Soleies</em> (Collbató)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.15" target="_blank" rel="noreferrer noopener">(B.15)</a>` },
+    { count: 1, lat: 41.573689, lng: 1.832214, popup: `<em>La Cova Freda</em> (Collbató)<br>(B.15.03)` },
+    { count: 1, lat: 41.333034, lng: 1.921172, popup: `Begues<br>(B.34.01)` },
+    { count: 2, lat: 41.395677, lng: 1.985865, popup: `<em>El Puig Castellar</em> (Sant Vicenç dels Horts)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.35" target="_blank" rel="noreferrer noopener">(B.35)</a>` },
+    { count: 2, lat: 41.33122, lng: 1.65064, popup: `<em>Cal Rubió</em> (Santa Margarida i els Monjos)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.31" target="_blank" rel="noreferrer noopener">(B.31)</a>` },
+    { count: 1, lat: 41.396834, lng: 2.068773, popup: `<em>Penya del Moro</em> (Sant Just Desvern)<br>(B.38.01)` },
+    { count: 15, lat: 41.118557, lng: 1.256868, popup: `<em>Tarraco</em> (Tarragona)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.11" target="_blank" rel="noreferrer noopener">(T.11)</a>` },
+    { count: 1, lat: 41.361565, lng: 1.669925, popup: `<em>El Mas Llivi</em> (Pacs del Penedès)<br>(B.30.01)` },
+    { count: 2, lat: 41.67532, lng: 2.21311, popup: `<em>Can Vedell</em> (Bigues i Riells)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.22" target="_blank" rel="noreferrer noopener">(B.22)</a>` },
+    { count: 1, lat: 41.227543, lng: 0.970072, popup: `<em>La Cova C del Cingle Blanc</em> (Arbolí)<br>(T.09.01)` },
+    { count: 12, lat: 41.062599, lng: 0.66548, popup: `<em>Castellet de Banyoles</em> (Tivissa)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.07" target="_blank" rel="noreferrer noopener">(T.07)</a>` },
+    { count: 10, lat: 41.617647, lng: 2.276502, popup: `Canovelles<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.25" target="_blank" rel="noreferrer noopener">(B.25)</a>` },
+    { count: 1, lat: 41.576411, lng: 2.278007, popup: `<em>Can Malla de Palou</em> (Granollers)<br>(B.27.01)` },
+    { count: 2, lat: 41.63693, lng: 2.39949, popup: `<em>Can Rossell</em> (Llinars del Vallès)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.29" target="_blank" rel="noreferrer noopener">(B.29)</a>` },
+    { count: 5, lat: 41.599847, lng: 2.400056, popup: `<em>Turó del Vent</em> (Llinars del Vallès)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.29" target="_blank" rel="noreferrer noopener">(B.29)</a>` },
+    { count: 1, lat: 41.98108, lng: 2.31704, popup: `<em>Les Graus</em> (Les Masies de Roda)<br>(B.07.01)` },
+    { count: 12, lat: 41.965552, lng: 1.664144, popup: `<em>El Serrat de Sant Miquel de Sorba</em> (Montmajor)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.01" target="_blank" rel="noreferrer noopener">(B.01)</a>` },
+    { count: 1, lat: 42.105774, lng: 1.823302, popup: `<em>Canal dels Avellaners</em> (Berga)<br>(B.02.01)` },
+    { count: 1, lat: 41.615933, lng: 1.519108, popup: `<em>La Joncosa</em> (Jorba)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.11" target="_blank" rel="noreferrer noopener">(B.11)</a>` },
+    { count: 11, lat: 41.182971, lng: 0.590779, popup: `<em>El Serrat de Sant Miquel</em> (Vinebre)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.06" target="_blank" rel="noreferrer noopener">(T.06)</a>` },
+    { count: 1, lat: 41.577427, lng: 1.380513, popup: `<em>Civit</em> (Talavera)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.20" target="_blank" rel="noreferrer noopener">(L.20)</a>` },
+    { count: 1, lat: 41.560333, lng: 1.03679, popup: `<em>La Fogonussa</em> (Sant Martí de Riucorb)<br>(L.16.01)` },
+    { count: 3, lat: 41.510561, lng: 0.474487, popup: `<em>El Gebut</em> (Soses)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.07" target="_blank" rel="noreferrer noopener">(L.07)</a>` },
+    { count: 1, lat: 41.518132, lng: 0.476442, popup: `<em>La Valleta del Valeroso</em> (Soses)<br>(L.07.04)` },
+    { count: 1, lat: 41.58016, lng: 2.513122, popup: `<em>Can Jordi</em> (Sant Vicenç de Montalt)<br>(B.46.01)` },
+    { count: 9, lat: 41.750684, lng: 2.77854, popup: `<em>Montbarbat</em> (Lloret de Mar)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.17" target="_blank" rel="noreferrer noopener">(GI.17)</a>` },
+    { count: 8, lat: 41.344432, lng: 2.035901, popup: `Sant Boi de Llobregat<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.36" target="_blank" rel="noreferrer noopener">(B.36)</a>` },
+    { count: 4, lat: 41.560997, lng: 2.010425, popup: `<em>Egara</em> (Terrasa)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.16" target="_blank" rel="noreferrer noopener">(B.16)</a>` },
+    { count: 1, lat: 41.719733, lng: 1.8238, popup: `<em>Puigcardener</em> (Manresa)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.13" target="_blank" rel="noreferrer noopener">(B.13)</a>` },
+    { count: 4, lat: 41.289518, lng: 1.258194, popup: `<em>El Vilar</em> (Valls)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.03" target="_blank" rel="noreferrer noopener">(T.03)</a>` },
+    { count: 3, lat: 41.316111, lng: 1.236944, popup: `<em>Masmolets</em> (Valls)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.03" target="_blank" rel="noreferrer noopener">(T.03)</a>` },
+    { count: 1, lat: 42.266887, lng: 3.170663, popup: `<em>La Ciutadella</em> (Roses)<br>(GI.11.01)` },
+    { count: 2, lat: 41.987346, lng: 2.826608, popup: `Girona<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.12" target="_blank" rel="noreferrer noopener">(GI.12)</a>` },
+    { count: 7, lat: 42.029704, lng: 2.850854, popup: `<em>El Puig del Castell</em> (Sant Julià de Ramis)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.13" target="_blank" rel="noreferrer noopener">(GI.13)</a>` },
+    { count: 1, lat: 42.307622, lng: 3.010904, popup: `Castell de Peralada<br>(GI.09.01)` },
+    { count: 1, lat: 41.787852, lng: 2.968655, popup: `<em>Plana Basarda</em> (Santa Cristina d'Aro)<br>(GI.18.01)` },
+    { count: 2, lat: 41.810372, lng: 2.743422, popup: `<em>Can Fontagrau</em> (Sils)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.16" target="_blank" rel="noreferrer noopener">(GI.16)</a>` },
+    { count: 1, lat: 42.200212, lng: 2.701172, popup: `<em>Horts del Carrer Tallaferro</em> (Besalú)<br>(GI.04.01)` },
+    { count: 2, lat: 42.133387, lng: 2.90321, popup: `<em>Camps de L'Hospital</em> (Vilademuls)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=GI.07" target="_blank" rel="noreferrer noopener">(GI.07)</a>` },
+    { count: 1, lat: 41.526767, lng: 0.727449, popup: `<em>Serra de Puigverd III</em> (Puigverd)<br>(L.10.01)` },
+    { count: 11, lat: 41.6159535, lng: 0.625938, popup: `<em>Ilerda</em> (Lleida)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.08" target="_blank" rel="noreferrer noopener">(L.08)</a>` },
+    { count: 1, lat: 41.577813, lng: 0.701551, popup: `<em>Tros del Barbutxo</em> (Lleida)<br>(L.08.01)` },
+    { count: 1, lat: 41.482171, lng: 2.324726, popup: `<em>Cal Ros de les Cabres</em> (El Masnou)<br>(B.42.01)` },
+    { count: 1, lat: 41.542823, lng: 1.520151, popup: `<em>L'Aubreda</em> (San Martín de Tous)<br>(B.10.01)` },
+    { count: 1, lat: 41.538211, lng: 1.675801, popup: `El Pla de les Sitges del Camaró (La Torre de Claramunt)<br>(B.53.01)` },
+    { count: 3, lat: 41.684495, lng: 1.86834, popup: `<em>Boades</em> (Castellgalí)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.14" target="_blank" rel="noreferrer noopener">(B.14)</a>` },
+    { count: 1, lat: 41.354001, lng: 2.071271, popup: `<em>El Castell de Cornellà</em> (Barcelona)<br>(B.39.01)` },
+    { count: 1, lat: 41.502747, lng: 2.358126, popup: `<em>Jardí Park-Ronda Mistral</em> (Premià de Dalt)<br>(B.43.05)` },
+    { count: 4, lat: 41.510318, lng: 2.337727, popup: `<em>La Cadira Del Bisbe</em> (Premià de Dalt)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.43" target="_blank" rel="noreferrer noopener">(B.43)</a>` },
+    { count: 1, lat: 41.780139, lng: 3.03529, popup: `<em>Els Guíxols</em> (Sant Feliu de Guíxols)<br>(GI.19.01)` },
+    { count: 3, lat: 41.532388, lng: 2.0894364, popup: `<em>Can Feu</em> (Sant Quirze del Vallès)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.18" target="_blank" rel="noreferrer noopener">(B.18)</a>` },
+    { count: 1, lat: 41.518706, lng: 1.707751, popup: `<em>El Fonollar</em> (Vallbona d'Anoia)<br>(B.54.01)` },
+    { count: 3, lat: 41.302622, lng: 1.70942, popup: `Sant Miquel d'Olèrdola<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.32" target="_blank" rel="noreferrer noopener">(B.32)</a>` },
+    { count: 1, lat: 41.545941, lng: 2.081551, popup: `<em>Can Gambús 3</em> (Sabadell)<br>(B.19.04)` },
+    { count: 6, lat: 41.63017, lng: 1.46748, popup: `<em>Can Rossó</em> (Argençola)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.09" target="_blank" rel="noreferrer noopener">(B.09)</a>` },
+    { count: 1, lat: 41.62712, lng: 1.46003, popup: `<em>Sant Marc de Porquerisses</em> (Argençola)<br>(B.09.07)` },
+    { count: 1, lat: 42.035929, lng: 2.368892, popup: `L'Esquirol<br>(B.08.01)` },
+    { count: 1, lat: 41.61443, lng: 2.65303, popup: `<em>El Mujal - el Roser</em> (Calella)<br>(B.48.01)` },
+    { count: 1, lat: 41.52778, lng: 2.27227, popup: `<em>Muntanya de Sant Miquel</em> (Montornès del Vallès)<br>(B.26.01)` },
+    { count: 2, lat: 41.19037, lng: 1.580785, popup: `<em>La Ciutadella</em> (Calafell)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.12" target="_blank" rel="noreferrer noopener">(T.12)</a>` },
+    { count: 3, lat: 41.1129, lng: 0.787956, popup: `<em>Serra de l'Espasa</em> (Capçanes)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=T.08" target="_blank" rel="noreferrer noopener">(T.08)</a>` },
+    { count: 1, lat: 41.398557, lng: 1.102671, popup: `<em>La Cova de la Fontmajor</em> (L'Espluga de Francolí)<br>(T.01.01)` },
+    { count: 1, lat: 41.374108, lng: 1.161714, popup: `Montblanc<br>(T.02.01)` },
+    { count: 1, lat: 41.851114, lng: 2.224689, popup: `<em>El Camp de les Lloses</em> (Tona)<br>(B.04.01)` },
+    { count: 1, lat: 41.85129, lng: 2.23623, popup: `<em>Les Escomes</em> (Tona)<br>(B.04.02)` },
+    { count: 1, lat: 42.002117, lng: 2.244584, popup: `<em>Cap del Pont</em> (Manlleu)<br>(B.06.01)` },
+    { count: 13, lat: 41.997037, lng: 1.518257, popup: `<em>Can Sotaterra</em> (Solsona)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.03" target="_blank" rel="noreferrer noopener">(L.03)</a>` },
+    { count: 4, lat: 41.709121, lng: 1.071484, popup: `<em>El Molí d'Espígol</em> (Tornabous)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.15" target="_blank" rel="noreferrer noopener">(L.15)</a>` },
+    { count: 3, lat: 41.6144, lng: 0.8383, popup: `<em>El Tossal de les Tenalles</em> (Sidamon)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.14" target="_blank" rel="noreferrer noopener">(L.14)</a>` },
+    { count: 1, lat: 41.464786, lng: 0.6971, popup: `<em>La Roca dels Moros</em> (El Cogull)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.09" target="_blank" rel="noreferrer noopener">(L.09)</a>` },
+    { count: 2, lat: 41.57065, lng: 0.76406, popup: `<em>Margalef</em> (Torregrossa)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.11" target="_blank" rel="noreferrer noopener">(L.11)</a>` },
+    { count: 1, lat: 41.562259, lng: 0.317057, popup: `<em>El Pilaret de Santa Quiteria</em> (Fraga)<br>(HU.02.01)` },
+    { count: 2, lat: 41.81609, lng: 0.328767, popup: `<em>La Vispesa</em> (Binéfar)<br><a href="https://patrimonioculturaldearagon.es/patrimonio/estela-de-la-vispesa-museo-de-huesca/" target="_blank" rel="noopener noreferrer"><img src="https://patrimonioculturaldearagon.es/wp-content/uploads/2022/11/image_gallery.jpeg" alt="La Vispesa"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Estela de la Vispesa – Museo de Huesca</div><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=HU.01" target="_blank" rel="noreferrer noopener">(HU.01)</a>` },
+    { count: 1, lat: 41.8804, lng: 0.350877, popup: `<em>Olriols</em> (San Esteban de Litera)<br>(HU.03.01)` },
+    { count: 4, lat: 41.862839, lng: 0.852989, popup: `<em>Monteró</em> (Camarasa)<br><a href="https://www.researchgate.net/publication/42377280" target="_blank" rel="noopener noreferrer"><img src="https://www.researchgate.net/profile/Joan-Ferrer-I-Jane/publication/42377280/figure/fig3/AS:339922931208192@1458055350657/Figura-3-El-plom-iberic-num-1-Dibuix-de-Ramon-Alvarez.png" alt="plom ibèric núm. 1"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Plom ibèric núm. 1 (Dibuix de Ramon Álvarez)</div><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.01" target="_blank" rel="noreferrer noopener">(L.01)</a>` },
+    { count: 1, lat: 41.416637, lng: 0.352817, popup: `<em>El Calvari</em> (La Granja d'Escarp)<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.05" target="_blank" rel="noreferrer noopener">(L.05)</a>` },
+    { count: 16, lat: 41.787158, lng: 1.290233, popup: `Guissona<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=L.18" target="_blank" rel="noreferrer noopener">(L.18)</a>` },
+    { count: 1, lat: 41.718763, lng: 2.190055, popup: `<em>Els Cingles de Bertí</em> (Sant Martí de Centelles)<br>(B.23.01)` },
+    { count: 1, lat: 41.9343, lng: 2.23572, popup: `<em>Turó de l'Osona</em> (Gurb)<br>(B.03.01)` },
+    { count: 1, lat: 42.117837, lng: 1.0440565, popup: `<em>Aeso</em> (Isona i la Conca Dellà)<br>(L.02.01)` },
+    { count: 2, lat: 41.78742, lng: 0.833727, popup: `<em>El Tossal de la Ràpita</em> (Vallfogona de Balaguer)<br>(L.13)` },
+    { count: 1, lat: 41.881976, lng: 1.111986, popup: `<em>L'Hereuet</em> (Artesa de Segre)<br>(L.21.01)` },
+    { count: 1, lat: 41.825378, lng: 1.337833, popup: `<em>Puig Castellar de Biosca</em><br>(L.26.01)` },
+    { count: 1, lat: 41.6581, lng: 1.25559, popup: `<em>Els Cortals</em> (Cervera)<br>(L.19.01)` },
+    { count: 1, lat: 41.461758, lng: 0.397792, popup: `<em>Roques de Sant Fortmatge</em> (Serós)<br>(L.06)` },
+    { count: 1, lat: 41.285726, lng: -0.507984, popup: `Azaila<br>(TE.02)` },
+    { count: 2, lat: 41.203825, lng: -0.710932, popup: `Lécera<br>(Z.15)` },
+    { count: 1, lat: 41.250107, lng: -0.8726151, popup: `<em>Piquete de la Atalaya</em> (Azuara)<br>(Z.14.01)` },
+    { count: 2, lat: 41.208432, lng: -0.070734, popup: `<em>El Acampador</em> (Caspe)<br>(Z.16)` },
+    { count: 1, lat: 41.508709, lng: -0.6038, popup: `<em>La Corona</em> (Fuentes de Ebro)<br>(Z.12.01)` },
+    { count: 14, lat: 41.564982, lng: -0.712342, popup: `<em>La Cabañeta</em> (El Burgo de Ebro)<br>(Z.11)` },
+    { count: 1, lat: 42.6005, lng: -1.859067, popup: `<em>Andelo</em> (<em>Muruzabal de Andión</em>, Mendigorria)<br><a href="https://portalcultura.navarra.es/Record/mnana-CE004241" target="_blank" rel="noopener noreferrer"><img src="https://ceres.mcu.es/pages/Viewer?raw=y&accion=42&AMuseo=MNANA&img=/MNANA/fondos_pre/MNANAFCE004241_P.JPG&Ninv=CE004241" alt="Andelo"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Inscripción musivaria de <em>Andelo</em></div>(NA.06.01)<br><a href="https://ifc-ojs.es/index.php/palaeohispanica/es/article/view/520" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Orduña</span>, E. La inscripción musiva de Andelo nuevos planteamientos.</a>` },
+    { count: 2, lat: 42.183338, lng: -1.744404, popup: `<em>Gracc(h)uris</em> (<em>Eras de San Martín</em>, Alfaro) (LO.04)` },
+    { count: 1, lat: 42.091726, lng: -1.895271, popup: `<em>La Venta del Pillo</em> (Alfaro) (LO.04.01)` },
+    { count: 1, lat: 42.049348, lng: -1.706985, popup: `<em>Camponuevo I</em> (Cascante)<br>(NA.08.01)` },
+    { count: 1, lat: 42.306963, lng: -1.283478, popup: `<em>Puyalmanar</em> (Sádaba)<br>(Z.03.01)` },
+    { count: 9, lat: 42.411324, lng: 1.84547, popup: `Ger<br>(GI.01)<br><a href="https://shs.hal.science/halshs-03161489/document" target="_blank" rel="noreferrer noopener">Ferrer I Jané, J. Une inscription rupestre ibère inédite de Ger (Cerdagne).</a>` },
+    { count: 1, lat: 41.659105, lng: 1.121764, popup: `<em>Tossal del Mor</em> (Tàrrega)<br>(L.17.01)` },
+    { count: 2, lat: 41.03563, lng: 0.593908, popup: `Castell de Miravet<br>(T.05)` },
+    { count: 8, lat: 40.989939, lng: -0.561087, popup: `<em>El Castelillo</em> (Alloza)<br>(TE.06)` },
+    { count: 10, lat: 41.004611, lng: -0.669231, popup: `<em>El Palomar</em> (Oliete)<br>(TE.05)` },
+    { count: 32, lat: 41.050367, lng: -0.131594, popup: `Alcañiz<br>(E.12)` },
+    { count: 2, lat: 41.119532, lng: -0.50484, popup: `<em>Cabezo de Cantalobos</em> (Albalate del Arzobispo)<br>(TE.07)` },
+    { count: 2, lat: 41.266936, lng: -0.56547, popup: `<em>Cabezo de la Bovina</em> (Vinaceite)<br>(TE.01)` },
+    { count: 1, lat: 41.047966, lng: 0.386619, popup: `Batea<br>(T.04.01)` },
+    { count: 54, lat: 41.513102, lng: -1.027126, popup: `Botorrita<br>(Z.09)` },
+    { count: 3, lat: 41.296786, lng: -2.138197, popup: `<em>Arcobriga</em> (<em>Cerro Villar</em>, Monreal de Ariza)<br>(Z.04)` },
+    { count: 1, lat: 41.894557, lng: -1.770974, popup: `Torrellas (Tarazona)<br>(Z.01.01)` },
+    { count: 3, lat: 41.323977, lng: -1.666267, popup: `<em>Bilbilis</em>, Valdeherrera-Cerro de Bámbola (Calatayud)<br>(Z.05)` },
+    { count: 4, lat: 41.299646, lng: -1.517467, popup: `Durón de Belmonte, <em>Segeda II</em> (Z.06)<br>Poyo de Mara, <em>Segeda I</em> (Z.07)` },
+    { count: 12, lat: 41.835173, lng: -1.53187, popup: `<em>Bursao</em> (Borja)<br>(Z.08)` },
+    { count: 2, lat: 41.373469, lng: -0.432386, popup: `Celsa (Velilla de Ebro)<br>(Z.13)` },
+    { count: 2, lat: 41.312989, lng: -0.795334, popup: `<em>El Pueyo</em> (Belchite)<br>(Z.17)` },
+    { count: 5, lat: 41.653803, lng: -0.875628, popup: `C/ Don Juan de Aragón 9 (Zaragoza)<br>(Z.10)` },
+    { count: 3, lat: 41.999629, lng: -1.94689, popup: `<em>Contrebia Leucada</em> (Inestrillas, Aguilar del Río Alhama)<br>(LO.05)` },
+    { count: 5, lat: 42.3037, lng: -1.959846, popup: `<em>Calagurris</em> (Calahorra)<br>(LO.03)` },
+    { count: 1, lat: 42.358325, lng: -2.042128, popup: `<em>La Estacada</em> (Pradejón)<br>(LO.02.01)` },
+    { count: 2, lat: 42.398627, lng: -2.540449, popup: `<em>Ermita de Santa Ana</em> (Entrena) (LO.01)` },
+    { count: 1, lat: 42.481969, lng: -1.649888, popup: `Olite<br>(NA.06.01)<br><a href="https://www.academia.edu/4415742" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Velaza, J</span>. Una inscripción en signario paleohispánico de Olite (Navarra).</a>` },
+    { count: 2, lat: 42.819565, lng: -1.642168, popup: `Pamplona-Iruña<br><em>Plaza del Castillo</em> (NA.04.01)<br><em>Plaza del Castillo</em> (NA.04.02)<br><em>C/ Navarrería</em> (<a href="https://www.culturanavarra.es/uploads/files/13_velaza_PV272_separata.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Velaza, J</span>. Crónica de epigrafía antigua de Navarra V.</a>)` },
+    { count: 1, lat: 42.17586, lng: -1.59616, popup: `<em>El Castejón</em> (Arguedas)<br>(NA.10.01)` },
+    { count: 1, lat: 42.572988, lng: -2.191536, popup: `<em>El Castillo</em> (Los Arcos)<br>(NA.02.01)` },
+    { count: 2, lat: 42.058095, lng: -1.82944, popup: `<em>Ormiñen-San Sebastian</em> (Fitero-Cintruénigo)<br>(NA.07.01 y 02)` },
+    { count: 1, lat: 42.057137, lng: -1.562987, popup: `<em>El Castellar</em> (Fontellas)<br>(NA.11.01)` },
+    { count: 1, lat: 42.065016, lng: -1.607765, popup: `Tudela<br>(NA.09.01)` },
+    { count: 2, lat: 42.778924, lng: -1.513884, popup: `<em>Irulegi</em> (Laquidain, Valle de Aranguren)<br>— <em>Bronce de Aranguren</em> (NA.05.01)<br>— <em>Mano de Irulegi</em>. <a href="https://ifc.dpz.es/recursos/publicaciones/40/18/18AIESTARAN.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Aiestaran, M. <em>et al</em></span>. La inscripción vascónica de Irulegi (Navarra).</a>` },
+    { count: 1, lat: 43.00988, lng: -1.594894, popup: `<em>Aierdi</em> (Lantz)<br><a href="https://www.culturanavarra.es/es/noticias/hallada-una-inscripccion-paleohispanica-en-el-complejo-minero-de-lantz" target="_blank" rel="noreferrer noopener">Hallada una inscripción paleohispánica en el complejo minero de Lantz.</a>` },
+    { count: 13, lat: 42.503474, lng: -2.390128, popup: `<em>La Custodia</em> (Viana)<br>(NA.01)` },
+    { count: 15, lat: 41.809388, lng: -2.444333, popup: `<em>Numantia</em> (Garray)<br>(SO.01)` },
+    { count: 1, lat: 41.830286, lng: -1.993264, popup: `Muro<br>(SO.03.01)` },
+    { count: 1, lat: 41.872025, lng: -2.104021, popup: `Trévago (SO.02.01)` },
+    { count: 1, lat: 41.471708, lng: -2.633777, popup: `<em>Las Eras de Ciadueña</em> (Barca)<br>(SO.07.01)` },
+    { count: 1, lat: 42.015393, lng: -2.271146, popup: `<em>El Castillo de Rabanera</em> (Ventosa/San Pedro Manrique)<br>(SO.08.01)` },
+    { count: 1, lat: 41.054335, lng: -2.410089, popup: `<em>Cueva del Robusto</em> (Aguilar de Anguita)<br>(GU.02.01)` },
+    { count: 1, lat: 41.948817, lng: 2.064678, popup: `<em>Puig Ciutat</em> (Oristà)<br><a href="https://ifc.dpz.es/recursos/publicaciones/38/10/11sabatepujolpadros.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Sabaté, V. <em>et al.</em></span> Una nueva fusayola con inscripción ibérica procedente de Puig Ciutat (Oristà, Barcelona).</a>` },
+    { count: 2, lat: 41.974091, lng: 2.312801, popup: `<em>L'Esquerda</em> (Roda de Ter)<br><a href="https://raco.cat/index.php/Ausa/article/view/421721/526266" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Rocafiguera, M. &amp; Ferrer i Jané, J.</span> Dues noves inscripcions sobre ceràmica de l'Esquerda.</a>` },
+    { count: 2, lat: 41.26858, lng: 1.559203, popup: `<em>Les Masies de Sant Miquel</em> (Banyeres del Penedès)<br><a href="https://ifc.dpz.es/recursos/publicaciones/40/18/20FERRER.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Ferrer i Jané, J. <em>et al.</em></span> Cinco inscripciones ibéricas nororientales sobre plomo.</a>` },
+    { count: 1, lat: 41.703154, lng: -0.154293, popup: `<em>San Miguel III</em> (Castejón de Monegros)<br>(HU.04.01)` },
+    { count: 8, lat: 41.705947, lng: 1.541785, popup: `Els Prats de Rei<br><a href="http://hesperia.ucm.es/consulta_hesperia/inscripciones_localidad_zonas_C_y_D.php?ref=B.12" target="_blank" rel="noreferrer noopener">(B.12)</a>` },
+    { count: 1, lat: 42.014957, lng: 2.238005, popup: `Sant Hipòlit de Voltregà<br><a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?id=309&file=file_48.php" target="_blank" rel="noreferrer noopener">(B.05.01)</a>` },
+
+  ];
+
+  const cecas = [
+    { lat: 42.1394475, lng: -0.407326, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2024/06/bolskan.svg", w: 53, h: 53, ax: -10, ay: 25, popup: `<strong>bolśkan</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=66" target="_blank" rel="noreferrer noopener">(Mon.40)</a>` },
+    { lat: 42.1291955, lng: -1.139613, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2024/05/sekia.svg", w: 36, h: 36, ax: -10, ay: 20, popup: `<strong>sekia</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=69" target="_blank" rel="noreferrer noopener">(Mon.43)</a>` },
+    { lat: 41.4515092, lng: 2.24692226667, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/baitolo.svg", w: 45, h: 45, ax: -10, ay: 20, popup: `<strong>baitolo</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=37" target="_blank" rel="noreferrer noopener">(Mon.08)</a>` },
+    { lat: 41.52643459725283, lng: 2.3925274562037573, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/ilturo.svg", w: 44, h: 44, ax: -10, ay: 20, popup: `<strong>ilturo</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=40" target="_blank" rel="noreferrer noopener">(Mon.11)</a>` },
+    { lat: 41.695660865294194, lng: 2.32520043124896, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/lauro.svg", w: 46, h: 46, ax: -10, ay: 20, popup: `<strong>lauro</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=43" target="_blank" rel="noreferrer noopener">(Mon.14)</a>` },
+    { lat: 43.21920710830168, lng: 2.9840779214656648, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/neronken.svg", w: 60, h: 60, ax: 75, ay: 30, popup: `<strong>neronken</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=181" target="_blank" rel="noreferrer noopener">(Mon.01)</a>` },
+    { lat: 43.309722, lng: 3.110556, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/biurbi.svg", w: 37, h: 37, ax: -10, ay: 20, popup: `<strong>biuŕbi</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=16" target="_blank" rel="noreferrer noopener">(Mon.02)</a>` },
+    { lat: 41.38267779190094, lng: 2.177083239803981, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/barkeno.svg", w: 35, h: 35, ax: -10, ay: 15, popup: `<strong>baŕkeno</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=266" target="_blank" rel="noreferrer noopener">(Mon.110)</a>` },
+    { lat: 41.118557, lng: 1.256868, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/tarakonsalir.svg", w: 90, h: 90, ax: -15, ay: 45, popup: `<strong>taŕakonśalir</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=266" target="_blank" rel="noreferrer noopener">(Mon.110)</a>` },
+    { lat: 41.787158, lng: 1.290233, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/ieso.svg", w: 40, h: 40, ax: 50, ay: 20, popup: `<strong>ieśo</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=39" target="_blank" rel="noreferrer noopener">(Mon.10)</a>` },
+    { lat: 41.99894101057659, lng: -1.6821497625638004, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/kaiskata.svg", w: 51, h: 51, ax: 60, ay: 25, popup: `<strong>kaiskata</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=75" target="_blank" rel="noreferrer noopener">(Mon.49)</a>` },
+    { lat: 42.56929, lng: -0.549102, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/iaka.svg", w: 27, h: 27, ax: -10, ay: 10, popup: `<strong>iaka</strong><br><a href="https://monedaiberica.org/v5/mint/92" target="_blank" rel="noopener noreferrer"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48747.jpg" alt="Unidad (bronce) de iaka, ca. 130-90 a.C. (MIB)"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Plom ibèric núm. 1</div><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=67" target="_blank" rel="noreferrer noopener">(Mon.41)</a>` },
+    { lat: 41.930228, lng: 2.254313, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/ausesken.svg", w: 75, h: 75, ax: 83, ay: 35, popup: `<strong>auśesken</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=36" target="_blank" rel="noreferrer noopener">(Mon.07)</a>` },
+    { lat: 41.6541957841665, lng: -0.8742751459432535, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/saltuie.svg", w: 50, h: 50, ax: 60, ay: 20, popup: `<strong>salduie</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=52" target="_blank" rel="noreferrer noopener">(Mon.24)</a>` },
+    { lat: 41.77038869718346, lng: -1.1182207224366085, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/alaun.svg", w: 48, h: 48, ax: 57, ay: 25, popup: `<strong>alaun</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=45" target="_blank" rel="noreferrer noopener">(Mon.16)</a>` },
+    { lat: 41.6159535, lng: 0.625938, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/iltirta.svg", w: 50, h: 50, ax: 60, ay: 30, popup: `<strong>iltiŕta</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=47" target="_blank" rel="noreferrer noopener">(Mon.18)</a>` },
+    { lat: 41.705947, lng: 1.541785, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/sikara.svg", w: 45, h: 45, ax: 55, ay: 25, popup: `<strong>śikaŕa</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=268" target="_blank" rel="noreferrer noopener">(Mon.114)</a>` },
+    { lat: 41.90543866918373, lng: -1.7248562136819878, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2024/06/turiazu.svg", w: 63, h: 63, ax: -10, ay: 35, popup: `<strong>turiazu</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=77" target="_blank" rel="noreferrer noopener">(Mon.51)</a>` },
+    { lat: 41.835173, lng: -1.53187, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/Bursau.svg", w: 46, h: 46, ax: 60, ay: 20, popup: `<strong>burzau</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=74" target="_blank" rel="noreferrer noopener">(Mon.48)</a>` },
+    { lat: 41.83292776605071, lng: -1.4613639478199407, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/karauez.svg", w: 50, h: 50, ax: -10, ay: 30, popup: `<strong>karauez</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=93" target="_blank" rel="noreferrer noopener">(Mon.66)</a>` },
+    { lat: 42.546924, lng: -1.241652, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/arsaos.svg", w: 60, h: 60, ax: 70, ay: 30, popup: `<strong>arsaos</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=63" target="_blank" rel="noreferrer noopener">(Mon.37)</a>` },
+    { lat: 41.37346913519347, lng: -0.4323862334047214, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/kelse.svg", w: 36, h: 36, ax: -10, ay: 20, popup: `<strong>kelse</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=5" target="_blank" rel="noreferrer noopener">(Mon.21)</a>` },
+    { lat: 41.513102, lng: -1.027126, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/kontebakom.svg", w: 55, h: 55, ax: 65, ay: 30, popup: `<strong>kontebakom</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=101" target="_blank" rel="noreferrer noopener">(Mon.75)</a>` },
+    { lat: 41.498915593974516, lng: -1.3743014311617363, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/nertobis.svg", w: 55, h: 55, ax: 65, ay: 30, popup: `<strong>nertobis</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=76" target="_blank" rel="noreferrer noopener">(Mon.50)</a>` },
+    { lat: 41.323977, lng: -1.666267, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/bilbilis.svg", w: 52, h: 52, ax: 65, ay: 26, popup: `<strong>bilbiliz</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=99" target="_blank" rel="noreferrer noopener">(Mon.73)</a>` },
+    { lat: 41.299646506149095, lng: -1.5174679139767644, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/sekeiza.svg", w: 57, h: 57, ax: -10, ay: 30, popup: `<strong>sekeiza</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=104" target="_blank" rel="noreferrer noopener">(Mon.78)</a>` },
+    { lat: 41.250089825700364, lng: -0.8725940118303821, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/belikio.svg", w: 52, h: 52, ax: 65, ay: 30, popup: `<strong>belikio</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=73" target="_blank" rel="noreferrer noopener">(Mon.47)</a>` },
+    { lat: 41.83028616864141, lng: -1.9932645310323065, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/arekorata.svg", w: 65, h: 65, ax: 75, ay: 30, popup: `<strong>arekorata</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=78" target="_blank" rel="noreferrer noopener">(Mon.52)</a>` },
+    { lat: 42.30370013846068, lng: -1.9598460299431921, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/kalakorikos.svg", w: 80, h: 80, ax: 90, ay: 40, popup: `<strong>kalakorikos</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=79" target="_blank" rel="noreferrer noopener">(Mon.53)</a>` },
+    { lat: 42.503474, lng: -2.390128, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/uarakos.svg", w: 54, h: 54, ax: 60, ay: 26, popup: `<strong>uarakos</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=63" target="_blank" rel="noreferrer noopener">(Mon.37)</a>` },
+    { lat: 42.417751, lng: 1.886153, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/02/kere.svg", w: 30, h: 30, ax: -15, ay: 30, popup: `<strong>keŕe</strong><br><a href="https://monedaiberica.org/v5/type/19777" target="_blank" rel="noopener noreferrer"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358652.jpg" alt="Denario de keŕe, ca. 180-160 a.C. (MIB)"></a><div style="text-align:center;font-size:0.85em;color:#555;margin:0;">Plom ibèric núm. 1</div><br><a href="https://monedaiberica.org/v3/mint/270" target="_blank" rel="noreferrer noopener">Ripollès, P.P. (2022)</a>` },
+    { lat: 42.134850, lng: 3.120603, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/untikesken.svg", w: 58, h: 58, ax: -10, ay: 30, popup: `<strong>untikesken</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=20" target="_blank" rel="noreferrer noopener">(Mon.06)</a>` },
+    { lat: 42.117837, lng: 1.0440565, iconurl: "https://tabulapyrenaei.eu/wp-content/uploads/2025/01/eso.svg", w: 30, h: 30, ax: 40, ay: 20, popup: `<strong>eśo</strong><a href="https://monedaiberica.org/v3/mint/78" target="_blank" rel="noopener noreferrer"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37888.jpg" alt="eśo"></a><div style="text-align:center; font-size:0.85em; color:#555; margin:0;">Unidad (bronce) de eśo, ca. 100-72 a.C. (MIB)</div><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=46" target="_blank" rel="noreferrer noopener">(Mon.17)</a>` },
+  ];
+
+  const cecaTowns = [
+    { lat: 42.1394475, lng: -0.407326, denario: true, popup: `<strong>Huesca</strong>` },
+    { lat: 42.129195, lng: -1.1396136, denario: true, popup: `<strong><em>La Corona</em> (Ejea de los Caballeros)</strong>` },
+    { lat: 41.4515092, lng: 2.24692226667, denario: false, popup: `<strong>Badalona</strong>` },
+    { lat: 41.52643459725283, lng: 2.3925274562037573, denario: false, popup: `<strong>Cabrera de Mar</strong>` },
+    { lat: 41.695660865294194, lng: 2.32520043124896, denario: false, popup: `<strong>Granollers (área)</strong>` },
+    { lat: 43.21920710830168, lng: 2.9840779214656648, denario: false, popup: `<strong><em>Oppidum de Montlaurès</em> (Narbonne)</strong>` },
+    { lat: 43.309722, lng: 3.110556, denario: false, popup: `<strong><em>Oppidum</em> de Ensérune</strong>` },
+    { lat: 41.38267779190094, lng: 2.177083239803981, denario: false, popup: `<strong><em>Barcino</em> (Barcelona)</strong>` },
+    { lat: 41.118557, lng: 1.256868, denario: true, popup: `<strong>Tarragona</strong>` },
+    { lat: 42.117837, lng: 1.0440565, denario: false, popup: `<strong>Isona</strong>` },
+    { lat: 41.787158, lng: 1.290233, denario: false, popup: `<strong>Guissona</strong>` },
+    { lat: 41.99894101057659, lng: -1.6821497625638004, denario: false, popup: `<strong>Cascante</strong>` },
+    { lat: 42.56929, lng: -0.549102, denario: false, popup: `<strong>Jaca</strong>` },
+    { lat: 41.930228, lng: 2.254313, denario: true, popup: `<strong>Vic</strong>` },
+    { lat: 41.6541957841665, lng: -0.8742751459432535, denario: false, popup: `<strong>Zaragoza</strong>` },
+    { lat: 41.77038869718346, lng: -1.1182207224366085, denario: false, popup: `<strong><em>Alauona</em> (Alagón)</strong>` },
+    { lat: 41.6159535, lng: 0.625938, denario: true, popup: `<strong><em>Turó de la Seu Vella</em> (Lleida)</strong>` },
+    { lat: 41.705947, lng: 1.541785, denario: false, popup: `<strong>Els Prats de Rei</strong>` },
+    { lat: 41.90543866918373, lng: -1.7248562136819878, denario: true, popup: `<strong>Tarazona</strong>` },
+    { lat: 41.835173, lng: -1.53187, denario: false, popup: `<strong>Borja</strong>` },
+    { lat: 41.83292776605071, lng: -1.4613639478199407, denario: false, popup: `<strong><em>Caravis</em> (Magallón)</strong>` },
+    { lat: 42.546924, lng: -1.241652, denario: true, popup: `<strong><em>Campo Real/Fillera</em> (Sos del Rey Católico)</strong>` },
+    { lat: 41.37346913519347, lng: -0.4323862334047214, denario: true, popup: `<strong><em>La Celsa</em> (Velilla de Ebro)</strong>` },
+    { lat: 41.513102, lng: -1.027126, denario: false, popup: `<strong>Botorrita</strong>` },
+    { lat: 41.498915593974516, lng: -1.3743014311617363, denario: false, popup: `<strong><em>Nertobriga</em> (La Almunia de Doña Godina)</strong>` },
+    { lat: 41.299646506149095, lng: -1.5174679139767644, denario: true, popup: `<strong><em>Poyo de Mara-Durón</em> (Belmonte de Gracián-Mara)</strong>` },
+    { lat: 41.250089825700364, lng: -0.8725940118303821, denario: true, popup: `<strong><em>Piquete de la Atalaya</em> (Azuara)</strong>` },
+    { lat: 41.83028616864141, lng: -1.9932645310323065, denario: true, popup: `<strong>Muro</strong> (localización hipotética de <strong>arekorata</strong>)` },
+    { lat: 42.30370013846068, lng: -1.9598460299431921, denario: false, popup: `<strong><em>Calagurris Nassica</em> (Calahorra)</strong>` },
+    { lat: 42.503474, lng: -2.390128, denario: false, popup: `<strong><em>La Custodia</em> (Viana)</strong><br>Localización hipotética de <em>uarakos</em>.` },
+    { lat: 41.323977, lng: -1.666267, denario: false, popup: `<strong><em>Bilbilis (Valdeherrera-Cerro de Bámbola</em> (Calatayud)</strong>.` },
+    { lat: 42.134850, lng: 3.120603, denario: false, popup: `<strong>L’Escala (Empúries)</strong>` },
+  ];
+
+  // Fix popup con imágenes: reajustar al cargar
+  map1.on('popupopen', function(e) {
+    var imgs = e.popup.getElement().querySelectorAll('img');
+    imgs.forEach(function(img) {
+      if (!img.complete) {
+        img.addEventListener('load', function() { e.popup.update(); });
+      }
+    });
+  });
+
+  inscripciones.forEach(function(d) {
+    var r = getRadius(d.count);
+    L.circleMarker([d.lat, d.lng], {
+      radius: r, color: '#E61876', fillColor: '#E61876',
+      fillOpacity: 0.7, weight: 1, opacity: 0.7
+    }).bindPopup('<strong>' + (d.count === 1 ? '1 inscripción' : d.count + ' inscripciones') + '</strong><br>' + d.popup)
+      .addTo(inscLayer);
+  });
+
+  cecas.forEach(function(c) {
+    L.marker([c.lat, c.lng], {
+      icon: L.icon({ iconUrl: c.iconurl, iconSize: [c.w, c.h], iconAnchor: [c.ax, c.ay], popupAnchor: [0, -c.ay] }),
+      zIndexOffset: 200
+    }).bindPopup(c.popup).addTo(cecasLayer);
+  });
+
+  cecaTowns.forEach(function(t) {
+    var r = t.denario ? 4 : 3;
+    L.circleMarker([t.lat, t.lng], {
+      radius: r, color: '#555', fillColor: '#aaa', fillOpacity: 0.0, weight: 2.5
+    }).bindPopup(t.popup).addTo(cecasLayer);
+  });
+
+  inscLayer.addTo(map1);
+  cecasLayer.addTo(map1);
+
+  // Máscara área de estudio
+  L.polygon([
+    [[-90,-360],[90,-360],[90,360],[-90,360]],
+    [[40.979898,4.218750],[40.979898,-2.813784],[44.086598,-2.813858],[44.086598,4.217366]]
+  ], { color: '#3a3a3a', weight: 1.5, dashArray: '7,5', fillColor: '#000', fillOpacity: 0.13, interactive: false })
+    .addTo(map1);
+
+  // Control de capas
+  new (L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function() {
+      var div = L.DomUtil.create('div', 'ly-control');
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+      [{ label: 'Inscripciones', layer: inscLayer }, { label: 'Cecas', layer: cecasLayer }]
+        .forEach(function(g) {
+          var row = L.DomUtil.create('div', 'ly-row', div);
+          var cb = document.createElement('input');
+          cb.type = 'checkbox'; cb.checked = true; cb.style.marginRight = '6px';
+          cb.addEventListener('change', function() { cb.checked ? map1.addLayer(g.layer) : map1.removeLayer(g.layer); });
+          row.appendChild(cb);
+          row.appendChild(document.createTextNode(g.label));
+        });
+      return div;
+    }
+  }))().addTo(map1);
+
+  // Leyenda
+  var legend1 = L.control({ position: 'bottomright' });
+  legend1.onAdd = function() {
+    var div = L.DomUtil.create('div', 'insc-legend');
+    div.innerHTML = '<strong style="display:block;margin-bottom:4px;">Inscripciones</strong>';
+    [{ label:'1', r:4 }, { label:'2–5', r:7 }, { label:'6–10', r:10 },
+     { label:'11–20', r:14 }, { label:'21–50', r:19 }, { label:'51–100', r:26 }, { label:'101–400+', r:36 }]
+      .forEach(function(b) {
+        var s = b.r * 2;
+        div.innerHTML += '<div class="insc-legend-item"><span class="insc-legend-circle" style="width:' + s + 'px;height:' + s + 'px;"></span><span>' + b.label + '</span></div>';
+      });
+    return div;
+  };
+  legend1.addTo(map1);
+
+  // Búsqueda
+  var sg1 = L.geoJSON(null, {
+    pointToLayer: function(feature, latlng) {
+      return L.circleMarker(latlng, { opacity:0, fillOpacity:0, radius:0, interactive:false });
+    }
+  });
+  inscripciones.forEach(function(d) {
+    var tmp = document.createElement('div'); tmp.innerHTML = d.popup;
+    sg1.addData({ type:'Feature',
+      properties:{ name:(tmp.textContent||tmp.innerText||'').replace(/\s+/g,' ').trim() },
+      geometry:{ type:'Point', coordinates:[d.lng, d.lat] } });
+  });
+  sg1.addTo(map1);
+  var searchMarker1 = L.circleMarker([0,0], {
+    radius: 12, color: '#1a6fc4', fillColor: '#1a6fc4', fillOpacity: 0.2, weight: 2.5, opacity: 0.9
+  });
+  map1.addControl(new L.Control.Search({ layer:sg1, propertyName:'name', marker:false,
+    moveToLocation:function(ll,t,m){
+      m.setView(ll,11);
+      searchMarker1.setLatLng(ll).addTo(m);
+      setTimeout(function(){ m.removeLayer(searchMarker1); }, 4000);
+    },
+    filterData: function(text, records) {
+      var filtered = {};
+      var q = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      for (var key in records) {
+        var n = key.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+        if (n.indexOf(q) !== -1) filtered[key] = records[key];
+      }
+      return filtered;
+    },
+    textPlaceholder:'Buscar localización…', textErr:'No encontrado',
+    position:'topleft', autoCollapse:true, autoType:false, minLength:2 }));
+
+  L.control.fullscreen({ position: 'topleft' }).addTo(map1);
+</script>
+
+<!-- ═══════════════════ TEXTO INTERMEDIO ═══════════════════ -->
+<div class="col-2-1-wrap">
+  <div class="col-2-1">
+    <div>
+      <p>Si bien la práctica de la escritura está estrechamente relacionada con el fenómeno urbano y el desarrollo político y económico de sus comunidades —algo que es posible deducir de la distribución de epígrafes y cecas representada en el mapa— el Pirineo pese a su posición aparentemente marginal no fue ajeno al uso de la escritura prelatina.</p>
+      <p>En el Pirineo oriental, en torno al paso que permite la conexión de los ríos <em>Tetus</em> y <em>Sicoris</em>, en el territorio de los cerretanos, se vienen documentando en los últimos años un creciente número de inscripciones paleohispánicas cercano ya a los doscientos epígrafes.</p>
+      <p>A diferencia de los principales focos epigráficos del área mediterránea y el valle del Ebro, el corpus de inscripciones paleohispánicas del territorio de los <em>Cerretani</em> se compone fundamentalmente de epígrafes rupestres siendo muy escasos los textos inscritos sobre las superficies habituales en las otras áreas. Las diferencias se reproducen también en la propia naturaleza de las inscripciones. Los textos de la Cerdanya parecen tener un carácter votivo, serían epígrafes gravados en la roca cumpliendo el voto a diferentes divinidades indígenas.</p>
+      <p>El siguiente mapa se centra en el área pirenaica donde se documenta este conjunto epigráfico en combinación con los asentamientos más importantes de la región.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ MAPA 2 ═══════════════════════════════ -->
+<div class="map-fullwidth">
+  <div id="map2" style="height:1100px;"></div>
+  <div class="overlay-slider-wrap">
+    <label for="overlay-opacity">Opacidad del mapa:</label>
+    <input type="range" id="overlay-opacity" min="0" max="1" step="0.05" value="1.00">
+    <span id="overlay-opacity-val">100%</span>
+  </div>
+</div>
+
+<script>
+(function() {
+
+  var map2 = L.map('map2', {
+    center: [42.430043978323916, 1.9409379053457596],
+    zoom: 13, minZoom: 10, maxZoom: 13
+  });
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '© <a href="https://www.esri.com/">Esri</a>', maxZoom: 18
+  }).addTo(map2);
+
+  // Image overlay
+  var cerdanyaOverlay = L.imageOverlay(
+    'https://tabulapyrenaei.eu/wp-content/uploads/2025/02/Cerdanya.png',
+    [[42.33572465620105, 1.72885628026058], [42.52361013916209, 2.145154082139271]],
+    { opacity: 1.00, interactive: false }
+  ).addTo(map2);
+
+  document.getElementById('overlay-opacity').addEventListener('input', function() {
+    cerdanyaOverlay.setOpacity(parseFloat(this.value));
+    document.getElementById('overlay-opacity-val').textContent = Math.round(this.value * 100) + '%';
+  });
+
+  // ── Datos ──
+  var inscData = [
+    { count: 9,  lat: 42.411324, lng: 1.84547,   popup: `Ger<br>(GI.01)<br><a href="https://shs.hal.science/halshs-03161489/document" target="_blank" rel="noreferrer noopener">Ferrer I Jané, J. Une inscription rupestre ibère inédite de Ger (Cerdagne).</a>` },
+    { count: 1,  lat: 42.369743, lng: 1.77685,   popup: `Bellver de Cerdaña<br>(L.04.01)` },
+    { count: 3,  lat: 42.419437, lng: 1.877246,  popup: `<em>La Devesa de Sallent</em> (Bolvir)<br>(GI.03)` },
+    { count: 1,  lat: 42.417751, lng: 1.886153,  popup: `<em>El Castellot de Bolvir</em><br>(GI.03.03)` },
+    { count: 3,  lat: 42.44861,  lng: 1.878727,  popup: `Guils de Cerdaña<br>(GI.02)` },
+    { count: 13, lat: 42.465736, lng: 1.888023,  popup: `La Tor de Querol<br>(PYO.03)` },
+    { count: 1,  lat: 42.491586, lng: 1.895912,  popup: `Enveitg<br>(PYO.04.01)` },
+    { count: 1,  lat: 42.450731, lng: 2.067727,  popup: `Sant Feliu de Llo<br>(PYO.06.01)` },
+    { count: 6,  lat: 42.441466, lng: 2.0319,    popup: `Err<br>(PYO.05)` },
+    { count: 1,  lat: 42.42422,  lng: 1.997962,  popup: `Nahuja (PYO.09.01)<br><a href="https://hal.science/hal-04844557" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Ferrer i Jané</span>, J. Un nouveau rocher de Nahuja (Cerdagne) avec des inscriptions ibériques.</a>` },
+    { count: 40, lat: 42.413774, lng: 1.98075,   popup: `Osséja<br><a href="https://www.researchgate.net/publication/319623924" target="_blank" rel="noopener noreferrer"><img src="https://www.researchgate.net/profile/Joan-Ferrer-I-Jane/publication/319623924/figure/fig4/AS:599146406879233@1519859043009/Roche-7-de-la-Zone-1-dOsseja-ROCHE-12-DE-LA-ZONE-5-DOSSEJA-TABLEAU-1-N-39.png" alt="Osseja"></a><div style="text-align:center;font-size:0.85em;color:#555;">Roche 7 de la Zone 1 d'Osséja</div>(PYO.07)<br><a href="https://www.researchgate.net/publication/319623924" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Ferrer i Jané</span>, J. Le nouveau corpus d'inscriptions ibériques rupestres de la Cerdagne (3).</a>` },
+  ];
+
+  var oppidumData = [
+    { lat: 42.4676436106995,    lng: 1.9861240975439804, popup: `<strong><em>Puig del Castell</em></strong><br>Aunque no se conocen estructuras de época ibérica, en la parte baja de la colina han aparecido niveles ceretanos, al igual que materiales ibéricos en la parte alta. <a href="https://revistes.uab.cat/treballsarqueologia/article/view/v26-olesti-morera-oller/134-pdf-es" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Olesti, J. <em>et al</em></span>. La Cerdanya y el Pirineo oriental durante el periodo ibérico.</a>` },
+    { lat: 42.36812485046653,   lng: 1.811222301404602,  popup: `<strong><em>Tossal de Baltarga</em></strong><br>Jaciment amb dues fases cronològiques: ocupació iberoceretana (s. IV-III aC) i romana republicana (s. II-I aC). <a href="https://www.researchgate.net/publication/348057908" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Morera, J. <em>et al</em></span>. La Cerdanya i els ceretans en el marc de la Segona Guerra Púnica.</a>` },
+    { lat: 42.417751,           lng: 1.886153,           popup: `<strong><em>Castellot de Bolvir</em></strong><br><em>Oppidum</em> configurat a la segona meitat del s. IV aC, organitzat a partir d'un potent sistema defensiu i un urbanisme complex. <a href="https://www.researchgate.net/publication/348057908" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Morera, J. <em>et al</em></span>. La Cerdanya i els ceretans en el marc de la Segona Guerra Púnica.</a>` },
+    { lat: 42.4507315771823,    lng: 2.0677270432837758,  popup: `<strong><em>Lo Lladre / Sant Feliu de Llo</em></strong><br>Ubicado en lo alto de un cerro sobre la entrada del Segre en el llano ceretano, con importante función de control territorial. <a href="https://revistes.uab.cat/treballsarqueologia/article/view/v26-olesti-morera-oller/134-pdf-es" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Olesti, J. <em>et al</em></span>. La Cerdanya y el Pirineo oriental durante el periodo ibérico.</a>` },
+    { lat: 42.37545761607216,   lng: 1.9025571019189882,  popup: `<strong><em>Serrat del Castellar</em></strong><br>También llamado <em>Puig de la Roureda</em>. <em>Oppidum</em> con estructura defensiva elaborada. <a href="https://www.researchgate.net/publication/375336522" target="_blank" rel="noreferrer noopener"><span style="font-variant:small-caps;">Oller, J. <em>et al</em></span>. El Serrat del Castellar (Urtx, Fontanals): un nou assentament iberoromà a la Cerdanya.</a>` },
+  ];
+
+  var asentData = [
+    { lat: 42.49738,             lng: 1.892832,           popup: `<strong><em>L'Orri d'en Corbill</em></strong>` },
+    { lat: 42.436735,            lng: 1.897463,           popup: `<strong><em>Puig de Sant Martí (o de Saneja)</em></strong>` },
+    { lat: 42.415879,            lng: 1.872645,           popup: `<strong><em>La Colomina de Bolvir</em></strong>` },
+    { lat: 42.417929413785394,   lng: 1.9492986266657855, popup: `<strong><em>Cementeri d'Age</em></strong>` },
+    { lat: 42.36359324814331,    lng: 1.78059851341196,   popup: `<strong><em>Talló</em></strong>` },
+    { lat: 42.375299,            lng: 1.887481,           popup: `<strong><em>Roc d'Esperança</em></strong>` },
+    { lat: 42.469035,            lng: 1.924582,           popup: `<strong><em>Els Tarters</em></strong><br>También llamado Bell-lloc y Costa de Bell-lloc.` },
+    { lat: 42.488699,            lng: 1.936596,           popup: `<strong><em>Caos de Dorres / Tarterola</em></strong>` },
+    { lat: 42.471466,            lng: 1.956692,           popup: `<strong><em>La Coma Peronella</em></strong>` },
+    { lat: 42.369573679402,      lng: 1.755063311820307,  popup: `<strong><em>Gallissà</em></strong>` },
+    { lat: 42.49319,             lng: 2.035015,           popup: `<strong><em>Lo Castellà</em></strong>` },
+    { lat: 42.442329,            lng: 1.867162,           popup: `<strong><em>La Baladoseta</em></strong>` },
+    { lat: 42.44061457495594,    lng: 1.842027269590772,  popup: `<strong><em>El Castellar</em></strong>` },
+  ];
+
+  var cuevaData = [
+    { lat: 42.338455, lng: 1.80247,  popup: `<strong><em>Fou de Bor</em></strong>` },
+    { lat: 42.484334, lng: 1.883012, popup: `<strong><em>Pic de Bena</em></strong>` },
+  ];
+
+  var ciudadData = [
+    { lat: 42.465005, lng: 1.983116, popup: `<strong><em>Iulia Libica</em> (Les Colomines, Llívia)</strong>` },
+  ];
+
+  // ── Layer groups ──
+  var m2inscLayer   = L.layerGroup();
+  var m2oppLayer    = L.layerGroup();
+  var m2asentLayer  = L.layerGroup();
+  var m2cuevaLayer  = L.layerGroup();
+  var m2ciudadLayer = L.layerGroup();
+
+  // ── Helpers ──
+  function circleM(lat, lng, r, color, popup, layer) {
+    L.circleMarker([lat, lng], {
+      radius: r, color: color, fillColor: color, fillOpacity: 0.55, weight: 1.5
+    }).bindPopup(popup).addTo(layer);
+  }
+
+  function ringM(lat, lng, r, color, popup, layer) {
+    L.circleMarker([lat, lng], {
+      radius: r, color: color, fillColor: color, fillOpacity: 0, weight: 2.5
+    }).bindPopup(popup).addTo(layer);
+  }
+
+  function squareM(lat, lng, size, color, popup, layer) {
+    var half = size / 2;
+    L.marker([lat, lng], {
+      icon: L.divIcon({
+        className: '',
+        iconSize: [size, size], iconAnchor: [half, half], popupAnchor: [0, -half],
+        html: '<div style="width:' + size + 'px;height:' + size + 'px;background:transparent;border:2px solid ' + color + ';box-sizing:border-box;"></div>'
+      })
+    }).bindPopup(popup).addTo(layer);
+  }
+
+  // ── Poblar capas ──
+  // Inscripciones: círculos escalados igual que mapa1
+  inscData.forEach(function(d) {
+    var r = getRadius(d.count);
+    var label = d.count === 1 ? '1 inscripción' : d.count + ' inscripciones';
+    circleM(d.lat, d.lng, r, '#E61876', '<strong>' + label + '</strong><br>' + d.popup, m2inscLayer);
+  });
+  oppidumData.forEach(function(d) { ringM(d.lat, d.lng, 6,  '#2A9689', d.popup, m2oppLayer);    });
+  asentData.forEach(function(d)   { ringM(d.lat, d.lng, 4,  '#2A9689', d.popup, m2asentLayer);  });
+  cuevaData.forEach(function(d)   { ringM(d.lat, d.lng, 3,  '#8207DB', d.popup, m2cuevaLayer);  });
+  ciudadData.forEach(function(d)  { squareM(d.lat, d.lng, 12, '#6A7282', d.popup, m2ciudadLayer); });
+
+  [m2oppLayer, m2asentLayer, m2cuevaLayer, m2ciudadLayer, m2inscLayer]
+    .forEach(function(l) { l.addTo(map2); });
+
+  // ── Control de capas ──
+  new (L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function() {
+      var div = L.DomUtil.create('div', 'ly-control');
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+      [
+        { label: 'Inscripción paleohispánica', layer: m2inscLayer,   dot: 'border-radius:50%;background:#E61876;width:10px;height:10px;' },
+        { label: 'Oppidum / punto de control', layer: m2oppLayer,    dot: 'border-radius:50%;background:transparent;border:2px solid #2A9689;width:10px;height:10px;' },
+        { label: 'Asentamiento secundario',    layer: m2asentLayer,  dot: 'border-radius:50%;background:transparent;border:2px solid #2A9689;width:8px;height:8px;'  },
+        { label: 'Cueva',                      layer: m2cuevaLayer,  dot: 'border-radius:50%;background:transparent;border:2px solid #8207DB;width:8px;height:8px;' },
+        { label: 'Ciudad romana',              layer: m2ciudadLayer, dot: 'background:transparent;border:2px solid #6A7282;width:10px;height:10px;' }
+      ].forEach(function(g) {
+        var row = L.DomUtil.create('div', 'ly-row', div);
+        var cb = document.createElement('input');
+        cb.type = 'checkbox'; cb.checked = true; cb.style.marginRight = '5px';
+        cb.addEventListener('change', function() { cb.checked ? map2.addLayer(g.layer) : map2.removeLayer(g.layer); });
+        var sym = document.createElement('span');
+        sym.style.cssText = 'display:inline-block;margin-right:5px;flex-shrink:0;box-sizing:border-box;' + g.dot;
+        row.appendChild(cb);
+        row.appendChild(sym);
+        row.appendChild(document.createTextNode(g.label));
+      });
+      return div;
+    }
+  }))().addTo(map2);
+
+  // ── Búsqueda ──
+  var sg2 = L.geoJSON(null, {
+    pointToLayer: function(feature, latlng) {
+      return L.circleMarker(latlng, { opacity:0, fillOpacity:0, radius:0 });
+    }
+  });
+  inscData.concat(oppidumData, asentData, cuevaData, ciudadData).forEach(function(d) {
+    var tmp = document.createElement('div'); tmp.innerHTML = d.popup;
+    sg2.addData({ type:'Feature',
+      properties:{ name:(tmp.textContent||tmp.innerText||'').replace(/\s+/g,' ').trim() },
+      geometry:{ type:'Point', coordinates:[d.lng, d.lat] } });
+  });
+  sg2.addTo(map2);
+  map2.addControl(new L.Control.Search({ layer:sg2, propertyName:'name', marker:false,
+    moveToLocation:function(ll,t,m){ m.setView(ll,13); },
+    textPlaceholder:'Buscar…', textErr:'No encontrado',
+    position:'topleft', autoCollapse:true, autoType:false, minLength:2 }));
+
+  L.control.fullscreen({ position: 'topleft' }).addTo(map2);
+
+})();
+</script>

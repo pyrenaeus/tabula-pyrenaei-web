@@ -1,0 +1,2121 @@
+---
+layout: post
+title: "La moneda ibérica"
+date: 2024-01-01
+image: https://tabulapyrenaei.eu/wp-content/uploads/2024/12/La-moneda-iberica-thumbnail-768x333.png
+categories: [numismatica]
+---
+
+<style>
+.moneda-wrap {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 2rem;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+.mapa-interactivo {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.mapa-interactivo img.mapa-base {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mapa-interactivo svg.areas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+}
+
+.mapa-interactivo svg.areas polygon,
+.mapa-interactivo svg.areas circle,
+.mapa-interactivo svg.areas rect {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
+}
+
+.panel-ceca {
+  background: #ffffff;
+  border: 1px solid var(--color-borde);
+  padding: 1.5rem;
+  font-family: var(--fuente-principal);
+  min-height: 160px;
+  position: sticky;
+  top: 1rem;
+}
+
+.panel-ceca.vacio {
+  color: var(--color-meta);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 200px;
+}
+
+.panel-ceca h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  color: var(--color-enlace);
+}
+
+.panel-monedas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.panel-monedas figure { margin: 0; }
+.panel-monedas img { width: 100%; height: auto; display: block; }
+.panel-monedas figcaption {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 0.2rem;
+  color: var(--color-meta);
+}
+
+.panel-texto {
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.panel-texto p { margin-bottom: 0.8em; text-align: left; }
+.panel-texto a { color: var(--color-enlace); }
+
+/* Controles de capa del mapa iltiŕkes */
+.mapa-controles {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--fuente-principal);
+  font-size: 0.85rem;
+}
+.mapa-controles label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+.mapa-titulo-pie {
+  font-family: var(--fuente-principal);
+  font-size: 0.82rem;
+  color: var(--color-meta);
+  font-style: italic;
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .moneda-wrap { grid-template-columns: 1fr; padding: 0 1rem; }
+  .panel-ceca { position: static; order: 2; }
+  .mapa-interactivo { order: 1; }
+}
+.leaflet-interactive:focus { outline: none !important; }
+</style>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p class="drop-cap"><span style="font-variant:small-caps">Para una representación cartográfica</span> las cecas ibéricas pueden tomarse como una suerte de geografía. Comparado con descripciones como las de Plinio y Ptolomeo el conjunto monetal no deja de ser un listado de ciudades en esencia no muy diferente de lo que recogen sus informaciones geográficas. Lo que en Plinio y Ptolomeo es una selección de ciudades relevantes por diferentes criterios, en el caso de las acuñaciones la criba viene dada por la mera capacidad para emitir moneda. Si en la <em>Historia Natural</em> de Plinio existe una ordenación en términos jurídicos, las cecas cuentan con su propio criterio en función de su capacidad para emitir moneda de plata o únicamente de bronce. Y si para Ptolomeo el punto de referencia es la adscripción étnica, la epigrafía y la iconografía monetal han dado pie a consideraciones relativas a la clasificación de diferentes conjuntos en función de su hipotética pertenencia a un determinado <em>populus</em>, si bien este aspecto sea tal vez demasiado especulativo.</p>
+
+    <p>Al igual que las fuentes literarias antiguas, la numismática ibérica deja su cuota de ciudades sin localización. Aun cuando por comparación con otras cecas de segura identificación determinadas características iconográficas, lingüísticas y epigráficas permiten intuir una determinada región de origen, el mapa resultante es incompleto y puede trasladar una imagen distorsionada de la ordenación territorial de los siglos III-I a.C. Tampoco puede pasar por alto una segunda deformación, la que se deriva de las limitaciones que una imagen estática como un mapa supone para la representación de una realidad dinámica. Las ciudades que acuñaron moneda no lo hicieron de manera simultánea, ni en lo que se refiere al periodo general del inicio al cese de la actividad emisora, ni en el tipo de moneda, ya fueran dracmas de imitación emporitana, denarios o unidades de bronce y sus respectivos divisores.</p>
+
+    <p>Hecha esta advertencia el mapa muestra los lugares donde se ha podido determinar que entre finales del siglo III y el primer cuarto del I a.C. se acuñó moneda con leyenda ibérica en el entorno de los Pirineos. El conjunto de cecas se ordenan en función de si acuñaron dracmas de imitación emporitana, denarios ibéricos y aquellas cecas que únicamente batieron moneda de bronce.</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<div class="moneda-wrap">
+  <div class="panel-ceca vacio" id="panelCeca">
+    <span>Pulsa sobre una ceca en el mapa para ver la información</span>
+  </div>
+
+  <div class="mapa-interactivo" id="mapaContenedor">
+    <img class="mapa-base" id="mapaBase"
+         src="https://tabulapyrenaei.eu/wp-content/uploads/2024/10/La-moneda-iberica.png"
+         alt="La moneda ibérica">
+    <svg class="areas" id="mapaAreas" viewBox="0 0 0 0" preserveAspectRatio="none"></svg>
+  </div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>El Pirineo tiene cierto papel relevante en la historia de la moneda ibérica pues fue en el entorno de su límite oriental donde se produjeron las primeras acuñaciones de la Península Ibérica. A finales del siglo VI a.C. surge en la colonia griega de <em>Emporion</em> una ceca que será la primera de una nutrida serie de ciudades que tras un largo proceso que durará siglos se irán adhiriendo no solo al uso de monedas sino a la producción de piezas locales. De hecho fueron las dracmas de <em>Emporion</em> las tomadas como modelo en esa fase inicial en la que, tras las acuñaciones de <em>Rhode</em> y <em>Arse</em> en el siglo IV a.C. aparecen en el nordeste peninsular las primeras cecas ibéricas que imitan los modelos emporitanos. Su característica iconografía —divinidad femenina y Pegaso— remite a su vez a la extraordinaria labor de los grabadores de Siracusa. A ellos debemos los exóticos delfines que andando el tiempo veremos en las cecas del interior, ya en el valle del Ebro.</p>
+  </div>
+  <div class="nota-margen">
+    <div id="map" style="width:100%;height:300px"></div>
+    <p class="mapa-titulo-pie">Localización de <em>Emporion</em> y <em>Rhode</em></p>
+  </div>
+</div>
+</div>
+
+<!-- Dracmas emporitanas: 3 columnas -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem">
+      <figure style="margin:0">
+        <a href="https://monedaiberica.org/v3/type/160" target="_blank" rel="noopener">
+          <img src="https://monedaiberica.org/dedalo/media/image/1.5MB/216000/rsc29_rsc170_216438.jpg" alt="">
+        </a>
+      </figure>
+      <figure style="margin:0">
+        <a href="https://monedaiberica.org/v3/type/160" target="_blank" rel="noopener">
+          <img src="https://monedaiberica.org/dedalo/media/image/1.5MB/216000/rsc29_rsc170_216439.jpg" alt="">
+        </a>
+        <figcaption style="text-align:center">EMΠOPITΩN</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <img src="https://i.pinimg.com/564x/db/51/d8/db51d8de491f70c44d45c7b83305b870.jpg" alt="">
+      </figure>
+    </div>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<!-- Fila 1: taŕakonśalir, keseśalir, iltiŕtaśalir, iltiŕkeśalir -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem">
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>taŕakonśalir</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/362" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121130.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/362" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121131.jpg" alt=""><figcaption style="text-align:center">taŕakonśalir</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>keseśalir</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/1104" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/328000/rsc29_rsc170_328261.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/1104" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/328000/rsc29_rsc170_328262.jpg" alt=""><figcaption style="text-align:center">keseśalir</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>iltiŕtaśalir</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/16603" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313608.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/16603" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313609.jpg" alt=""><figcaption style="text-align:center">iltiŕtaśalir</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>iltiŕkeśalir</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/314000/rsc29_rsc170_314979.jpg" alt=""><figcaption style="text-align:center">ban retrógrado</figcaption></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/314000/rsc29_rsc170_314981.jpg" alt=""><figcaption style="text-align:center">iltiŕkeśalir</figcaption></a></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<!-- Fila 2: belseśalir, orose, baŕkeno, śikaŕa -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem">
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>belseśalir</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/361" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121060.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/361" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121061.jpg" alt=""><figcaption style="text-align:center">belseśalir</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>orose</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/352" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/305000/rsc29_rsc170_305436.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/352" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/305000/rsc29_rsc170_305437.jpg" alt=""><figcaption style="text-align:center">orose</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>baŕkeno</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/442" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/77000/rsc29_rsc170_77833.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/442" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/77000/rsc29_rsc170_77834.jpg" alt=""><figcaption style="text-align:center">bakeŕno</figcaption></a></figure>
+        </div>
+      </div>
+      <div>
+        <p style="text-align:center;font-size:0.8rem;margin-bottom:0.3rem"><em><strong>śikaŕa</strong></em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.2rem">
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/283" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/311000/rsc29_rsc170_311596.jpg" alt=""></a></figure>
+          <figure style="margin:0"><a href="https://monedaiberica.org/v3/type/283" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/311000/rsc29_rsc170_311598.jpg" alt=""><figcaption style="text-align:center">śikaŕ – a</figcaption></a></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+/* global L */
+(function() {
+  var style = document.createElement('style');
+  style.innerHTML = '.leaflet-tooltip.lbl{background:transparent!important;border:none!important;box-shadow:none!important;font-family:"EB Garamond",serif!important;font-style:italic!important;font-size:15px!important;color:#222!important;padding:0!important;white-space:nowrap;text-shadow:1px 1px 0 #e8e4dc,-1px -1px 0 #e8e4dc,1px -1px 0 #e8e4dc,-1px 1px 0 #e8e4dc}.leaflet-tooltip-left.lbl::before{display:none!important}';
+  document.head.appendChild(style);
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var m = L.map('map', { scrollWheelZoom: false, attributionControl: true, zoomControl: true })
+             .setView([42.2, 3.15], 8);
+    m.zoomControl.setPosition('topright');
+    L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+      maxZoom: 12,
+      attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>'
+    }).addTo(m);
+
+    var locs = [
+      { name: "Emporion", lat: 42.1346, lng: 3.1208, r: 4, color: "#2a4a7f" },
+      { name: "Rhode",    lat: 42.2649, lng: 3.1738, r: 4, color: "#8B1A1A" },
+      { name: "Arse",     lat: 39.6781, lng: -0.2772, r: 4, color: "#8B1A1A" }
+    ];
+    locs.forEach(function(loc) {
+      var c = L.circleMarker([loc.lat, loc.lng], {
+        radius: loc.r, color: loc.color, fillColor: loc.color,
+        fillOpacity: 0.7, weight: 1.5
+      }).addTo(m)
+       .bindTooltip(loc.name, { permanent: true, direction: 'left', className: 'lbl', offset: [-5, -3] });
+
+      if (loc.name === "Rhode") {
+        c.bindPopup(
+          '<div style="font-family:\'EB Garamond\',serif;font-size:0.8rem;width:250px;text-align:center">' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.5rem">' +
+          '<a href="https://monedaiberica.org/v3/type/120" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/333000/rsc29_rsc170_333819.jpg" style="width:100%"></a>' +
+          '<a href="https://monedaiberica.org/v3/type/120" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/333000/rsc29_rsc170_333820.jpg" style="width:100%"></a>' +
+          '</div>' +
+          'ΡΟΔΗΤΩΝ, dracma de <em>Rhode</em>' +
+          '</div>',
+          { maxWidth: 250, minWidth: 250 }
+        );
+      }
+      if (loc.name === "Emporion") {
+        c.bindPopup(
+          '<div style="font-family:\'EB Garamond\',serif;font-size:0.8rem;width:250px;text-align:center">' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.5rem">' +
+          '<a href="https://monedaiberica.org/v3/type/160" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/216000/rsc29_rsc170_216438.jpg" style="width:100%"></a>' +
+          '<a href="https://monedaiberica.org/v3/type/160" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/216000/rsc29_rsc170_216439.jpg" style="width:100%"></a>' +
+          '</div>' +
+          'EMΠOPITΩN, dracma de <em>Emporion</em>' +
+          '</div>',
+          { maxWidth: 250, minWidth: 250 }
+        );
+      }
+      if (loc.name === "Arse") {
+        c.bindPopup(
+          '<div style="font-family:\'EB Garamond\',serif;font-size:0.8rem;width:250px;text-align:center">' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.5rem">' +
+          '<a href="https://monedaiberica.org/v3/type/1931" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/294000/rsc29_rsc170_294966.jpg" style="width:100%"></a>' +
+          '<a href="https://monedaiberica.org/v3/type/1931" target="_blank"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/294000/rsc29_rsc170_294964.jpg" style="width:100%"></a>' +
+          '</div>' +
+          '<stron>arsesken</stron>, dracma de <em>Arse</em>' +
+          '</div>',
+          { maxWidth: 250, minWidth: 250 }
+        );
+      }
+    });
+  });
+
+})();
+</script>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>El punto de inflexión para la expansión de la moneda en Hispania se produce durante la Segunda Guerra Púnica. A partir del 218 a.C. Roma habría costeado buena parte del esfuerzo bélico en la Península con dracmas de <em>Emporion</em>. Al mismo tiempo las relaciones con pueblos ibéricos a los que integrar en el sistema romano habría favorecido la necesidad por parte de Roma de que las autoridades locales dieran forma de moneda a sus recursos. Para ello el modelo más próximo eran las acuñaciones de <em>Emporion</em>. De este modo surgen lo que se conoce como dracmas ibéricas de imitación con una curiosa variante iconográfica. En lugar de la cabeza de Pegaso se representa una figura humana alargando sus brazos hasta alcanzar los pies con las manos. Aunque se conoce cerca de un centenar de epígrafes —en muchos casos una torpe copia de la leyenda EMΠOPITΩN, y en otros muchos ejemplares textos de difícil interpretación—, solamente unas pocas cecas son identificables con ciudades referenciadas por las fuentes literarias griegas y romanas.</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>Dejando a un lado los casos cuya localización no plantea problemas, <em>taŕakonśalir</em>, <em>iltiŕtaśalir</em> y <em>baŕkeno</em>, probablemente el ejemplo más interesante sea el de <em>iltiŕkeśalir</em>. Esta ceca parece ser el nexo de unión más claro entre dos períodos bien diferenciados en esta primera historia de la moneda ibérica, el que comprende la emisión de dracmas y el de la acuñación de denarios. Las dracmas de <em>iltiŕkeśalir</em> —que ya ostentan el característico jinete lancero que será frecuente en la numismática ibérica del valle del Ebro— tienen la particularidad de contar con el mismo artista que los denarios de <em>iltiŕtaśalirban</em>. Cabe por ello deducir una continuidad directa entre ambas cecas así como su vinculación con los Ilergetes, pueblo al que Escipión exigió «un dinero con el que poder hacer efectiva la paga de las tropas» (Liv. XXVIII 34, 11-12). Si bien no conocemos su centro de producción, la dispersión de unidades, mitades y cuartos de bronce de <em>iltiŕkes</em>/<em>iltiŕkesken</em> tiene una área bien definida entre el río Segre y la costa mediterránea con un núcleo en torno a los territorios de Ilergetes, Lacetanos y Ausetanos y una proyección hacia la costa y al norte de los Pirineos como puede verse en el siguiente mapa.</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<!-- Mapa dispersión iltiŕkes/iltiŕkesken -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div class="mapa-controles">
+      <label><input type="checkbox" id="chkEsporadicos" checked> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C0392B;opacity:0.8;vertical-align:middle"></span> Hallazgos esporádicos</label>
+      <label><input type="checkbox" id="chkTesoros" checked> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E67E22;opacity:0.8;vertical-align:middle"></span> Tesoros</label>
+    </div>
+    <div id="mapa-iltiŕkes" style="height:550px;width:100%"></div>
+    <p class="mapa-titulo-pie">Dispersión de ejemplares de <em>iltiŕkes</em>/<em>iltiŕkesken</em></p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<script>
+/* global L */
+document.addEventListener("DOMContentLoaded", function() {
+
+  var map2 = L.map('mapa-iltiŕkes', { scrollWheelZoom: false }).setView([42.0, 1.8], 7);
+
+  L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+    attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+    maxZoom: 10
+  }).addTo(map2);
+
+  var radioMin = 4;
+  var radioStep = 3;
+
+  var esporadicos = [
+    { nombre: "Azaila", lat: 41.286, lng: -0.508, cantidad: 1, info: "Una moneda." },
+    { nombre: "Bélesta", lat: 42.903, lng: 1.935, cantidad: 5, info: "5 ejemplares. <a href='https://publicacions.iec.cat/repository/pdf/00000434/00000004.pdf' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Richard, J-C., Rangoule, C. &amp; Gentric, G.</span> «L'oppidum du Mayné à Belesta (Ariège), descubrimientos y circulación monétaires»</a>." },
+    { nombre: "Bell-lloc", lat: 41.631, lng: 0.779, cantidad: 1, info: "Una unidad." },
+    { nombre: "Cabrera de Mar", lat: 41.526, lng: 2.393, cantidad: 22, info: "22 monedas (13 unidades y 9 mitades). <a href='https://www.researchgate.net/publication/272179374_La_circulacion_monetaria_en_el_valle_de_Cabrera_de_Mar_El_Maresme_Barcelona' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Sinner, A. G. &amp; Martí, C.</span> «La circulación monetaria en el valle de Cabrera de Mar».</a>" },
+    { nombre: "Cantaperdius", lat: 41.677, lng: 0.832, cantidad: 1, info: "Una mitad. <a href='https://raco.cat/index.php/RAP/article/view/369968' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Baiges, M., Bouzas, M. &amp; Puigredon, J.</span> «Ocupació del terme de Bellvís en època antiga»</a>." },
+    { nombre: "Castellvell de Solsona", lat: 41.995, lng: 1.503, cantidad: 6, info: "6 monedas de <strong>iltiŕkes</strong>." },
+    { nombre: "Cervera", lat: 41.670, lng: 1.272, cantidad: 1, info: "Una unidad." },
+    { nombre: "Darró", lat: 41.212, lng: 1.714, cantidad: 1, info: "Un cuarto de <strong>iltiŕkes</strong>." },
+    { nombre: "El Camp de les Lloses", lat: 41.851, lng: 2.225, cantidad: 17, info: "17 monedas. <a href='https://calaix.gencat.cat/bitstream/handle/10687/421782/3_article_Camp_de_les_Lloses_Tribuna_Arqueologia_2014_15.pdf' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Durán, M. et al.</span> «El Camp de les Lloses».</a>" },
+    { nombre: "Embalse de Sant Llorenç de Mongai", lat: 41.869, lng: 0.844, cantidad: 1, info: "Número indeterminado de piezas halladas en el lecho del río. <a href='https://publicacions.iec.cat/repository/pdf/00000429/00000052.pdf' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Crusafont i Sabater, M.</span> «Dos hemiòbols inèdits de la zona del Segre»</a>." },
+    { nombre: "Ilerda", lat: 41.616, lng: 0.626, cantidad: 1, info: "Una unidad con la leyenda <strong>iltiŕkes</strong>. De la región proceden también nueve unidades de <strong>iltiŕkesken</strong>." },
+    { nombre: "L'Escala", lat: 42.135, lng: 3.121, cantidad: 1, info: "Una mitad de <strong>iltiŕkes</strong>." },
+    { nombre: "La Foia de Manuel", lat: 38.789, lng: -0.895, cantidad: 1, info: "Una unidad. <a href='https://www.traianvs.net/pdfs/2015_via_augusta.pdf' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Hurtado, T.</span> «Moneda y construcción de la Via Augusta».</a>" },
+    { nombre: "La Lagaste (Pomas)", lat: 43.112, lng: 2.272, cantidad: 13, info: "13 ejemplares." },
+    { nombre: "Moià", lat: 41.812, lng: 2.098, cantidad: 1, info: "Una unidad." },
+    { nombre: "Montségur", lat: 42.871, lng: 1.833, cantidad: 1, info: "1 ejemplar." },
+    { nombre: "Narbonne", lat: 43.184, lng: 3.004, cantidad: 1, info: "1 ejemplar de <em>iltirkesken</em>. <a href='https://www.persee.fr/doc/ran_0557-7705_1975_num_8_1_981' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Richard, J-C. M.</span> Les monnaies ibériques et ibéro-romaines de la collection Héléna.</a>" },
+    { nombre: "Puig Ciutat (Oristà)", lat: 41.949, lng: 2.067, cantidad: 2, info: "2 monedas: una unidad y una mitad. <a href='https://raco.cat/index.php/RAP/article/view/318416' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Padrós, C., Pujol, À &amp; Sala, R.</span> «Puig Ciutat (Oristà, Barcelona)».</a>" },
+    { nombre: "Els Prats de Rei", lat: 41.705, lng: 1.541, cantidad: 18, info: "18 monedas. <span style='font-variant:small-caps'>Nuix i Espinosa, J. M.</span> «Probable establiment del poble ibèric d'<em>Iltirkes</em> als Prats de Rei»." },
+    { nombre: "Ruscino", lat: 42.711, lng: 2.947, cantidad: 2, info: "2 ejemplares." },
+    { nombre: "Tarascon-sur-Ariège", lat: 42.846, lng: 1.603, cantidad: 1, info: "1 ejemplar." },
+    { nombre: "Tarraco", lat: 41.116, lng: 1.259, cantidad: 1, info: "Una unidad de <strong>iltiŕkesken</strong> o de <strong>iltiŕta</strong>." },
+    { nombre: "Teià", lat: 41.497, lng: 2.321, cantidad: 1, info: "Un denario de <strong>iltiŕkes</strong>." },
+    { nombre: "Torre Llauder", lat: 41.531, lng: 2.434, cantidad: 1, info: "Una mitad de <strong>iltiŕkes</strong>." },
+    { nombre: "Turó de Can Oliver", lat: 41.480, lng: 2.135, cantidad: 1, info: "Una unidad." },
+    { nombre: "Turó dels Encantados (Arenys de Mar)", lat: 41.572, lng: 2.530, cantidad: 1, info: "Una mitad." },
+    { nombre: "Talló", lat: 42.364, lng: 1.781, cantidad: 1, info: "Una unidad de <strong>iltiŕkesken</strong>. <a href='https://www.tesisenred.net/handle/10803/402257#page=1' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Morera, J.</span> <em>Territori i poblament de Cerdanya a l'antiguitat</em></a>." },
+    { nombre: "Toulouse", lat: 43.579, lng: 1.446, cantidad: 9, info: "9 ejemplares de <em>iltirkesken</em>. Las imitaciones de <em>iltirkesken</em> e <em>iltirta</em> suman 20 ejemplares. <a href='https://publicacions.iec.cat/repository/pdf/00000430/00000068.pdf' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Villaronga, L.</span> Comentaris a la circulació monetària a Vieille-Toulouse.</a>" },
+    { nombre: "Uilla de L'Espelt (Òdena)", lat: 41.598, lng: 1.600, cantidad: 1, info: "Un ejemplar. <a href='https://raco.cat/index.php/MiscellaneaAqualatensia/article/view/129589' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Fernández, R.</span> «Els lacetans»</a>." },
+    { nombre: "Cova de les Encantades de Montcabrer", lat: 41.524, lng: 2.384, cantidad: 1, info: "1 moneda. <a href='https://www.academia.edu/11582653' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Ayllón-Martín, R.</span> «Renovarse o morir. Las cuevas santuario del NE Peninsular»</a>." }
+  ];
+
+  var tesoros = [
+    { nombre: "Azaila (tesoro)", lat: 41.287, lng: -0.507, cantidad: 2, info: "Una moneda por cada uno de los dos lotes descubiertos en Azaila." },
+    { nombre: "Balsareny", lat: 41.863, lng: 1.873, cantidad: 68, info: "85 monedas de <em>kese</em>, 68 de <em>iltirkesken</em>, 52 de <em>ausesken</em>, 44 de <em>laiesken</em>, 44 de <em>lauro</em>, 42 de <em>ilturo</em>… <a href='https://www.raco.cat/index.php/Actnum/article/view/980000001326' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Amela, L. et al.</span> «Dos tresors de bronze catalans: Balsareny i Cànoves».</a>" },
+    { nombre: "Cànoves", lat: 41.686, lng: 2.356, cantidad: 3, info: "21 monedas de <strong>lauro</strong>, 5 de <strong>eusti</strong>/<strong>eustibaikula</strong>, 5 de <strong>ausesken</strong>, 3 de <em>iltirkesken</em>… <a href='https://www.raco.cat/index.php/Actnum/article/view/980000001326' target='_blank' rel='noopener'><span style='font-variant:small-caps'>Amela, L. et al.</span> «Dos tresors de bronze catalans».</a>" },
+    { nombre: "Cova de les Encantades (Martis, Girona)", lat: 42.185, lng: 2.779, cantidad: 1, info: "6 bronces de <strong>untikesken</strong>, 1 bronce de <strong>iltiŕkesken</strong>. <span style='font-variant:small-caps'>Villaronga, L.</span> <em>Tresors monetaris de la península ibèrica anteriors a August</em>." }
+  ];
+
+  var capaEsporadicos = L.layerGroup();
+  var capaTesoros = L.layerGroup();
+
+  function dibujar(datos, color, capa) {
+    datos.sort(function(a, b){ return b.cantidad - a.cantidad; });
+    datos.forEach(function(lugar) {
+      var radio = Math.min(radioMin + (lugar.cantidad - 1) * radioStep, 40);
+      var popup = '<strong style="font-family:\'EB Garamond\',serif">' + lugar.nombre + '</strong>' +
+        '<br><em style="color:#888;font-size:1.00em;font-family:\'EB Garamond\',serif">' +
+        lugar.cantidad + ' moneda' + (lugar.cantidad !== 1 ? 's' : '') + '</em>' +
+        (lugar.info ? '<br><br><span style="font-size:1.00em;font-family:\'EB Garamond\',serif">' + lugar.info + '</span>' : '');
+      L.circleMarker([lugar.lat, lugar.lng], {
+        radius: radio,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.5,
+        weight: 0.5
+      }).addTo(capa).bindPopup(popup, { maxWidth: 320 });
+    });
+  }
+
+  dibujar(esporadicos, '#A3044C', capaEsporadicos);
+  dibujar(tesoros,    '#CA3519', capaTesoros);
+
+  capaEsporadicos.addTo(map2);
+  capaTesoros.addTo(map2);
+
+  /* Controles de visibilidad */
+  document.getElementById('chkEsporadicos').addEventListener('change', function() {
+    if (this.checked) { capaEsporadicos.addTo(map2); } else { map2.removeLayer(capaEsporadicos); }
+  });
+  document.getElementById('chkTesoros').addEventListener('change', function() {
+    if (this.checked) { capaTesoros.addTo(map2); } else { map2.removeLayer(capaTesoros); }
+  });
+
+});
+</script>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>En línea con el ejemplo que supone <em>iltiŕkeśalir</em>, una vez resuelta favorablemente para Roma su segunda guerra contra Cartago se observa una retirada de las dracmas ibéricas de imitación —probablemente el <em>argentum oscense</em> que engrosó los botines llevados a Roma— para dar lugar a una nueva fase dominada por abundantes acuñaciones en bronce y, en el caso de un selecto grupo de cecas, también en plata, los denarios ibéricos.</p>
+
+    <p>Partiendo del modelo que supone el denario romano creado hacia el 211. a.C. 22 cecas ibéricas emitirán plata de forma escalonada desde la primera mitad del siglo II a.C. hasta el primer cuarto del siglo I a.C. La difusión describe una evolución que partiendo del este se extiende hacia el interior del valle del Ebro. De este modo a las primeras cecas que emitieron denarios ibéricos, <em>iltiŕta</em>, <em>kese</em> y <em>auśesken</em>, se sumarían <em>sesars</em> (o <em>suisars</em>) y <em>bolśkan</em>, para progresivamente continuar una extensión por el valle del Ebro a partir de mediados del siglo II a. C.</p>
+
+    <p>Con sutiles diferencias iconográficas, y especialmente de estilo, todos estos talleres adoptaron diseños muy similares en sus acuñaciones. Salvo excepciones todos cuentan con dos motivos iconográficos fundamentales formados por el par cabeza masculina y jinete, hacen uso del signario ibérico y se atienen a un mismo estándar metrológico.</p>
+
+    <figure style="margin-top: 1.5rem;">
+      <table style="width:100%; border-collapse: collapse; font-family: var(--fuente-principal); font-size: 0.85rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-borde);">
+            <th></th><th style="text-align:center" colspan="3">Siglo II a.C.</th><th style="text-align:center" colspan="2">Siglo I a.C.</th>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-borde);">
+            <th style="text-align:left">Ceca</th><th style="text-align:center">Principios</th><th style="text-align:center">Mediados</th><th style="text-align:center">2ª mitad</th><th style="text-align:center">1º tercio</th><th style="text-align:center">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><em>kelse</em></td><td></td><td style="text-align:center">1</td><td></td><td></td><td style="text-align:center">1</td></tr>
+          <tr><td><em>auśesken</em></td><td style="text-align:center">4</td><td></td><td></td><td></td><td style="text-align:center">4</td></tr>
+          <tr><td><em>arsakos</em></td><td></td><td></td><td></td><td style="text-align:center">5</td><td style="text-align:center">5</td></tr>
+          <tr><td><em>sekeiza</em></td><td></td><td style="text-align:center">1</td><td style="text-align:center">12,8</td><td></td><td style="text-align:center">13,8</td></tr>
+          <tr><td><em>bentian</em></td><td></td><td></td><td style="text-align:center">18</td><td></td><td style="text-align:center">18</td></tr>
+          <tr><td><em>kese</em></td><td style="text-align:center">31,6</td><td></td><td style="text-align:center">1</td><td></td><td style="text-align:center">32,6</td></tr>
+          <tr><td><em>sekia</em></td><td></td><td></td><td style="text-align:center">33,5</td><td></td><td style="text-align:center">33,5</td></tr>
+          <tr><td><em>belikio</em></td><td></td><td></td><td style="text-align:center">33,6</td><td style="text-align:center">15,8</td><td style="text-align:center">49,4</td></tr>
+          <tr><td><em>iltiŕta</em></td><td style="text-align:center">67,3</td><td></td><td style="text-align:center">1</td><td></td><td style="text-align:center">68,3</td></tr>
+          <tr><td><em>arsaos</em></td><td></td><td></td><td style="text-align:center">90</td><td></td><td style="text-align:center">90</td></tr>
+          <tr><td><em>sesars</em></td><td></td><td style="text-align:center">145</td><td></td><td></td><td style="text-align:center">145</td></tr>
+          <tr><td><em>turiazu</em></td><td></td><td></td><td style="text-align:center">41,4</td><td style="text-align:center">116,9</td><td style="text-align:center">158,3</td></tr>
+          <tr><td><em>baśkunes</em></td><td></td><td></td><td style="text-align:center">222,2</td><td></td><td style="text-align:center">222,2</td></tr>
+          <tr><td><em>arekorata</em></td><td></td><td style="text-align:center">2</td><td style="text-align:center">265,4</td><td></td><td style="text-align:center">267,4</td></tr>
+          <tr><td><em>bolśkan</em></td><td></td><td style="text-align:center">3</td><td style="text-align:center">420,1</td><td style="text-align:center">127,6</td><td style="text-align:center">550,7</td></tr>
+        </tbody>
+      </table>
+      <figcaption class="mapa-titulo-pie">Estimación de la producción (cuños) de diferentes cecas según Villaronga (<a rel="noreferrer noopener" href="http://www.academia.edu/1564447/Circulacion_y_uso_de_los_denarios_ibericos" target="_blank">Gozalbes 2009, 87</a>)</figcaption>
+    </figure>
+  </div>
+  <div class="nota-margen">
+    <figure>
+      <a href="https://cngcoins.com/Coin.aspx?CoinID=288389#" target="_blank" rel="noopener">
+        <img src="https://cngcoins.com/photos/enlarged/403962.jpg" alt="Hierón II de Siracusa">
+      </a>
+    </figure>
+    <p style="font-size: 0.82rem; line-height: 1.5;">Las piezas de Hierón II de Siracusa, que asocian el jinete con lanza a la cabeza laureada o diademada de Hierón divinizado siguiendo la tradición de Alejandro Magno, serían el modelo iconográfico de las acuñaciones ibéricas. <a href="https://www.researchgate.net/publication/43600685_La_moneda_hispanica_con_jinete_y_cabeza_varonil_tradicion_indigena_o_creacion_romana/fulltext/00b686b50cf245659d03977c/La-moneda-hispanica-con-jinete-y-cabeza-varonil-tradicion-indigena-o-creacion-romana.pdf" target="_blank" rel="noopener"><span style="font-variant: small-caps;">Almagro-Gorbea</span> (1995)</a>.</p>
+  </div>
+</div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>Junto a los denarios se produjo la acuñación de moneda de bronce implicando no solo a las cecas que batieron plata sino a una cantidad muy superior de ciudades. Aunque muy discutido, la función de este sistema bimetálico habría tenido como objeto el pago de impuestos y el mantenimiento del ejército. La acuñación de plata vendría motivada por una lógica fiscal mientras que la emisión de moneda de bronce se atendría a otro tipo de funciones más vinculadas con las obligaciones militares así como la necesidad de integrar la economía local en el sistema monetario.</p>
+  
+    <p>Fuera cual fuese su función, la acuñación de moneda ibérica —tanto de plata como de bronce— termina su historia a finales del primer cuarto del siglo I a.C. con la guerra Sertoriana. En no pocos casos el fin de las cecas coincide con la propia destrucción del núcleo de población del que surgieron. Aunque existen ejemplos de ciudades que pervivieron trasladando su población —topónimo incluido— a otra ubicación, la lista de ciudades que desaparecieron para siempre es cuantiosa. Este es uno de los aspectos que dificulta la localización de gran cantidad de cecas, especialmente al norte del Ebro.</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<!-- Mapa sekia / alaun -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div id="mapa-sekia" style="height:500px;width:100%"></div>
+    <p class="mapa-titulo-pie">Cecas del valle medio del Ebro</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<script>
+/* global L */
+(function() {
+  /* Inyectar estilos: tooltip hover (lbl2) + popup EB Garamond */
+  var st = document.createElement('style');
+  st.innerHTML =
+    '.leaflet-tooltip.lbl2{'
+    + 'background:transparent!important;border:none!important;box-shadow:none!important;'
+    + 'font-family:"EB Garamond",Georgia,serif!important;font-style:italic!important;'
+    + 'font-size:15px!important;color:#222!important;padding:0!important;'
+    + 'white-space:nowrap;'
+    + 'text-shadow:1px 1px 0 #e8e4dc,-1px -1px 0 #e8e4dc,1px -1px 0 #e8e4dc,-1px 1px 0 #e8e4dc'
+    + '}'
+    + '.leaflet-tooltip.lbl2::before{display:none!important}'
+    + '.leaflet-popup-content{font-family:"EB Garamond",Georgia,serif!important;font-size:0.92rem!important}'
+    + '.leaflet-interactive:focus{outline:none!important}';
+  document.head.appendChild(st);
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var mapSekia = L.map('mapa-sekia', { scrollWheelZoom: false }).setView([41.9, -1.2], 9);
+
+    L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+      attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+      maxZoom: 12
+    }).addTo(mapSekia);
+
+    var popupOpts = { maxWidth: 220 };
+    var ttOpts = { sticky: false, direction: 'right', className: 'lbl2', offset: [6, 0] };
+
+    /* --- Icono SVG sekia (icono principal) --- */
+    var iconSekia = L.icon({
+      iconUrl: 'https://tabulapyrenaei.eu/wp-content/uploads/2024/05/sekia.svg',
+      iconSize:   [36, 36],
+      iconAnchor: [18, 35],
+      popupAnchor: [0, -10]
+    });
+
+    /* --- Anillo gris (SVG data URI) para sekia --- */
+    var svgAnilloGris = encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">'
+      + '<circle cx="6" cy="6" r="4.5" fill="none" stroke="#9E9E9E" stroke-width="2"/>'
+      + '</svg>'
+    );
+    var iconAnilloGris = L.icon({
+      iconUrl: 'data:image/svg+xml,' + svgAnilloGris,
+      iconSize:   [12, 12],
+      iconAnchor: [6, 6],
+      popupAnchor: [0, -8]
+    });
+
+    // Icono bolśkan
+    var iconBolskan = L.icon({
+      iconUrl: 'https://tabulapyrenaei.eu/wp-content/uploads/2024/06/bolskan.svg',
+      iconSize:   [50, 50],
+      iconAnchor: [25, 40],
+      popupAnchor: [0, -10]
+    });
+
+    // Icono turiazu
+    var iconTuriazu = L.icon({
+      iconUrl: 'https://tabulapyrenaei.eu/wp-content/uploads/2024/06/turiazu.svg',
+      iconSize:   [60, 60],
+      iconAnchor: [30, 45],
+      popupAnchor: [0, -10]
+    });
+
+    // Icono arekorata
+    var iconArekorata = L.icon({
+      iconUrl: 'https://tabulapyrenaei.eu/wp-content/uploads/2024/06/arekorata.svg',
+      iconSize:   [64, 64],
+      iconAnchor: [30, 50],
+      popupAnchor: [0, -10]
+    });
+
+    /* --- Anillo deep-orange (SVG data URI) para alaun --- */
+    var svgAnilloOrange = encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">'
+      + '<circle cx="4" cy="4" r="3" fill="none" stroke="#FF5722" stroke-width="1.8"/>'
+      + '</svg>'
+    );
+    var iconAnilloOrange = L.icon({
+      iconUrl: 'data:image/svg+xml,' + svgAnilloOrange,
+      iconSize:   [8, 8],
+      iconAnchor: [4, 4],
+      popupAnchor: [0, -6]
+    });
+
+    /* --- Recuadro negro (SVG data URI) para Gracchuris --- */
+    var svgRecuadro = encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+      + '<rect x="0.5" y="0.5" width="7" height="7" fill="none" stroke="#111" stroke-width="1.5"/>'
+      + '</svg>'
+    );
+    var iconRecuadro = L.icon({
+      iconUrl: 'data:image/svg+xml,' + svgRecuadro,
+      iconSize:   [10, 10],
+      iconAnchor: [5, 5],
+      popupAnchor: [0, -8]
+    });
+
+    /* --- Anillo morado (SVG data URI) para yacimientos --- */
+    var svgAnilloPink = encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">'
+      + '<circle cx="4" cy="4" r="3" fill="none" stroke="#8A0194" stroke-width="1.8"/>'
+      + '</svg>'
+    );
+    var iconAnilloPink = L.icon({
+      iconUrl: 'data:image/svg+xml,' + svgAnilloPink,
+      iconSize:   [8, 8],
+      iconAnchor: [4, 4],
+      popupAnchor: [0, -6]
+    });
+
+    /* sekia — icono principal (popup + hover) */
+    L.marker([42.12919559058338, -1.1396136265503778], { icon: iconSekia })
+      .addTo(mapSekia)
+      .bindPopup('<strong><em>sekia</em></strong> (emisor de denarios)', popupOpts)
+      .bindTooltip('<em>sekia</em>', ttOpts);
+
+    // BOLŚKAN
+    L.marker([42.1394475, -0.407326], { icon: iconBolskan })
+      .addTo(mapSekia)
+      .bindPopup('<strong><em>bolśkan</em></strong> (emisor de denarios)', popupOpts)
+      .bindTooltip('<em>bolśkan</em>', ttOpts);
+    
+    L.marker([42.1394475, -0.407326], { icon: iconAnilloGris })
+      .addTo(mapSekia)
+      .bindPopup('Huesca', popupOpts)
+      .bindTooltip('bolśkan', ttOpts);
+
+    // TURIAZU
+    L.marker([41.90543866918373, -1.7248562136819878], { icon: iconTuriazu })
+      .addTo(mapSekia)
+      .bindPopup('<strong><em>turiazu</em></strong> (emisor de denarios)', popupOpts)
+      .bindTooltip('<em>turiazu</em>', ttOpts);
+    
+    L.marker([41.90543866918373, -1.7248562136819878], { icon: iconAnilloGris })
+      .addTo(mapSekia)
+      .bindPopup('Tarazona', popupOpts)
+      .bindTooltip('turiazu', ttOpts);
+
+    // AREKORATA
+    L.marker([41.83028616864141, -1.9932645310323065], { icon: iconArekorata })
+      .addTo(mapSekia)
+      .bindPopup('<strong><em>arekorata</em></strong> (emisor de denarios)', popupOpts)
+      .bindTooltip('<em>arekorata</em>', ttOpts);
+    
+    L.marker([41.83028616864141, -1.9932645310323065], { icon: iconAnilloGris })
+      .addTo(mapSekia)
+      .bindPopup('Muro de Ágreda', popupOpts)
+      .bindTooltip('arekorata', ttOpts);
+
+    /* sekia — anillo gris (popup + hover) */
+    L.marker([42.12919559058338, -1.1396136265503778], { icon: iconAnilloGris })
+      .addTo(mapSekia)
+      .bindPopup('Ejea de los Caballeros.', popupOpts)
+      .bindTooltip('Ejea de los Caballeros', ttOpts);
+
+    /* alaun — anillo deep-orange (popup + hover) */
+    L.marker([41.77038869718346, -1.1182207224366085], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>alaun</em>, Alagón.', popupOpts)
+      .bindTooltip('<em>alaun</em>', ttOpts);
+
+    /* --- Marcadores Anillo Deep-Orange (alaun style) --- */
+
+    /* karauez */
+    L.marker([41.83292776605071, -1.4613639478199407], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>karauez</em>', popupOpts)
+      .bindTooltip('<em>karauez</em>', ttOpts);
+
+    /* burzau */
+    L.marker([41.836410236291904, -1.5340967049379184], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>burzau</em>', popupOpts)
+      .bindTooltip('<em>burzau</em>', ttOpts);
+
+    /* kaiskata */
+    L.marker([41.99894101057659, -1.6821497625638004], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>kaiskata</em>, Cascante.', popupOpts)
+      .bindTooltip('<em>kaiskata</em>', ttOpts);
+
+    /* kontebakom */
+    L.marker([41.512973, -1.027202], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>kontebakom</em>', popupOpts)
+      .bindTooltip('<em>kontebakom</em>', ttOpts);
+
+    /* kalakorikos */
+    L.marker([42.30370013846068, -1.9598460299431921], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>kalakorikos</em>, Calahorra.', popupOpts)
+      .bindTooltip('<em>kalakorikos</em>', ttOpts);
+
+    /* uirouia */
+    L.marker([41.664765552501656, -1.8962978151491714], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>uirouia</em>', popupOpts)
+      .bindTooltip('<em>uirouia</em>', ttOpts);
+
+    /* aratikos */
+    L.marker([41.583346623515666, -1.7869001934598037], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>aratikos</em>', popupOpts)
+      .bindTooltip('<em>aratikos</em>', ttOpts);
+
+    /* terkakom */
+    L.marker([41.607101028132924, -1.6044561942280136], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>terkakom</em>', popupOpts)
+      .bindTooltip('<em>terkakom</em>', ttOpts);
+
+    /* nertobis */
+    L.marker([41.498915593974516, -1.3743014311617363], { icon: iconAnilloOrange })
+      .addTo(mapSekia)
+      .bindPopup('<em>nertobis</em>', popupOpts)
+      .bindTooltip('<em>nertobis</em>', ttOpts);
+
+    /* --- Marcadores Yacimientos (Pink) --- */
+
+    /* Valdetaus */
+    L.marker([41.88611937394943, -1.2310665086850276], { icon: iconAnilloPink })
+      .addTo(mapSekia)
+      .bindPopup('<em>Oppidum</em> de Valdetaus ¿posible ceca?', popupOpts)
+      .bindTooltip('<em>Oppidum</em> de Valdetaus', ttOpts);
+
+    /* La Corona */
+    L.marker([41.51092796672918, -0.5808793702667985], { icon: iconAnilloPink })
+      .addTo(mapSekia)
+      .bindPopup('La Corona ¿<strong>lakine</strong>?', popupOpts)
+      .bindTooltip('La Corona', ttOpts);
+
+    /* Gabarda */
+    L.marker([41.91147800661984, -0.2580389348732308], { icon: iconAnilloPink })
+      .addTo(mapSekia)
+      .bindPopup('<em>Oppidum</em> de Gabarda ¿<strong>sesars</strong>?', popupOpts)
+      .bindTooltip('<em>Oppidum</em> de Gabarda', ttOpts);
+
+    /* Gracchuris — recuadro negro, tooltip permanente (estilo Emporion/Rhode) */
+    var ttPermOpts = { permanent: true, direction: 'left', className: 'lbl2', offset: [-3, -3] };
+    L.marker([42.183338, -1.744404], { icon: iconRecuadro })
+      .addTo(mapSekia)
+      .bindPopup('<em>Gracchuris</em>. Alfaro', popupOpts)
+      .bindTooltip('<em>Gracchuris</em>', ttPermOpts);
+
+  });
+})();
+</script>
+
+  </div>
+</div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>Como puede apreciarse en el mapa la distribución de ciudades que acuñaron moneda ibérica se observa una asimetría según la cual la región al sur del Ebro resultaría especialmente densa en contraste con el área septentrional donde hasta la fecha únicamente se han podido identificar algunas ciudades emisoras de denarios ibéricos.</p>
+  
+    <p>Suponer una situación más equilibrada entre la distribución de cecas al norte y al sur del Ebro no parece una mera especulación sin base. El catálogo de monedas cuyo lugar de acuñación resulta desconocido pero que por sus características iconográficas y lingüísticas pueden buscarse entre el Ebro medio y los Pirineos permite suponer una ordenación territorial similar a la observada en la mitad meridional.</p>
+  
+    <p>En tanto en cuanto la acuñación de moneda es una prerrogativa del estado las hipótesis de localización de las cecas pendientes de identificación deberían contar con un sustento arqueológico. Más si cabe en el caso de las acuñaciones de denarios, pues siendo generalmente los principales núcleos de sus respectivas etnias su huella arqueológica debería ser más evidente. No obstante para la mitad septentrional del medio Ebro, donde están pendiente localización no solo cecas que acuñaron modestas cantidades de bronce sino emisores de denarios tan relevantes como <em>ba(ŕ)śkunes</em>, una ordenación de cecas con su correlato arqueológico sigue siendo una tarea pendiente.</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<!-- Mapa dispersión ba(ŕ)śkunes -->
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <div class="mapa-controles">
+      <label><input type="checkbox" id="chkBaskEsporadicos" checked> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E7180B;opacity:0.85;vertical-align:middle"></span> Hallazgos esporádicos</label>
+      <label><input type="checkbox" id="chkBaskTesoros"> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FE9A37;opacity:0.85;vertical-align:middle"></span> Tesoros</label>
+      <label><input type="checkbox" id="chkBaskMuseos"> <span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid #E7180B;background:transparent;vertical-align:middle"></span> Museos y colecciones</label>
+      <label><input type="checkbox" id="chkBaskCalor"> <span style="display:inline-block;width:10px;height:10px;background:linear-gradient(to right,#ffffb2,#fd8d3c,#bd0026);vertical-align:middle"></span> Mapa de calor</label>
+    </div>
+    <div id="mapa-baskunes" style="height:700px;width:100%"></div>
+    <p class="mapa-titulo-pie">Hallazgos esporádicos de monedas de <em>ba(ŕ)śkunes</em> (<span style="font-variant:small-caps">Stefanelli, F. V.</span> <em>La ceca de Baskunes</em>, 2017.)</p>
+  </div>
+  <div></div>
+</div>
+</div>
+
+<script>
+/* global L */
+document.addEventListener('DOMContentLoaded', function() {
+
+  var mapBask = L.map('mapa-baskunes', { scrollWheelZoom: false }).setView([42.6, -1.9], 8);
+
+  L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+    attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+    maxZoom: 10
+  }).addTo(mapBask);
+
+  var radioMin  = 3;
+  var radioMax  = 28;
+  /* Escalado logarítmico: diferencia bien 1, 16, 40 */
+  function calcRadio(n) {
+    var q = n || 1;
+    return Math.min(radioMin + (Math.log(q) / Math.log(1.6)) * 2.2, radioMax);
+  }
+
+  var ebg = '"EB Garamond",Georgia,serif';
+
+  /* Función popup reutilizable */
+  function mkPopup(lugar, cantidad, info) {
+    var txt = '<strong style="font-family:' + ebg + '">' + lugar + '</strong>';
+    if (cantidad !== null && cantidad !== undefined) {
+      txt += '<br><em style="color:#888;font-family:' + ebg + '">' + cantidad
+           + ' moneda' + (Number(cantidad) !== 1 ? 's' : '') + '</em>';
+    }
+    if (info && info !== '_') {
+      txt += '<br><br><span style="font-family:' + ebg + ';font-size:0.9rem">' + info + '</span>';
+    }
+    return txt;
+  }
+
+  /* ---- HALLAZGOS ESPORADICOS (círculos #E7180B) ---- */
+  var esporadicos = [
+    {lugar:`Labatmale`,cantidad:2,info:`_`,lat:43.183013,lng:-0.151792},
+    {lugar:`Labastide-Monréjeau`,cantidad:1,info:`_`,lat:43.392715,lng:-0.522151},
+    {lugar:`Le Mas-d’Agenais`,cantidad:1,info:`_`,lat:44.408488,lng:0.217282},
+    {lugar:`<b><em>Cueva de Amalda</em>, Zestoa (Gi)</b>`,cantidad:2,info:`<hr>2 bronces de <b>baśkunes</b> con leyenda <b>benkota</b>. <a href="https://www.researchgate.net/publication/329590509_Los_niveles_postpaleoliticos_de_la_cueva_de_Amalda_Estudio_de_las_industrias" target="_blank"><span style="font-variant:small-caps">Armendáriz, Á</span>. Los niveles postpaleolíticos de la cueva de Amalda. Estudio de las industrias.</a>`,lat:43.2409,lng:-2.258803},
+    {lugar:`<b><em>Castro de Kosnoaga</em>, Gernika (Bi)</b>`,cantidad:1,info:`Denario de <b>baśkunes</b> recuperado en cerca de la muralla del castro, sobre el suelo más superficial. Depositado en el Museo Arqueológico de Bilbao. <a href="https://www.eusko-ikaskuntza.eus/PDFAnlt/prehistoria/08-09/08259302.pdf" target="_blank">CEPEDA, J.J. La circulación monetaria romana en el País Vasco.</a>`,lat:43.319524,lng:-2.688264},
+    {lugar:`<b><em>Veleia</em>, Iruña de Oca (Al)</b>`,cantidad:7,info:`4 denarios y 2 ases de <b>baŕśkunes</b>. <a href="https://www.eusko-ikaskuntza.eus/PDFAnlt/prehistoria/08-09/08259302.pdf" target="_blank">CEPEDA, J.J. La circulación monetaria romana en el País Vasco.</a> 1 unidad en la colección Collantes.`,lat:42.841188,lng:-2.787205},
+    {lugar:`Cerezo de Río Tirón`,cantidad:1,info:`_`,lat:42.492047,lng:-3.136127},
+    {lugar:`Herramelluri`,cantidad:1,info:`_`,lat:42.50261,lng:-3.019291},
+    {lugar:`Calahorra`,cantidad:3,info:`_`,lat:42.301323,lng:-1.95608},
+    {lugar:`Clunia`,cantidad:3,info:`_`,lat:41.784003,lng:-3.365128},
+    {lugar:`El Burgo de Osma`,cantidad:3,info:`_`,lat:41.587181,lng:-3.065256},
+    {lugar:`Uxama`,cantidad:3,info:`_`,lat:41.576444,lng:-3.090406},
+    {lugar:`Langa de Duero`,cantidad:1,info:`_`,lat:41.609049,lng:-3.399838},
+    {lugar:`Luzaga`,cantidad:2,info:`_`,lat:40.973011,lng:-2.444917},
+    {lugar:`Valderrebollo`,cantidad:1,info:`_`,lat:40.810355,lng:-2.729303},
+    {lugar:`Lancia`,cantidad:1,info:`_`,lat:42.53,lng:-5.431111},
+    {lugar:`Guimarães`,cantidad:1,info:`_`,lat:41.443015,lng:-8.292755},
+    {lugar:`San Juan de la Peña`,cantidad:1,info:`_`,lat:42.507963,lng:-0.672581},
+    {lugar:`Ejea de los Caballeros (Z)`,cantidad:1,info:`_`,lat:42.129104,lng:-1.139405},
+    {lugar:`Granollers`,cantidad:1,info:`_`,lat:41.605215,lng:2.286657},
+    {lugar:`Puente Viesgo`,cantidad:1,info:`_`,lat:43.299093,lng:-3.967096},
+    {lugar:`Pamplona`,cantidad:3,info:`_`,lat:42.819565,lng:-1.642168},
+    {lugar:`<b><em>Altikogaña</em>, Eraul (Na)</b>`,cantidad:3,info:`1 bronce de <b>baŕśkunes</b> con leyenda de <b>benkota</b> y 2 denarios, uno de ellos forrado, recuperados en prospecciones en el <em>oppidum</em> de Altikogaña. <a href="https://dadun.unav.edu/handle/10171/21259" target="_blank">ARMENDÁRIZ, J. El contexto histórico del castro de la Peña Bardagoría y el <em>oppidum</em> de Altikogaña (Eraul, Yerri).</a>`,lat:42.710095,lng:-2.056899},
+    {lugar:`<b>Eraul (Na)</b>`,cantidad:1,info:`<hr>1 as de <b>baŕśkunes</b> encontrado en Eraul por un vecino al realizar trabajos agrícolas en una viña. <a href="https://dadun.unav.edu/handle/10171/21259" target="_blank">ARMENDÁRIZ, J. El contexto histórico del castro de la Peña Bardagoría y el <em>oppidum</em> de Altikogaña (Eraul, Yerri).</a>`,lat:42.716711,lng:-2.048978},
+    {lugar:`Las Eretas`,cantidad:1,info:`_`,lat:42.527397,lng:-1.831392},
+    {lugar:`<b><em>Iturrotz</em>, Villaveta/Ekai (Na)</b>`,cantidad:2,info:`<hr>Un denario (<b>baśkunes</b>/<b>benkota</b>) y un as (<b>baŕśkunes</b>). <a href="https://www.traianvs.net/pdfs/2017_via_Roncesvalles_Txoperena_&_Zubiria.pdf" target="_blank">MARTÍNEZ TXOPERENA, J. M. & ZUBIRIA, R. La vía de Hispania a Aquitania en el paso del Pirineo por Ibañeta.</a>`,lat:42.770186,lng:-1.387675},
+    {lugar:`La Custodia`,cantidad:40,info:`_`,lat:42.503102,lng:-2.390476},
+    {lugar:`Numancia`,cantidad:3,info:`_`,lat:41.809693,lng:-2.444481},
+    {lugar:`Vera de Moncayo`,cantidad:1,info:`_`,lat:41.81893,lng:-1.701232},
+    {lugar:`Pinilla Trasmonte`,cantidad:1,info:`_`,lat:41.873714,lng:-3.619803},
+    {lugar:'Villar del Rio',cantidad:null,info:null,lat:42.075759,lng:-2.350643},
+    {lugar:`<b><em>Allide</em>, Ibiricu (Na)</b>`,cantidad:1,info:`<hr>Bronce de <b>baśkunes</b> muy desgastado hallado junto a dos monedas de época augustea en un yacimiento identificado como pequeño puesto militar. <a href="https://www.bizkaia.eus/fitxategiak/04/ondarea/Kobie/PDF/2/Kobie_28_Paleoantropologia_EL%20PUESTO%20MILITAR%20ROMANO%20DE%20ALLIDE(IBIRICU,%20NAVARR.pdf?hash=923c1e815426eb1afb91d16535e2e13f" target="_blank"><span style="font-variant:small-caps">Martínez Velasco, A</span>. El puesto militar romano de Allide (Ibiricu, Navarra). Prospección 2008.</a>`,lat:42.779522,lng:-2.029889},
+    {lugar:'Tafalla',cantidad:16,info:'16 monedas en una colección particular según noticia reportada en 1876. Delgado, A. Nuevo método de clasificacion de las medallas autónomas de España T. 3.',lat:42.527761,lng:-1.674565},
+    {lugar:'Sotiel Coronada',cantidad:1,info:'_',lat:37.600894,lng:-6.849056},
+    {lugar:'Arcobriga',cantidad:1,info:'_',lat:41.296787,lng:-2.138198},
+    {lugar:'<b><em>La Corona</em>, Bolea (Hu)</b>',cantidad:3,info:'<hr>',lat:42.259849,lng:-0.562613},
+    {lugar:'Huesca',cantidad:1,info:'_',lat:42.140388,lng:-0.408603},
+    {lugar:`<b><em>Campo de las cercas</em>, San Felices (Ca)</b>`,cantidad:1,info:`<hr>1 denario perforado de <b>benkota/baskunes</b>. <a href="https://gredos.usal.es/bitstream/handle/10366/79632/¿Vascones_en_las_filas_romanas_durante__.pdf?sequence=1&isAllowed=y" target="_blank"><span style="font-variant:small-caps">Martínez Velasco, A</span>. ¿Vascones en las filas romanas durante el <em>Bellum Cantabricum? La moneda-colgante del Campo de las Cercas (Cantabria).</a>`,lat:43.165447,lng:-3.953996},
+    {lugar:'Fosos de Bayona',cantidad:1,info:'_',lat:39.902047,lng:-2.719631},
+    {lugar:'Almaluez',cantidad:1,info:'_',lat:41.289124,lng:-2.269016},
+    {lugar:'Izana',cantidad:1,info:'_',lat:41.67255,lng:-2.608927},
+    {lugar:'Monasterio de Santa María de la Vid',cantidad:3,info:'_',lat:41.629205,lng:-3.488288},
+    {lugar:'Castro Colorado (Cuevas)',cantidad:1,info:'_',lat:42.42373,lng:-6.050092},
+    {lugar:'Coca',cantidad:3,info:'_',lat:41.215364,lng:-4.522313},
+    {lugar:'Campamento de Peña Redonda',cantidad:1,info:'_',lat:41.842692,lng:-2.435322},
+    {lugar:'El Baillo',cantidad:1,info:'_',lat:41.386964,lng:-5.771288},
+    {lugar:'Paredes de Nava',cantidad:1,info:'_',lat:42.153407,lng:-4.692531},
+    {lugar:'Tiermes',cantidad:1,info:'_',lat:41.331113,lng:-3.148389},
+    {lugar:'San Miguel de Vinebre',cantidad:1,info:'_',lat:41.183718,lng:0.590413},
+    {lugar:'Castro de la Dehesa de la Oliva',cantidad:1,info:'_',lat:40.884216,lng:-3.449316},
+    {lugar:'La Carencia',cantidad:1,info:'_',lat:39.368299,lng:-0.680719},
+    {lugar:'Cervera del Río Alhama',cantidad:1,info:'_',lat:42.00526,lng:-1.955003},
+    {lugar:`<em><b>Andelo</em>, Muruzábal de Andión (Na)</b>`,cantidad:2,info:`<hr>2 Unidades (AE), cabeza a derecha, delfín delante. Jinete con espada a derecha. Leyenda <b>baŕśkunes</b>.<br> 11,47g (9h) y 9,44 (3h). <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=3126838" target="_blank">CEPEDA, J.J. <em>Andelo</em>. Los hallazgos monetarios.</a>`,lat:42.599446,lng:-1.858884},
+    {lugar:`<b><em>El Castejón</em> o <em>El Romeral</em>, Aranda de Moncayo (Z)</b>`,cantidad:1,info:`<hr>En el yacimiento de <em>El Castejón</em> o <em>El Romeral</em> consta «la aparición de un gran número de monedas de la propia ceca, así como de Nertobis, <em>Ekualakos, Sekeida, Bolskan</em> y <em>Baskunes</em>». <a href="https://patrimonioculturaldearagon.es/publicaciones/el-retorno-de-los-cascos-celtibericos-de-aratis-un-relato-inacabado/" target="_blank">FATÁS, L. & ROMEO, F. Aratis: Más allá de un nombre.</a>`,lat:41.583347,lng:-1.7869},
+    {lugar:'Sangüesa',cantidad:1,info:'_',lat:42.576686,lng:-1.284344},
+    {lugar:'Javier',cantidad:1,info:'_',lat:42.594017,lng:-1.215862},
+    {lugar:'Saint-Rémy-de-Provence',cantidad:1,info:'_',lat:43.773676,lng:4.832795},
+    {lugar:'Vieille-Toulouse',cantidad:1,info:'_',lat:43.53231,lng:1.437379}
+  ];
+
+  /* ---- TESOROS (círculos #FE9A37) ---- */
+  var tesoros = [
+    {lugar:'Tesoro de Usategi',cantidad:4,info:'<hr>Hallazgo casual de 8 denarios en la cueva de Usategi por parte de unos montañeros a finales de los años 60 del siglo XX.<br><b>baśkunes</b>: 4<br><b>sekobirikez</b>: 2<br><b>turiazu</b>: 2',lat:42.99511,lng:-2.173573},
+    {lugar:`<b><em>Tesoro de Monte Lejarza</em>, Larrabetzu (Bi)</b>`,cantidad:60,info:`<hr><b>baśkunes</b>: 60<br><b>turiazu</b>: 32<br><b>sekobirikez</b>: 27<br><b>arsaos</b>: 1<br><b>arekorata</b>: 1<br><b>bolśkan</b>: 1<br><a href="http://campus.usal.es/~revistas_trabajo/index.php/0514-7336/article/viewFile/7226/7300" target="_blank"><span style="font-variant:small-caps">Rodríguez Casanova, I</span>., Nuevos datos sobre el tesoro celtibérico de Monte Lejarza-Larrabezúa (Vizcaya).</a>`,lat:43.260505,lng:-2.795816},
+    {lugar:`<b><em>Tesoro de Barcus</em> (64)</b>`,cantidad:105,info:`<hr>Depósito descubierto en 1879 compuesto de unas 1750 monedas ibéricas.<br><b>turiazu</b>: 922<br><b>sekobirikes</b>: 298<br><b>baśkunes</b>: 105<br><b>arsaos</b>: 33<br><b>arekorata</b>: 12<br><b>bentian</b>: 5<br><span style="font-variant:small-caps">Gozalbes, M. & Ripollès, P.P.</span> Nouvelles pièces provenant du trésor de Barcus (Pyrénées-Atlantiques).`,lat:43.188085,lng:-0.76893},
+    {lugar:`<b><em>Tesoro de Alagón</em> (Z)</b>`,cantidad:39,info:`<hr>Tesorillo aparecido a principios de 1970 en unos escombros depositados junto al río Ebro procedentes de las obras de la base americana. Se componía de 125 monedas, unidas y formando una piña.<br><b>baśkunes</b>: 39<br><b>arsaos</b>: 26<br><b>arekorata</b>: 25<br><b>turiazu</b>: 14<br><a href="https://mupreva.org/pub/108/va" target="_blank"><span style="font-variant:small-caps">Ripollès, P.P.</span>, <em>La circulación monetaria en la Tarraconense Mediterránea</em>.</a>`,lat:41.77009,lng:-1.120327},
+    {lugar:'Nájera',cantidad:9,info:'_',lat:42.417043,lng:-2.731108},
+    {lugar:`<b><em>Tesoro de Borja</em> (Z)</b>`,cantidad:31,info:`<hr>Tesoro aparecido dentro de una vasija. Aunque se componía de unos 1700 denarios unicamente se conoce una parte.<br><b>arekoratas</b>: 45<br><b>turiazu</b>: 45<br><b>baśkunes</b>: 31<br><b>arsaos</b>: 14<br><b>sekobirikez</b>: 11<br><a href="https://mupreva.org/pub/108/va" target="_blank"><span style="font-variant:small-caps">Ripollès, P.P.</span>, <em>La circulación monetaria en la Tarraconense Mediterránea</em>.</a>`,lat:41.834004,lng:-1.533924},
+    {lugar:'Tarazona',cantidad:3,info:'_',lat:41.904504,lng:-1.726748},
+    {lugar:'Palenzuela',cantidad:365,info:'_',lat:42.095795,lng:-4.129969},
+    {lugar:'Roa',cantidad:10,info:'_',lat:41.694689,lng:-3.929028},
+    {lugar:'Retortillo',cantidad:1,info:'_',lat:41.334562,lng:-3.004229},
+    {lugar:'Carissa',cantidad:1,info:'_',lat:36.87087,lng:-5.728727},
+    {lugar:'Granada',cantidad:1,info:'_',lat:37.179845,lng:-3.600371},
+    {lugar:'Molino del Marrubial de Córdoba',cantidad:3,info:'_',lat:37.892106,lng:-4.767166},
+    {lugar:'Mogón II',cantidad:1,info:'_',lat:38.074078,lng:-3.032090},
+    {lugar:'Toledo',cantidad:1,info:'_',lat:39.856919,lng:-4.024496},
+    {lugar:'Torres',cantidad:1,info:'_',lat:38.033029,lng:-3.622128},
+    {lugar:'Castet',cantidad:50,info:'_',lat:43.069642,lng:-0.416828}
+  ];
+
+  /* ---- MUSEOS Y COLECCIONES (anillos #E7180B) ---- */
+  var museos = [
+    {lugar:`<b><em>Monetario del Colegio de Lecároz</em>, Lekaroz (Na)</b>`,cantidad:3,info:`<hr>El monetario del desaparecido Colegio de Lecároz contaba con 3 ejemplares de <b>ba(ŕ)śkunes</b> en una colección que sumaba una docena de monedas ibéricas.<br>-1 as: a) cabeza barbada, entre <b>benkota</b> y un delfín. r) jinete con espada, leyenda <b>baŕśkunes</b>.<br>-1 as: a) cabeza barbada, perfil derecha hacia delfín. r) jinete con espada, leyenda <b>baŕśkunes</b>.<br>-1 denario: a)cabeza desnuda entre <b>benkota</b> y un delfín. r) jinete con espada, leyenda <b>baśkunes</b>. <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=1148549" target="_blank"><span style="font-variant:small-caps">Zudaire, E</span>. Monetario del Colegio de Lecároz.</a>`,lat:43.139180,lng:-1.535449},
+    {lugar:'Museo de Bellas Artes de Álava (Vitoria-Gasteiz)',cantidad:4,info:'_',lat:42.841721,lng:-2.679676},
+    {lugar:'Museo Arqueológico de Asturias (Oviedo)',cantidad:1,info:'_',lat:43.362698,lng:-5.842387},
+    {lugar:`<b><em>Musée de Bretagne</em>, Rennes</b>`,cantidad:2,info:`<hr>2 denarios de <b>baŕśkunes</b>. <a href="https://archive.org/details/monnaiesceltesdu00grue/page/146/mode/2up" target="_blank">GRUEL, K. & MORIN, E. <em>Les monnaies celtes du Musée de Bretagne</em>.</a>`,lat:48.105199,lng:-1.674561},
+    {lugar:'Museu Nacional Arqueològic de Tarragona',cantidad:1,info:'_',lat:41.109834,lng:1.244715},
+    {lugar:'Gabinete numísmático del Seminario San Antón (Badajoz)',cantidad:2,info:'_',lat:38.888759,lng:-6.987815},
+    {lugar:'Museo de Cáceres',cantidad:1,info:'_',lat:39.472739,lng:-6.370288},
+    {lugar:'Museo Nacional de Arte Romano (Mérida)',cantidad:1,info:'_',lat:38.917355,lng:-6.339976},
+    {lugar:'Museo de La Rioja (Logroño)',cantidad:1,info:'_',lat:42.465872,lng:-2.448729},
+    {lugar:'Museo de Málaga',cantidad:1,info:'_',lat:36.720057,lng:-4.417312},
+    {lugar:'Museo de León',cantidad:2,info:'_',lat:42.59854,lng:-5.57147},
+    {lugar:'Museo Numantino de Soria',cantidad:2,info:'_',lat:41.765022,lng:-2.470163},
+    {lugar:'Museo de Palencia',cantidad:3,info:'_',lat:42.009474,lng:-4.53556},
+    {lugar:'Museu Comarcal de Manresa',cantidad:1,info:'_',lat:41.724601,lng:1.829741},
+    {lugar:'Museo de Navarra',cantidad:44,info:'_',lat:42.819595,lng:-1.646258},
+    {lugar:`<b><em>Biblioteca Apostólica Vaticana</em>, Roma</b>`,cantidad:1,info:`<hr>1 unidad donada en diciembre de 1949 por Pilar de la Canal, viuda de Blaya al Medagliere de la Biblioteca Apostólica del Vaticano dentro de una colección formada por 3.760 monedas acuñadas en la Península durante la antigüedad y formada probablemente con aportes de la región de Murcia. <a href="https://mupreva.org/pub/108/va" target="_blank">RIPOLLÈS, P.P., <em>La circulación monetaria en la Tarraconense Mediterránea</em>.</a>`,lat:41.904761,lng:12.454954}
+  ];
+
+  var capaEsporadicos = L.layerGroup();
+  var capaTesoros     = L.layerGroup();
+  var capaMuseos      = L.layerGroup();
+
+  /* --- Dibuja círculos rellenos (esporadicos y tesoros) --- */
+  function dibujarCirculos(datos, color, capa) {
+    datos.sort(function(a, b) { return (b.cantidad||0) - (a.cantidad||0); });
+    datos.forEach(function(d) {
+      var radio = calcRadio(d.cantidad);
+      L.circleMarker([d.lat, d.lng], {
+        radius: radio, color: color, fillColor: color,
+        fillOpacity: 0.65, weight: 0,
+        interactive: true
+      }).addTo(capa)
+        .bindPopup(mkPopup(d.lugar, d.cantidad, d.info), { maxWidth: 320 })
+        .bindTooltip(d.lugar.replace(/<[^>]+>/g,''), { sticky: false, direction: 'right', className: 'lbl2', offset: [6, 0] });
+    });
+  }
+
+  /* --- Dibuja anillos (museos) --- */
+  function dibujarAnillos(datos, color, capa) {
+    datos.sort(function(a, b) { return (b.cantidad||0) - (a.cantidad||0); });
+    datos.forEach(function(d) {
+      var radio = calcRadio(d.cantidad);
+      L.circleMarker([d.lat, d.lng], {
+        radius: radio, color: color, fillColor: color,
+        fillOpacity: 0, weight: 2,
+        interactive: true
+      }).addTo(capa)
+        .bindPopup(mkPopup(d.lugar, d.cantidad, d.info), { maxWidth: 320 })
+        .bindTooltip(d.lugar.replace(/<[^>]+>/g,''), { sticky: false, direction: 'right', className: 'lbl2', offset: [6, 0] });
+    });
+  }
+
+  dibujarCirculos(esporadicos, '#E7180B', capaEsporadicos);
+  dibujarCirculos(tesoros,     '#FE9A37', capaTesoros);
+  dibujarAnillos(museos,       '#E7180B', capaMuseos);
+
+  capaEsporadicos.addTo(mapBask);
+  /* Tesoros y museos: ocultos por defecto */
+
+  /* --- Mapa de calor (Leaflet.heat, sólo hallazgos esporádicos) --- */
+  var heatPoints = esporadicos
+    .filter(function(d) { return d.lat && d.lng; })
+    .map(function(d) { return [d.lat, d.lng, Math.min((d.cantidad||1) / 4, 1)]; });
+
+  /* Carga Leaflet.heat dinámicamente si no está ya cargado */
+  var capaCalor = null;
+  function initHeat() {
+    if (typeof L.heatLayer !== 'undefined') {
+      capaCalor = L.heatLayer(heatPoints, {
+        radius: 35, blur: 40, maxZoom: 8,
+        gradient: { 0.2: '#ffffb2', 0.5: '#fd8d3c', 0.8: '#e31a1c', 1.0: '#800026' }
+      });
+    }
+  }
+  if (typeof L.heatLayer === 'undefined') {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js';
+    s.onload = function() { initHeat(); };
+    document.head.appendChild(s);
+  } else {
+    initHeat();
+  }
+
+  /* Controles de visibilidad */
+  document.getElementById('chkBaskEsporadicos').addEventListener('change', function() {
+    if (this.checked) { capaEsporadicos.addTo(mapBask); } else { mapBask.removeLayer(capaEsporadicos); }
+  });
+  document.getElementById('chkBaskTesoros').addEventListener('change', function() {
+    if (this.checked) { capaTesoros.addTo(mapBask); } else { mapBask.removeLayer(capaTesoros); }
+  });
+  document.getElementById('chkBaskMuseos').addEventListener('change', function() {
+    if (this.checked) { capaMuseos.addTo(mapBask); } else { mapBask.removeLayer(capaMuseos); }
+  });
+  document.getElementById('chkBaskCalor').addEventListener('change', function() {
+    if (!capaCalor) { initHeat(); }
+    if (this.checked && capaCalor) { capaCalor.addTo(mapBask); }
+    else if (capaCalor) { mapBask.removeLayer(capaCalor); }
+  });
+
+});
+</script>
+
+</div>
+</div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p>Toda moneda tiene dos caras, y si bien la atención de la investigación se centra en los reversos, allí donde a pie de los caballos consta el nombre de la comunidad emisora, los anversos también ofrecen información relevante.</p>
+  
+    <p>Dejando a un lado las cuestiones iconográficas, la otra cara de la moneda cuenta frecuentemente con textos, las conocidas como leyendas secundarias cuyo significado se corresponda probablemente con marcas de valor. Si bien la lista es muy numerosa, una selección de las más frecuentes permite reducirlas a una decena. Para un mapa este repertorio resulta de interés porque cuenta con vínculos que permiten relacionar todo el conjunto en torno a lo que parece una lógica geográfica.</p>
+  
+    <p>Partiendo de las cecas localizadas con seguridad se observa como las diferentes leyendas secundarias seleccionadas se ubican en regiones concretas y restringidas. De este modo es posible identificar una serie de epígrafes característicos del valle de Ebro con una distribución este/oeste (<em>benkota, benkota on, on</em> y <em>bon</em>), así como otro conjunto de rótulos en la mitad más próxima a la costa mediterránea (<em>ban</em> y <em>eba</em>). La existencia de cecas con más de una leyenda secundaria y la posibilidad de aislar componentes presentes en diferente monedas, como es el caso especialmente de <em>etaon</em> y <em>etaban</em><a href="#_ftnref1" id="_ftn1">[1]</a>, permite establecer una relación entre todo el grupo. Asimismo la aparente restricción geográfica aportaría un indicio para la búsqueda de la cecas cuya localización es desconocida.</p>
+    </div>
+  <div class="nota-margen">
+    <p class="has-small-font-size"><a href="#_ftn1" id="_ftnref1">[1]</a> Se ha propuesto que el elemento <em>eta</em> representaría el valor de la unidad de bronce y <em>ban</em>, 'uno', de tal manera que <em>etaban</em> significaría una unidad de bronce. <a href="https://www.rap.udl.cat/export/sites/Arqueologia/ca/.galleries/Documents/RAP_32.1.Ferrerdef.pdf" data-type="link" data-id="https://www.rap.udl.cat/export/sites/Arqueologia/ca/.galleries/Documents/RAP_32.1.Ferrerdef.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Ferrer i Jané, J.</span> «El sistema de numerals ibèric: més enllà de la semblança formal amb els numerals bascos», <em>Revista d'arqueologia de Ponent</em>, Nº 32 (2022), pp. 9-42, 16.</a></p>
+  </div>
+</div>
+  <div></div>
+</div>
+</div>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+
+<script>
+var cecas = [
+    {
+    id: "uarakos",
+    puntos: [[26,581],[110,583],[112,604],[29,602]],
+    nombre: "uarakos",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200169.jpg",
+    capAnverso: "ua",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200170.jpg",
+    capReverso: "uarakos",
+    urlMoneda: "https://monedaiberica.org/v3/type/1911",
+    texto: `<p>La <em>Vareia</em> atacada por Sertorio (Liv. <em>frg.</em> XCI), hipotéticamente identificada con el yacimiento de <em>La Custodia</em> en Viana (Na), de donde procede la mayor cantidad de los escasos ejemplares conocidos de esta ceca. Acuñó bronces con la leyenda <strong>uarakos</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=86" target="_blank" rel="noopener">(Mon.59)</a> en el reverso alternando los rótulos <strong>ua</strong> y <strong>auta</strong> en el anverso entre mediados del siglo II y primer tercio del I a.C. <a href="https://www.culturanavarra.es/uploads/files/TAN14.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Labeaga, J. C,</span> «La Custodia, Viana, <em>Vareia</em> de los Berones». <em>TAN</em> 14, (1999); p. 168-172.</a> • <a href="https://publicaciones.unirioja.es/ojs/index.php/iberia/article/view/329/311" target="_blank" rel="noopener"><span style="font-variant:small-caps">Larrauri, S.</span> «Monte Cantabria», <em>Iberia,</em> nº11-12, (2008-2009); pp. 104-112.</a></p>`
+  },
+  {
+    id: "baskunes",
+    puntos: [[149,567],[248,565],[250,588],[151,588]],
+    nombre: "baśkunes",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/291000/rsc29_rsc170_291867.jpg",
+    capAnverso: "benkota",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/291000/rsc29_rsc170_291868.jpg",
+    capReverso: "baśkunes",
+    urlMoneda: "https://monedaiberica.org/v3/type/1630",
+    texto: `<p>Una de las cecas que más importancia tuvo en la historia monetal prerromana del interior peninsular. Activa durante la segunda mitad del siglo II y los inicios del I a.C. acuñó una prolongada emisión de series de bronce sin fracciones con la leyenda <strong>baŕśkunes</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=234" target="_blank" rel="noopener">Mon.38</a>) y en las últimas tres décadas una conspicua producción de denarios con las leyendas <strong>benkota</strong> y <strong>baśkunes</strong>. Su localización no ha sido determinada. <a href="https://roderic.uv.es/items/0d9dc4bc-d074-485f-9e83-4f4101e0ab28" target="_blank" rel="noopener"><span style="font-variant:small-caps">Stefanelli, F. V.</span> <em>La ceca de Baskunes</em>. (2018)</a></p>`
+  },
+  {
+    id: "bolskan",
+    puntos: [[723,747],[722,719],[807,717],[807,737]],
+    nombre: "bolśkan",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/120000/rsc29_rsc170_120906.jpg",
+    capAnverso: "bon",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/120000/rsc29_rsc170_120907.jpg",
+    capReverso: "bolśkan",
+    urlMoneda: "https://monedaiberica.org/v3/type/1412",
+    texto: `<p>Tradicionalmente identificada con la <em>Osca</em> de las fuentes literarias y por tanto ubicada en Huesca. Acuñó plata y bronce siendo la ceca que mayor volumen puso en circulación desde <em>ca.</em> 160 hasta <em>ca.</em> 72 a.C. <a href="https://ifc.dpz.es/publicaciones/ver/id/798" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 86-99.</a> • <span style="font-variant:small-caps">Beltrán, F.</span> «¿bolśkan o bolśken?», <em>Studia philologica et diachronica in honorem Joaquín Gorrochategui</em>. Vitoria/Gasteiz (2018); pp. 35-50.</p>`
+  },
+  {
+    id: "iltirta",
+    puntos: [[925,959],[1057,959],[1056,938],[921,936]],
+    nombre: "iltiŕta",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/85000/rsc29_rsc170_85409.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/85000/rsc29_rsc170_85410.jpg",
+    capReverso: "iltiŕtaśalirban",
+    urlMoneda: "https://monedaiberica.org/v3/type/15193",
+    texto: `<p>La <em>Ilerda</em> de las fuentes literarias, situada en el <em>Turó de la Seu Vella</em> de la actual Lleida. Una de las cecas con mayor producción del nordeste peninsular acuñando plata y bronce desde finales del siglo III e inicios del II a.C. hasta mediados del siglo I a.C. <a href="https://www.researchgate.net/publication/338779458_La_ceca_de_Iltirta" target="_blank" rel="noopener"><span style="font-variant:small-caps">Amela, L.</span> «La ceca de Iltirta», <em>Hispania Antiqva</em>. XLII (2018); pp. 37-46.</a></p>`
+  },
+  {
+    id: "iltirtasalir",
+    puntos: [[1068,961],[1066,940],[1179,940],[1178,963]],
+    nombre: "iltiŕtaśalir",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313608.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313609.jpg",
+    capReverso: "iltiŕtaśalir",
+    urlMoneda: "https://monedaiberica.org/v3/type/16603",
+    texto: `<p>Las primeras acuñaciones de <strong>iltiŕta</strong> con las leyendas <strong>iltiŕtar</strong>, <strong>iltiŕtaśalir</strong>, <strong>iltiŕtaśalirustin</strong> e <strong>iltiŕtaśalirnai</strong> corresponden a dracmas ibéricas de imitación emporitana y divisores inspirados en prototipos massaliotas, datables a finales del s. III a.C. <a href="https://raco.cat/index.php/RAP/article/view/250934" target="_blank" rel="noopener"><span style="font-variant:small-caps">Pérez Almoguera, A.</span> &amp; <span style="font-variant:small-caps">Soler, M.</span> «Les seques d'Iltirda i Iltiraka i el llop ibèric», <em>RAP</em> 3, (1993); p. 151-175.</a> • <a href="https://www.researchgate.net/publication/338779458_La_ceca_de_Iltirta" target="_blank" rel="noopener"><span style="font-variant:small-caps">Amela, L.</span> «La ceca de Iltirta», <em>Hispania Antiqva</em>. XLII (2018); pp. 37-46.</a></p>`
+  },
+  {
+    id: "kese",
+    puntos: [[1271,1141],[1271,1118],[1317,1118],[1314,1141]],
+    nombre: "kese",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/318000/rsc29_rsc170_318664.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/318000/rsc29_rsc170_318665.jpg",
+    capReverso: "kese",
+    urlMoneda: "https://monedaiberica.org/v3/type/1122",
+    texto: `<p>La ceca de <strong>kese</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=41" target="_blank" rel="noopener">Mon.12</a>) acuñó bronce desde finales del siglo III a.C. hasta mediados del siglo I a.C. Su localización resulta controvertida pues si bien la relación con <em>Tarraco</em> está fuera de discusión, la existencia de <em>Cissis</em> (Pol. III 76; Liv. XXI 60-61) cerca de <em>Tarraco</em> plantea la posibilidad de un núcleo distinto. <a href="https://revistes.iec.cat/index.php/CHR/article/view/139190" target="_blank" rel="noopener"><span style="font-variant:small-caps">Rodà, I &amp; Macias, J. M.</span> «Tarraco, la primera capital», <em>Catalan Historical Review,</em> 8, (2015); pp. 117-133.</a></p>`
+  },
+  {
+    id: "kesesalir",
+    puntos: [[1266,1139],[1266,1120],[1172,1118],[1170,1139]],
+    nombre: "keseśalir",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/328000/rsc29_rsc170_328261.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/328000/rsc29_rsc170_328262.jpg",
+    capReverso: "keseśalir",
+    urlMoneda: "https://monedaiberica.org/v3/type/1104",
+    texto: `<p>Contemporáneas o muy próximas cronológicamente a las acuñaciones de <strong>taŕakonśalir</strong> se documentan divisores de dracma con la leyenda <strong>keseśalir</strong> y <strong>keseku</strong>. <a href="https://raco.cat/index.php/Faventia/article/view/50547" target="_blank" rel="noopener"><span style="font-variant:small-caps">Villaronga, L.</span> «Les dracmes ibèriques de Tàrraco», <em>Faventia</em> 10, (1988); 143-152.</a></p>`
+  },
+  {
+    id: "tarakonsalir",
+    puntos: [[1276,1161],[1151,1161],[1147,1141],[1261,1143]],
+    nombre: "taŕakonśalir",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121130.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121131.jpg",
+    capReverso: "taŕakonśalir",
+    urlMoneda: "https://monedaiberica.org/v3/type/362",
+    texto: `<p>Las dracmas de imitación emporitana de <strong>taŕakonśalir</strong> son conocidas por una escasa cantidad de ejemplares fechables a finales del siglo III a.C. Si bien la identificación con la <em>Tarraco</em> de las fuentes literarias es evidente queda por resolver su relación con las acuñaciones de <strong>kese</strong>. <a href="https://raco.cat/index.php/Faventia/article/view/50547" target="_blank" rel="noopener"><span style="font-variant:small-caps">Villaronga, L.</span> «Les dracmes ibèriques de Tàrraco», <em>Faventia</em> 10, (1988); 143-152.</a></p>`
+  },
+  {
+    id: "ausesken",
+    puntos: [[1474,768],[1564,770],[1564,790],[1474,788]],
+    nombre: "auśesken",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324822.jpg",
+    capAnverso: "ban",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324823.jpg",
+    capReverso: "auśesken",
+    urlMoneda: "https://monedaiberica.org/v3/type/1297",
+    texto: `<p>En principio la misma ciudad, <em>Ausa</em> o <em>Auso</em>, mencionada por las fuentes literarias y epigráficas de época imperial (Plin. <em>N.H.</em> III 23; Ptol. II 6.69) y por tanto localizada en la actual Vic. Sin embargo se ha planteado su posible ubicación en el cercano yacimiento de <em>El Camp de les Lloses</em> en Tona (B) donde los hallazgos de monedas de <strong>auśesken</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=36" target="_blank" rel="noopener">(Mon.07)</a> son predominantes. <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=4568080" target="_blank" rel="noopener"><span style="font-variant:small-caps">Sinner, A. G.</span> «La difusión de las emisiones ibéricas layetanas», <em>SAGVNTVM</em>. Vol 45 (2013); pp. 174-175.</a></p>`
+  },
+  {
+    id: "kere",
+    puntos: [[1427,572],[1487,571],[1487,592],[1428,594]],
+    nombre: "keŕe",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358651.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358652.jpg",
+    capReverso: "keŕe",
+    urlMoneda: "https://monedaiberica.org/v3/type/19777",
+    texto: `<p>Ceca de la que solo en fechas recientes se han publicado monedas —denarios, quinarios y divisores muy similares a los de <strong>kese</strong>— que podrían ser de mediados del s. II a.C. <a href="https://ifc.dpz.es/ojs/index.php/palaeohispanica/article/view/532/634" target="_blank" rel="noopener"><span style="font-variant:small-caps">Ferrer i Jané, J. &amp; Olesti, O,</span> «Los iberos en la Cerdanya». <em>Palaeohispanica</em> 23, (2023); pp. 205-224.</a> • <a href="https://monedaiberica.org/v3/mint/270" target="_blank" rel="noopener"><span style="font-variant:small-caps">Ripollés, P.P.</span> «Kere» en <em>Moneda Ibérica (MIB)</em>, Valencia.</a></p>`
+  },
+  {
+    id: "sesars",
+    puntos: [[776,841],[852,832],[852,814],[780,816]],
+    nombre: "sesars",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/85000/rsc29_rsc170_85527.jpg",
+    capAnverso: "bon",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/85000/rsc29_rsc170_85528.jpg",
+    capReverso: "sesars",
+    urlMoneda: "https://monedaiberica.org/v3/type/1403",
+    texto: `<p>Por las similitudes que guarda con <strong>bolśkan</strong> tradicionalmente se ha ubicado cerca de <em>Osca</em> «regionis [S]uessetaniae» (Plin. <em>NH.</em> III 24), tal vez en la ciudad ibérica de Gabarda en Usón (Hu). Una de las cinco únicas cecas ibéricas que además de denarios acuñaron quinarios. <a href="http://www.persee.fr/web/revues/home/prescript/article/casa_0076-230x_1995_num_31_1_2730" target="_blank" rel="noopener"><span style="font-variant:small-caps">Asensio, J. A. &amp; Sillières, P.,</span> «Gabarda, ville ibérique et ibéro-romaine d'Espagne», <em>Mélanges de la Casa de Velázquez</em> Vol. 31, Nº 1, (1995); pp. 85-111.</a> • <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=8980941" target="_blank" rel="noopener"><span style="font-variant:small-caps">Rodríguez Ramos, J.,</span> «De cronopaleografía íbera el grupo arcaizante pirenaico», <em>Bolskan,</em> 28 (2021), pp. 35-55.</a></p>`
+  },
+  {
+    id: "sekia",
+    puntos: [[554,731],[552,751],[497,761],[506,730]],
+    nombre: "sekia",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133641.jpg",
+    capAnverso: "on",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133642.jpg",
+    capReverso: "sekia",
+    urlMoneda: "https://monedaiberica.org/v3/type/1440",
+    texto: `<p>La ciudad que acuñó moneda con la leyenda ibérica <strong>sekia</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=69" target="_blank" rel="noopener">(Mon.43)</a> se identifica con Ejea de los Caballeros (Z), concretamente en el yacimiento de <em>La Corona</em>. La datación comprende entre un momento previo al 133 a.C. hasta la Guerra Sertoriana. <a href="https://ojs.uv.es/index.php/saguntum/article/view/1834/1792" target="_blank" rel="noopener"><span style="font-variant:small-caps">Stefanelli, F. V.</span> «Dispersión del numerario de Sekia», <em>Saguntum</em> 44 (2012); pp. 55-166.</a></p>`
+  },
+  {
+    id: "arsaos",
+    puntos: [[549,555],[464,556],[462,583],[549,574]],
+    nombre: "arsaos",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/255000/rsc29_rsc170_255253.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/255000/rsc29_rsc170_255254.jpg",
+    capReverso: "arsaos",
+    urlMoneda: "https://monedaiberica.org/v5/type/17507",
+    texto: `<p>Probablemente en el yacimiento de <em>Fillera-Campo Real</em>, Sos del Rey Católico (Z). Tuvo una acuñación muy prolífica con amplia variedad de valores entre un momento anterior al 133 a.C. y el primer cuarto del siglo I a.C. <a href="https://docplayer.es/39329593-Arsaos-reflexiones-historicas-geograficas-y-tipologicas-en-torno-a-una-ceca-indigena-en-territorio-vascon.html" target="_blank" rel="noopener"><span style="font-variant:small-caps">Fernández Gómez, J.,</span> «Arsaos. Reflexiones históricas, geográficas y tipológicas», <em>Los vascones de las fuentes antiguas.</em> Barcelona 2009, pp. 437-480.</a> • <a href="http://aespa.revistas.csic.es/index.php/aespa/article/view/41/41" target="_blank" rel="noopener"><span style="font-variant:small-caps">Andreu, J., et alii,</span> «Una ciudad de los <em>vascones</em> en Campo Real/Fillera», <em>AEspA</em>, Vol. 81, 2008, pp. 75-100.</a></p>`
+  },
+  {
+    id: "turiazu",
+    puntos: [[315,855],[241,846],[239,828],[315,827]],
+    nombre: "turiazu",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133721.jpg",
+    capAnverso: "ka",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133722.jpg",
+    capReverso: "turiazu",
+    urlMoneda: "https://monedaiberica.org/v3/type/17741",
+    texto: `<p>Aunque la relación entre la ceca de <strong>turiazu</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=77" target="_blank" rel="noopener">(Mon.51)</a> y la <em>Turiaso</em> romana es evidente, y esta última tiene su continuidad en la actual Tarazona (Z), esta identificación ha sido discutida por la escasa entidad de restos fechables durante el periodo activo de la ceca, entre la segunda mitad del siglo II a.C. y comienzos del siglo I a.C. Acuñó denarios y quinarios —excepcional entre las cecas ibéricas—, unidades y mitades. <a href="http://www.dpz.es/turismoNuevo/multimedia/no_editados_patronato/varios/turiaso/TuriasoXVII-6.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">García Serrano, J. A.,</span> «Turiaso-Turiazu ¿Dónde está la ciudad celtibérica?», <em>Turiaso</em> Nº 17, (2003-2004); pp. 119-134.</a> • <a href="http://www.museuprehistoriavalencia.es/resources/files/TV/TV110_Gozalbes.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Gozalbes, M.</span> <em>La ceca de Turiazu</em>, Fundación Segeda, (2009).</a></p>`
+  },
+  {
+    id: "arekorata",
+    puntos: [[238,887],[146,878],[146,858],[236,860]],
+    nombre: "arekorata",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/28000/rsc29_rsc170_28075.jpg",
+    capAnverso: "ku",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/28000/rsc29_rsc170_28143.jpg",
+    capReverso: "arekorata",
+    urlMoneda: "https://monedaiberica.org/v3/type/1771",
+    texto: `<p>Localizada probablemente en Muro (S) al igual que la <em>Augustobriga</em> romana (Ptol. II 6, 53). Acuñó un elevado volumen de monedas en plata y en bronce <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=78" target="_blank" rel="noopener">(Mon.52)</a>. Cronología desde la primera mitad del siglo II a.C. hasta finales del II a.C. <a href="http://dialnet.unirioja.es/servlet/articulo?codigo=124986" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, Mª. A.,</span> «Nuevos hallazgos de bronces con leyenda celtibérica <em>Arekorata</em>», <em>Bolskan</em> Nº 5, 1988, pp. 249-262.</a> • <a href="http://dspace.unav.es/dspace/handle/10171/21257" target="_blank" rel="noopener"><span style="font-variant:small-caps">Burillo Mozota, F.,</span> «La prospección bibliográfica I: una moneda de "arekorata"», <em>Cuadernos de arqueología de la Universidad de Navarra</em>, Nº 18, 2, 2010, pp. 41-52.</a></p>`
+  },
+  {
+    id: "sekeiza",
+    puntos: [[386,1111],[462,1100],[462,1083],[393,1081]],
+    nombre: "sekeiza",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133625.jpg",
+    capAnverso: "se",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133626.jpg",
+    capReverso: "sekeiza",
+    urlMoneda: "https://monedaiberica.org/v3/type/1543",
+    texto: `<p>Identificada con la <em>Segeda</em> de las fuentes literarias, cuenta con dos localizaciones. <em>Segeda I</em>, en el Poyo de Mara, con las emisiones iniciales fechadas con anterioridad al 153 a.C., año en el que es destruida por Nobilior. Y <em>Segeda II</em> en Durón de Belmonte, desde mediados del siglo II hasta la primera mitad del siglo I a.C. <a href="http://www.segeda.net/bibliografia/pdf/villaronga_uned.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Villaronga, L.,</span> «La jerarquización de las cecas de Sekaisa y Bílbilis», <em>Espacio, Tiempo y Forma, Serie II,</em> t. I, 1988, pp. 333-340.</a> • <a href="https://ifc.dpz.es/recursos/publicaciones/20/39/07burillo.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Burillo, F.</span> «La ciudad estado celtibérica de Segeda y sus acuñaciones monetales», <em>Palaeohispanica</em> 1, (2001), pp. 87-112.</a></p>`
+  },
+  {
+    id: "belikio",
+    puntos: [[519,1139],[586,1138],[598,1113],[520,1118]],
+    nombre: "belikio",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/38000/rsc29_rsc170_38220.jpg",
+    capAnverso: "bel",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/38000/rsc29_rsc170_38221.jpg",
+    capReverso: "belikio",
+    urlMoneda: "https://monedaiberica.org/v3/type/1431",
+    texto: `<p>Ceca identificada con el yacimiento de <em>Piquete de la Atalaya</em>, Azuara (Z), de cuyo entorno procede gran parte del conjunto de monedas acuñadas por <strong>belikio</strong>/<strong>belikiom</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=73" target="_blank" rel="noopener">(Mon.47)</a>. Tal vez la <em>Belgida</em> mencionada por las fuentes literarias (App. <em>Ib.</em> 100). Emitió un gran volumen de plata y bronce desde la segunda mitad del s. II a.C. hasta el primer cuarto del s. I a.C. <a href="https://www.raco.cat/index.php/Empuries/article/view/103319" target="_blank" rel="noopener"><span style="font-variant:small-caps">Villaronga, L.</span> «En torno a un hallazgo de denarios de Beligio». <em>Ampurias</em> XXX, (1968); p. 225-236.</a></p>`
+  },
+  {
+    id: "kelse",
+    puntos: [[725,1070],[792,1058],[791,1042],[734,1042]],
+    nombre: "kelse",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/307000/rsc29_rsc170_307433.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/307000/rsc29_rsc170_307434.jpg",
+    capReverso: "kelse",
+    urlMoneda: "https://monedaiberica.org/v3/type/1481",
+    texto: `<p>Si bien existe acuerdo en identificar la <em>colonia Iulia Victrix Lepida Celsa</em> con el yacimiento de Eras de Velilla de Ebro (Z), se han planteado dudas sobre su reducción con la ceca ibérica de <strong>kelse</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=5" target="_blank" rel="noopener">(Mon.21)</a>, sugiriéndose otros emplazamientos como Azaila (Te) donde es la moneda predominante. Cesó sus emisiones con una serie bilingüe <em>CEL</em>/<strong>kelse</strong> a mediados del siglo I a.C. <a href="https://institucional.us.es/revistas/habis/35/16%20amela%20valverde.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Amela, L.</span> «La acuñación bilingüe de Kelse/Cel(sa)», <em>Habis</em> nº 35, (2004); pp. 207-218.</a></p>`
+  },
+  {
+    id: "barkeno",
+    puntos: [[1494,1003],[1550,1005],[1563,1028],[1494,1023]],
+    nombre: "baŕkeno",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/77000/rsc29_rsc170_77833.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/77000/rsc29_rsc170_77834.jpg",
+    capReverso: "bakeŕno",
+    urlMoneda: "https://monedaiberica.org/v3/type/442",
+    texto: `<p>Ceca antecesora de la <em>Barcino</em> de las fuentes literarias grecolatinas y localizada en la actual Barcelona. Durante la II Guerra Púnica acuñó dracmas de imitación emporitanas con la leyenda ibérica <strong>baŕkeno</strong> y <strong>bakeŕno</strong>. <a href="https://aespa.revistas.csic.es/index.php/aespa/article/view/233/234" target="_blank" rel="noopener"><span style="font-variant:small-caps">Pérez Almoguera, J. A.</span> «Las cecas catalanas y la organización territorial romano-republicana», <em>AEspA</em> 69 (1996); pp. 37-56.</a> • <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=4568080" target="_blank" rel="noopener"><span style="font-variant:small-caps">Sinner, A. G.</span> «La difusión de las emisiones ibéricas layetanas», <em>SAGVNTVM</em>. Vol 45 (2013); pp. 171-172.</a></p>`
+  },
+  {
+    id: "sikara",
+    puntos: [[1280,883],[1342,881],[1352,904],[1280,899]],
+    nombre: "śikaŕa",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/311000/rsc29_rsc170_311596.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/311000/rsc29_rsc170_311598.jpg",
+    capReverso: "śikaŕ - a",
+    urlMoneda: "https://monedaiberica.org/v3/type/283",
+    texto: `<p>Identificada con el <em>municipium Sigarrensis</em> (<em>CIL</em> II 4479) y localizada en Els Prats de Rei (B) o en un emplazamiento cercano. La ceca de <strong>śikaŕa</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=268" target="_blank" rel="noopener">(Mon.114)</a> se enmarca dentro del conjunto de dracmas ibéricas, conociéndose solo tres divisores. La corta duración de sus emisiones partiría del cambio de siglo III-II a.C. <a href="https://raco.cat/index.php/RAP/article/view/276683" target="_blank" rel="noopener"><span style="font-variant:small-caps">Ferrer i Jané <em>et al.,</em></span> «Aportacions al coneixement de la seca ibèrica de <em>śikaŕa</em>». <em>Revista d'Arqueologia de Ponent</em> 22 (2012); pp. 37-58.</a></p>`
+  },
+  {
+    id: "longosta-biurbi",
+    puntos: [[1632,205],[1633,185],[1798,185],[1796,205]],
+    nombre: "longosta / biuŕbi",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/306000/rsc29_rsc170_306699.jpg",
+    capAnverso: "bokios",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/306000/rsc29_rsc170_306700.jpg",
+    capReverso: "longosta / leton / biuŕbi",
+    urlMoneda: "https://monedaiberica.org/v3/type/2680",
+    texto: `<p>Los más helenizados de los bronces ibéricos de la narbonense. Su difusión se produce entre los ríos Aude y Hérault, proponiéndose hipotéticamente el <em>oppidum</em> de Ensérune (34) como posible sede. <a href="https://shs.hal.science/halshs-00007317/document" target="_blank" rel="noopener"><span style="font-variant:small-caps">Feugère, M., Lhermet, M &amp; Py, M. M.</span> «Les petits bronzes longostalètes à la corne d'abondance», <em>Cahiers Numismatiques</em> 42 (2005); pp. 13-21.</a> • <a href="https://digitum.um.es/digitum/bitstream/10201/55603/1/Amela_Valverde4a.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Amela, L.</span> «Los Longostaletes», <em>Hécate,</em> nº4 (2017); pp. 38-50.</a></p>`
+  },
+  {
+    id: "neronken",
+    puntos: [[1762,231],[1750,256],[1679,254],[1681,237]],
+    nombre: "neronken",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121584.jpg",
+    capAnverso: "eba",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121585.jpg",
+    capReverso: "neronken",
+    urlMoneda: "https://monedaiberica.org/v3/type/2693",
+    texto: `<p>Identificada con el <em>oppidum</em> de Montlaurès, cerca de Narbona. Acuñó bronces desde <em>ca.</em> 150 a.C. (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=181" target="_blank" rel="noopener">Mon.01</a>). <a href="https://www.persee.fr/doc/ran_0557-7705_2014_num_47_1_1900" target="_blank" rel="noopener"><span style="font-variant:small-caps">Paris, E.,</span> «Les monnaies de l'oppidum de Montlaurès». <em>Revue archéologique de Narbonnaise</em> 47 (2014); pp. 79-108.</a></p>`
+  },
+  {
+    id: "untikesken",
+    puntos: [[1826,692],[1913,689],[1914,671],[1837,671]],
+    nombre: "untikesken",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200193.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200194.jpg",
+    capReverso: "untikesken",
+    urlMoneda: "https://monedaiberica.org/v3/type/19074",
+    texto: `<p>Localizada en L'Escala (Ge), <strong>untikesken</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=20" target="_blank" rel="noopener">Mon.06</a>) correspondería con <em>Indica</em>, la ciudad ibérica junto a <em>Emporion</em>. Emite desde inicios del s. II exclusivamente en bronce hasta la primera mitad del I a.C. <a href="https://aespa.revistas.csic.es/index.php/aespa/article/view/40" target="_blank" rel="noopener"><span style="font-variant:small-caps">Pérez Almoguera, A.</span> «Las monedas con nombres de étnicos del s. II a.C.», <em>AEspA</em> 81 (2008); pp. 49-73.</a></p>`
+  },
+  {
+    id: "lauro",
+    puntos: [[1598,894],[1594,873],[1524,873],[1524,888]],
+    nombre: "lauro",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80510.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80511.jpg",
+    capReverso: "lauro",
+    urlMoneda: "https://monedaiberica.org/v3/type/1363",
+    texto: `<p>Localizada probablemente en el Puig del Castell, Cànoves i Samalús (B), <em>ca.</em> 150-90 a.C. (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=43" target="_blank" rel="noopener">Mon.14</a>). El 76,52% de todas las monedas de <strong>lauro</strong> se encuentran en un radio inferior a los 30 km. <a href="https://www.man.es/man/dam/jcr:3372d686-aa6c-43b0-b0f6-37ae0734d7d9/2016-xvcnn-guardia.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Guàrdia i Llorens, M.</span> «<em>Lauro</em> y el poblado ibérico del Puig del Castell de Samalús», XV Congreso Nacional de Numismática (Madrid, 2014), pp. 863-886.</a></p>`
+  },
+  {
+    id: "ilturo",
+    puntos: [[1625,963],[1617,941],[1561,941],[1561,957]],
+    nombre: "ilturo",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315549.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315550.jpg",
+    capReverso: "ilturo",
+    urlMoneda: "https://monedaiberica.org/v3/type/1348",
+    texto: `<p>Parece situarse en Cabrera de Mar (B) (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=40" target="_blank" rel="noopener">Mon.11</a>). Las emisiones se inician en los años 150-100 a.C. y cesan en torno al 90/72 a.C., momento que coincide con la fundación de la <em>Iluro</em> romana en Mataró (B). <a href="https://www.researchgate.net/publication/272179420_La_ceca_de_Ilturo_Estado_de_la_cuestion" target="_blank" rel="noopener"><span style="font-variant:small-caps">Sinner, A. G.</span> «La ceca de Ilturo. Estado de la cuestión», <em>La moneda de los íberos. Ilturo y los talleres layetanos</em> (2012); pp. 72-83.</a></p>`
+  },
+  {
+    id: "baitolo",
+    puntos: [[1637,1009],[1637,993],[1572,987],[1580,1010]],
+    nombre: "baitolo",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/198000/rsc29_rsc170_198155.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/198000/rsc29_rsc170_198156.jpg",
+    capReverso: "baitolo",
+    urlMoneda: "https://monedaiberica.org/v3/type/1377",
+    texto: `<p>Identificada con la <em>Baetulo</em> romana, actual Badalona (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=37" target="_blank" rel="noopener">Mon.08</a>). <em>Baetulo</em> fue una fundación romana <em>ex novo</em> a principios del siglo I a.C., momento al que corresponde el inicio de sus acuñaciones. <a href="https://www.researchgate.net/publication/272179339_La_moneda_de_los_iberos_Ilturo_y_los_talleres_layetanos" target="_blank" rel="noopener"><span style="font-variant:small-caps">Padrós Martí, P.</span> «Las cecas layetanas. La ceca de <em>Baitolo</em>», <em>La moneda de los íberos. Ilturo y los talleres layetanos</em> (2012); pp. 44-54.</a></p>`
+  },
+  {
+    id: "laiesken",
+    puntos: [[1688,933],[1587,933],[1587,913],[1688,913]],
+    nombre: "laieśken",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313040.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/313000/rsc29_rsc170_313041.jpg",
+    capReverso: "laieśken",
+    urlMoneda: "https://monedaiberica.org/v3/type/1324",
+    texto: `<p>Ceca sin localizar. Su difusión (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=42" target="_blank" rel="noopener">Mon.13</a>) se solapa con la de <strong>ilturo</strong> en torno a Cabrera de Mar, por lo que se plantea una localización en la región del Maresme. <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=4568080" target="_blank" rel="noopener"><span style="font-variant:small-caps">Sinner, A. G.</span> «La difusión de las emisiones ibéricas layetanas», <em>SAGVNTVM</em>. Vol 45 (2013); pp. 171-192.</a></p>`
+  },
+  {
+    id: "ieso",
+    puntos: [[1213,851],[1262,851],[1271,874],[1213,869]],
+    nombre: "ieśo",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80752.jpg",
+    capAnverso: "ti",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80753.jpg",
+    capReverso: "ieśo",
+    urlMoneda: "https://monedaiberica.org/v3/type/1382",
+    texto: `<p>Localizada en la actual Guissona (Ll), la romana <em>Iesso</em>, fundación <em>ex novo</em> fechada hacia el 100 a.C. (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=39" target="_blank" rel="noopener">Mon.10</a>). Sus emisiones comenzarían a inicios del siglo I a.C. <a href="https://www.researchgate.net/publication/272179339_La_moneda_de_los_iberos_Ilturo_y_los_talleres_layetanos" target="_blank" rel="noopener"><span style="font-variant:small-caps">Padrós Martí, P.</span> «Las cecas layetanas. La ceca de <em>Baitolo</em>», <em>La moneda de los íberos. Ilturo y los talleres layetanos</em> (2012); p. 46.</a></p>`
+  },
+  {
+    id: "eso",
+    puntos: [[1188,737],[1179,715],[1146,714],[1147,730]],
+    nombre: "eśo",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37887.jpg",
+    capAnverso: "ke",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37888.jpg",
+    capReverso: "eśo",
+    urlMoneda: "https://monedaiberica.org/v3/type/1290",
+    texto: `<p>Identificada con la actual Isona (Ll), ciudad estipendiaria del <em>conuentus Tarraconensis</em> (Plin. <em>N.H.</em> III 23). Emitió una reducida cantidad de bronces durante la primera mitad del siglo I a.C. <a href="https://aespa.revistas.csic.es/index.php/aespa/article/view/233/234" target="_blank" rel="noopener"><span style="font-variant:small-caps">Pérez Almoguera, J. A.</span> «Las cecas catalanas y la organización territorial romano-republicana», <em>AEspA</em> 69 (1996); pp. 37-56.</a> • <a href="https://www.recercat.cat/bitstream/handle/2072/431799/2020-ciutat-romana-aeso.pdf?sequence=1" target="_blank" rel="noopener"><span style="font-variant:small-caps">Álvarez Herraiz, T.</span> &amp; <span style="font-variant:small-caps">Padrós Gómez, C.</span> «La ciutat romana d'Aeso». <em>Empuries</em> 58 (2020); pp. 119-154.</a></p>`
+  },
+  {
+    id: "seteisken",
+    puntos: [[626,1100],[715,1099],[715,1081],[626,1081]],
+    nombre: "seteisken",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/97000/rsc29_rsc170_97297.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/97000/rsc29_rsc170_97298.jpg",
+    capReverso: "seteisken",
+    urlMoneda: "https://monedaiberica.org/v3/catalog/?psqo=N4IgJAhgdgJiBcBtUBLO8QHMA2B7ARhNgPoDOAphAE4DGAFiADQgBmK526WehJF19JiACOCEAGVyAF3IpSAa3JQhw4lICeAB3JjRzXJrEBeEAF8AuqaA",
+    texto: `<p>Localización desconocida. Por las características de sus acuñaciones y la dispersión de los hallazgos, la ceca que emitió moneda de bronce con la leyenda <strong>seteisken</strong>, <strong>seteis</strong> o <strong>setei</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=53" target="_blank" rel="noopener">Mon.25</a>) se ubica en las proximidades del Ebro, cerca de la confluencia con el río Aguasvivas. <a href="https://ifc.dpz.es/recursos/publicaciones/33/75/_ebook.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Beltrán Lloris, M.</span> <em>Azaila. Estado de la cuestión en el año 2013. Caesaraugusta</em> 83 (2013); pp. 364-365.</a></p>`
+  },
+  {
+    id: "saltuie",
+    puntos: [[524,966],[584,964],[593,947],[524,947]],
+    nombre: "saltuie",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/83000/rsc29_rsc170_83917.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/83000/rsc29_rsc170_83918.jpg",
+    capReverso: "saltuie",
+    urlMoneda: "https://monedaiberica.org/v3/type/15330",
+    texto: `<p>Ceca de la población que precedió a la colonia <em>Caesar Augusta</em> (Plin. <em>N.H.</em> III 24), los <em>Salluienses</em> de la <em>turma Salluitana</em> y la <em>Tabula Contrebiensis</em>. Acuñó moneda de bronce al final del siglo II y al comienzo del I a.C., procediendo la gran mayoría de los hallazgos del tesoro de Azaila. <a href="https://ifc.dpz.es/publicaciones/ver/id/798" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 146-150.</a> • <a href="https://revistas.ucm.es/index.php/GERI/article/view/56162/50825" target="_blank" rel="noopener"><span style="font-variant:small-caps">Pina Polo, F.</span> «De la ciudad indígena Salduie-Salduvia a la colonia romana Caesar Augusta», <em>Gerión</em> 2017, Vol. 35, Nº Esp.; p. 542.</a></p>`
+  },
+  {
+    id: "alaun",
+    puntos: [[446,885],[587,887],[584,908],[444,908]],
+    nombre: "alaun",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324092.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324093.jpg",
+    capReverso: "alaun",
+    urlMoneda: "https://monedaiberica.org/v3/type/1470",
+    texto: `<p>Aunque carente de restos arqueológicos, <strong>alaun</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=45" target="_blank" rel="noopener">(Mon.16)</a> se ubica tradicionalmente en Alagón (Z), correspondiéndose con los <em>Allavonensium</em>, Άλαυῶνα (Ptol. II 6. 66) o <em>Allobone</em> (<em>It.Ant.</em> 444, 1). Las emisiones de bronce se fechan entre el segundo cuarto del siglo II a.C. y las últimas décadas del mismo. <a href="https://ifc.dpz.es/publicaciones/ver/id/798" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 52-55.</a> • <a href="http://revista-hecate.org/files/8815/4504/9970/Amela_Valverde1.pdf" target="_blank" rel="noopener"><span style="font-variant:small-caps">Amela, L.</span> «La ceca de Alaun», <em>Hecate</em> Nº 5, 2018.</a></p>`
+  },
+  {
+    id: "karauez",
+    puntos: [[464,862],[411,862],[398,881],[464,878]],
+    nombre: "karauez",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/143000/rsc29_rsc170_143005.jpg",
+    capAnverso: "kal",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/143000/rsc29_rsc170_143006.jpg",
+    capReverso: "karauez",
+    urlMoneda: "https://monedaiberica.org/v3/catalog/?psqo=N4IgJAhgdgJiBcBtUBLO8QHMA2B7ARhNgPoDOAphAE4DGAFiADQgBmK526WehJF19JiACOCEAGlqEAK7kAXgAIAPgslUZ5UkOHEALgE8ADuTGjmuQ2IC8IAL4BdW0A",
+    texto: `<p>Mencionada por Apiano (Κάραυιν, <em>Ib.</em> 43) y situada entre <em>Turiasone</em> y <em>Caesaraugusta</em> (<em>Caravi</em>, <em>It.Ant.</em> 443, 1), <strong>karauez</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=93" target="_blank" rel="noopener">(Mon.66)</a> se identifica con un yacimiento en la parte más elevada de la actual Magallón (Z). Acuñó bronces en la segunda mitad del siglo II a.C. <a href="https://ifc.dpz.es/publicaciones/ver/id/798" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 52-55.</a></p>`
+  },
+  {
+    id: "kaiskata",
+    puntos: [[397,793],[335,793],[326,814],[397,809]],
+    nombre: "kaiskata",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132583.jpg",
+    capAnverso: "ka",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132584.jpg",
+    capReverso: "kaiskata",
+    urlMoneda: "https://monedaiberica.org/v3/type/1682",
+    texto: `<p>La ceca de <strong>kaiskata</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=75" target="_blank" rel="noopener">(Mon.49)</a> se corresponde con la ciudad de los <em>Cascantini</em> (Liv. frg. XCI) o <em>Cascantenses</em> (Plin. <em>NH.</em> III 24), identificada con la actual Cascante (Na). Emitió una limitada cantidad de moneda de bronce con la inicial <strong>ka</strong> en el anverso durante la segunda mitad del siglo II a.C. Acuña también en tiempo de Tiberio con la leyenda latina <em>MVNICIP / CASCANTVM</em>. <a href="https://ifc.dpz.es/publicaciones/ver/id/798" target="_blank" rel="noopener"><span style="font-variant:small-caps">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 139-141.</a> • <span style="font-variant:small-caps">Otero Morán, P.</span> «Las acuñaciones indígenas», <em>La moneda en Navarra</em>. Museo de Navarra, Pamplona (2001); p. 37.</p>`
+  },
+  {
+    id: "kalakorikos",
+    puntos: [[337,682],[337,666],[250,666],[241,689]],
+    nombre: "kalakorikos",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/97000/rsc29_rsc170_97360.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/97000/rsc29_rsc170_97361.jpg",
+    capReverso: "kalakorikos",
+    urlMoneda: "https://monedaiberica.org/v5/type/1790",
+    texto: `<p>La <em>Calagurris Nassica</em> documentada por las fuentes literarias, epigráficas y numismáticas e identificada bajo la actual Calahorra (LR). Acuñó moneda de bronce en tres emisiones con la única leyenda de <strong>kalakorikos</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=79" target="_blank" rel="noreferrer noopener">(Mon.53)</a>. Las dos primeras formadas por unidades de bronces hacia mediados del s. II a.C, mientras que la tercera y última, hacia la segunda mitad del siglo II a.C. presentan unidad y su mitad. Como municipio acuñó varias emisiones durante los reinados de Augusto y Tiberio (<a href="https://rpc.ashmus.ox.ac.uk/search/browse?city_id=938" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://rpc.ashmus.ox.ac.uk/search/browse?city_id=938">RPC</a>). <a href="http://revista-hecate.org/files/9314/1806/0307/Amela_Valverde1b.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Amela, L.</span> «La ceca de Kalakorikos (Hesperia: Mon. 53)», <em>Hécate, </em>nº1, (2014).</a></p>`
+  },
+  {
+    id: "iaka",
+    puntos: [[723,574],[722,556],[674,556],[674,574]],
+    nombre: "iaka",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48746.jpg",
+    capAnverso: "bon",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48747.jpg",
+    capReverso: "iaka",
+    urlMoneda: "https://monedaiberica.org/v5/type/1438",
+    texto: `<p>A partir de la pervivencia del topónimo la ceca de <strong>iaka</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=67" target="_blank" rel="noreferrer noopener">Mon.41</a>) se identifica con la <em>Iacca</em> romana y con la actual ciudad de Jaca (Hu). Acuñó únicamente bronces en dos series con un estilo muy similar al de <strong>bolskan</strong>, con la que comparte la leyenda secundaria <strong>bon</strong>, probablemente entre la segunda mitad del siglo II a.C. y los inicios del I a.C. Su dispersión se limita al entorno pirenaico donde se documentan imitaciones locales en la vertiente septentrional.  <a href="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon"><span style="font-variant: small-caps;">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 135-138</a>. • <span style="font-variant: small-caps;">Callegarin, L.</span> «Sociétés et pratiques monétaires dans l'espace pyrénéen occidental au second âge du Fer», <em>Barter, Money and Coinage in the Ancient Mediterranean: (10th-1st centuries BC)</em>, (2011); p. 237.</p>`
+  },
+  {
+    id: "burzau",
+    puntos: [[321,894],[382,892],[381,873],[322,880]],
+    nombre: "burzau",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/74000/rsc29_rsc170_74270.jpg",
+    capAnverso: "bu",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/74000/rsc29_rsc170_74271.jpg",
+    capReverso: "burzau",
+    urlMoneda: "https://monedaiberica.org/v5/type/1591",
+    texto: `<p>Ceca identificada con la *<em>Bursao</em> de las fuentes literarias (Liv. frg. XCI; Plin. <em>NH</em>. III 24; Ptol. II 6. 57) Localizada en la actual Borja (Z), concretamente en los cerros de <em>La Corona</em> y de la <em>Cueva Esquilar</em>. Acuñó bronces (unidades, mitades y cuartos) con la leyenda <strong>burzau</strong> en el reverso y la inicial <strong>bu</strong> en el anverso <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=74" target="_blank" rel="noreferrer noopener">(Mon.48)</a> así como plomos monetiformes  <a href="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon"><span style="font-variant: small-caps;">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 100-106</a>. • <a href="https://papiro.unizar.es/ojs/index.php/salduie/article/view/6590" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Aguilera, A.</span> «Una aproximación a los estudios de la ceca de Bursau desde el Renacimiento a la actualidad», <em>Saldvie</em> n.º 9 (2009); pp. 155-166</a>. • <a href="https://publicacions.iec.cat/repository/pdf/00000432/00000100.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Aguilera, A.</span> «Propuestas de interpretación para un plomo monetiforme inédito en Bursau», <em>Acta Numismàtica</em>, Nº. 45, (2015) pp. 55-62.</a></p>`
+  },
+  {
+    id: "kontebakom",
+    puntos: [[476,1010],[476,993],[543,993],[547,1014]],
+    nombre: "kontebakom",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132631.jpg",
+    capAnverso: "bel",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132632.jpg",
+    capReverso: "kontebakom",
+    urlMoneda: "https://monedaiberica.org/v3/type/1594",
+    texto: `<p>La ciudad que emitió moneda de bronce con la leyenda celtibérica <strong>kontebakom</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=101" target="_blank" rel="noreferrer noopener">(Mon.75)</a> se localiza en el yacimiento de <em>Cabezo de las Minas</em>, Botorrita (Z). El nombre de la comunidad emisora se acompaña en el anverso por la leyenda secundaria <strong>bel</strong>, abreviatura de <em>Belaisca</em> —<strong>kontebiaz belaiskaz</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/Generalidades.php?file=file_88.php&amp;filtrar=&amp;valor=&amp;id=2055" target="_blank" rel="noreferrer noopener">(Z.00.01)</a> en la tésera Froehner o <em>[C]ontrebiae Balaiscae</em> en <em>CIL</em> I, 2951a—.  Inicialmente emitió únicamente unidades entre el 140 y el 100 a.C., añadiendo mitades y cuartos hacia principios del siglo I a.C. <a href="https://monedaiberica.org/v3/mint/143" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://monedaiberica.org/v3/mint/143"><span style="font-variant: small-caps;">Díez, A. &amp; Ripollès, P.P.</span> «Kontebakom Bel | Konterbia Belaiska», en P.P. Ripollès, M. Gozalbes (ed.), <em>Moneda Ibérica (MIB)</em>, Valencia, [visitada 14/5/2024].</a></p>`
+  },
+  {
+    id: "nertobis",
+    puntos: [[504,1039],[503,1021],[430,1016],[432,1039]],
+    nombre: "nertobis",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48764.jpg",
+    capAnverso: "n",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48765.jpg",
+    capReverso: "nertobis",
+    urlMoneda: "https://monedaiberica.org/v3/type/1601",
+    texto: `<p>Mencionada por las fuentes literarias como <em>Nertobriga</em>, probablemente ubicada entre la <em>Virgen de Cabañas</em> y <em>Puyrredondo</em> en La Almunia de Doña Godina (Z). La ceca de <strong>nertobis</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=76" target="_blank" rel="noreferrer noopener">(Mon.50)</a> acuña bronces entre el tercer cuarto del siglo II a.C. y primeros decenios del siglo I a.C. <a href="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon"><span style="font-variant: small-caps;">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 139-141</a>. • <a href="https://papiro.unizar.es/ojs/index.php/salduie/article/view/6470" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Medrano, M &amp; Díaz San Mª. A.</span> «Excavaciones arqueológicas en Nertobriga y Cabañas (La Almunia de Doña Godina, Zaragoza). Campaña de 2002», <em>Salduie, </em>nº3, (2003); pp. 331-338.</a></p>`
+  },
+  {
+    id: "terkakom",
+    puntos: [[356,979],[427,970],[428,952],[363,954]],
+    nombre: "terkakom",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200135.jpg",
+    capAnverso: "",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200136.jpg",
+    capReverso: "terkakom",
+    urlMoneda: "https://monedaiberica.org/v3/type/1520",
+    texto: `<p>Acuñó dos modestas series de bronces fechados entre <em>ca</em>. 120-80 a.C. de los que la mayoría de ejemplares procede de Tierga, bajo cuyo casco urbano se encontraría la ceca de <strong>terkakom</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=96" target="_blank" rel="noreferrer noopener">Mon.70</a>) <a href="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://ifc.dpz.es/publicaciones/ver/id/798%20%7C%20Zenon"><span style="font-variant: small-caps;">Domínguez Arranz, A.</span> <em>Las cecas ibéricas del Valle del Ebro</em>. IFC. Zaragoza, 1979; p. 52-55</a>. • <a href="https://ifc.dpz.es/recursos/publicaciones/18/86/03asensio.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Asensio Esteban, J. A.</span> «Reducción geográfica de la antigua Tergakom (*TERKA/*TERGA-TIERGA, Zaragoza)», <em>Caesaraugusta </em>71 (1995); pp. 57-77.</a></p>`
+  },
+  {
+    id: "aratikos",
+    puntos: [[307,986],[294,1005],[216,1005],[216,987]],
+    nombre: "aratikos",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/259000/rsc29_rsc170_259038.jpg",
+    capAnverso: "a",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/259000/rsc29_rsc170_259039.jpg",
+    capReverso: "aratikos",
+    urlMoneda: "https://monedaiberica.org/v3/type/1805",
+    texto: `<p>Probablemente localizada en el yacimiento de <em>El Castejón</em> o <em>El Romeral</em>, en Aranda de Moncayo (Z), donde ha aparecido un gran número de monedas de esta ceca. Acuñó una modesta cantidad de unidades, mitades y cuadrantes en bronce con las leyendas <strong>aratikos</strong>, <strong>aratiz</strong> y <strong>ara</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=88" target="_blank" rel="noreferrer noopener">Mon.61</a>). Cronología hipotética ca. 130-100 a.C. <a href="https://patrimonioculturaldearagon.es/publicaciones/el-retorno-de-los-cascos-celtibericos-de-aratis-un-relato-inacabado/" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Fatás Fernández, L.</span> &amp; <span style="font-variant: small-caps;">Romeo Marugán, F.</span> «Aratis: Más allá de un nombre», <em>El retorno de los cascos celtibéricos de Aratis. Un relato inacabado</em>, Gobierno de Aragón, Zaragoza, (2021); pp. 107-126.</a></p>`
+  },
+  {
+    id: "uirouia",
+    puntos: [[271,956],[183,952],[183,933],[266,934]],
+    nombre: "uirouia",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/302000/rsc29_rsc170_302134.jpg",
+    capAnverso: "u",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/302000/rsc29_rsc170_302135.jpg",
+    capReverso: "uirouia",
+    urlMoneda: "https://monedaiberica.org/v3/type/1919",
+    texto: `<p>Tanto por el estilo de las emisiones —especialmente su similitud con <strong>arekorataz</strong> y <strong>oilaunez</strong>— como por la zona de hallazgos se plantea su localización al este de la provincia de Soria y la posible relación de <strong>uirouia</strong> (<a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=97" target="_blank" rel="noopener">Mon.71</a>) con Borobia (So). <a href="https://www.trebago.com/revistas/pdfs/LaVozDeTrebago_45.pdf" target="_blank" rel="noreferrer noopener" data-type="link" data-id="https://www.trebago.com/revistas/pdfs/LaVozDeTrebago_45.pdf"><span style="font-variant: small-caps;">García Martínez, J.</span> (2016) «Las acuñaciones celtíberas en la provincia de Soria (VI): Uirouias». <em>La Voz de Trebago </em>45, pp. 27-28.</a></p>`
+  },
+  {
+    id: "bilbiliz",
+    puntos: [[278,1113],[340,1115],[347,1092],[278,1093]],
+    nombre: "bilbiliz",
+    imgAnverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/304000/rsc29_rsc170_304833.jpg",
+    capAnverso: "s",
+    imgReverso: "https://monedaiberica.org/dedalo/media/image/1.5MB/304000/rsc29_rsc170_304834.jpg",
+    capReverso: "bilbiliz",
+    urlMoneda: "https://monedaiberica.org/v5/type/1568",
+    texto: `<p>Probablemente en el yacimiento de <em>Valdeherrera</em>, Calatayud (Z), antecesora de la <em>Bilbilis</em> romana aunque se asentaran en espacios diferentes. Acuñó moneda de bronce, unidades y mitades, con las leyendas <strong>bilbili</strong> y <strong>bilbiliz</strong> <a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=99" target="_blank" rel="noreferrer noopener">(Mon.73)</a> en el reverso y diferentes leyendas secundarias (<strong>s</strong>, <strong>nbi</strong>, <strong>so</strong> y <strong>bi</strong>) en el anverso entre las últimas décadas del siglo II a.C. y el año 72 a.C. <a title="Abrir documento (pdf)" href="http://www.segeda.net/bibliografia/pdf/sobre_situacion_bilbilis_segeda.pdf" target="_blank" rel="noopener"><span style="font-variant: small-caps;">Burillo, F. &amp; Ostale, M.,</span> «Sobre la situación de las ciudades celtibéricas Bilbilis y Segeda», <em>Kalathos</em> Nº 3-4, </a><a title="Abrir documento (pdf)" href="http://www.segeda.net/bibliografia/pdf/sobre_situacion_bilbilis_segeda.pdf" target="_blank" rel="noopener">(1983‑1984)</a><a title="Abrir documento (pdf)" href="http://www.segeda.net/bibliografia/pdf/sobre_situacion_bilbilis_segeda.pdf" target="_blank" rel="noopener"> pp. 287-310.</a> • <a title="Abrir documento (pdf)" href="http://www.segeda.net/bibliografia/pdf/villaronga_uned.pdf" target="_blank" rel="noopener"><span style="font-variant: small-caps;">Villaronga, L.,</span> «La jerarquización de las cecas de Sekaisa y Bílbilis» <em>Espacio, Tiempo y Forma, Serie II, Ha Antigua,</em> t. I, (1988); págs. 333-340.</a> • <a href="https://www.researchgate.net/publication/265208814_Bilbilis_I_Una_nueva_ciudad_celtiberica_bajo_el_casco_historico_de_Calatayud" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Cebolla, J. &amp; Royo, J. I.</span> «Bilbilis I: Una nueva ciudad celtibérica bajo el casco histórico de Calatayud». <em>Segeda y su contexto histórico: entre Catón y Nobilior (195 al 153)</em>, Mara (2006); pp. 281-290.</a></p>`
+  }
+];
+
+document.addEventListener("DOMContentLoaded", function() {
+  var img   = document.getElementById("mapaBase");
+  var svgEl = document.getElementById("mapaAreas");
+  var panel = document.getElementById("panelCeca");
+
+  function init() {
+    var natW = img.naturalWidth  || 1200;
+    var natH = img.naturalHeight || 800;
+    svgEl.setAttribute("viewBox", "0 0 " + natW + " " + natH);
+
+    cecas.forEach(function(ceca) {
+      var pol = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      pol.setAttribute("points", ceca.puntos.map(function(p){ return p[0]+","+p[1]; }).join(" "));
+      pol.setAttribute("data-id", ceca.id);
+
+      var title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+      title.textContent = ceca.nombre.toLowerCase();
+      pol.appendChild(title);
+
+      pol.addEventListener("click", function() {
+        mostrarPanel(ceca);
+      });
+
+      svgEl.appendChild(pol);
+    });
+  }
+
+  if (img.complete) { init(); } else { img.addEventListener("load", init); }
+
+  function mostrarPanel(ceca) {
+    panel.classList.remove("vacio");
+    // Forzamos el nombre a minúsculas en el panel
+    panel.innerHTML =
+      '<h3>' + ceca.nombre.toLowerCase() + '</h3>' +
+      '<div class="panel-monedas">' +
+        '<figure>' +
+          '<a href="' + ceca.urlMoneda + '" target="_blank" rel="noopener">' +
+            '<img src="' + ceca.imgAnverso + '" alt="anverso">' +
+          '</a>' +
+          '<figcaption>' + ceca.capAnverso + '</figcaption>' +
+        '</figure>' +
+        '<figure>' +
+          '<a href="' + ceca.urlMoneda + '" target="_blank" rel="noopener">' +
+            '<img src="' + ceca.imgReverso + '" alt="reverso">' +
+          '</a>' +
+          '<figcaption>' + ceca.capReverso + '</figcaption>' +
+        '</figure>' +
+      '</div>' +
+      '<div class="panel-texto">' + ceca.texto + '</div>';
+  }
+});
+</script>
+
+</div>
+</div>
+</div>
+
+<!-- Image map: Leyendas monetales secundarias -->
+<style>
+.leyendas-wrap {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 1rem;
+}
+.leyendas-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.leyendas-wrap svg.areas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+}
+.leyendas-wrap svg.areas polygon {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
+}
+.ley-popup {
+  position: absolute;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--color-borde, #ccc);
+  padding: 0.9rem 1rem 0.7rem;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  max-width: 250px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  pointer-events: auto;
+}
+.ley-popup h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-style: italic;
+}
+.ley-popup .pm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+.ley-popup .pm figure { margin: 0; }
+.ley-popup .pm img { width: 100%; height: auto; display: block; }
+.ley-popup .caption {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+.ley-popup hr { border: none; border-top: 1px solid #ddd; margin: 0.6rem 0; }
+.ley-popup-close {
+  position: absolute;
+  top: 4px; right: 7px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+  line-height: 1;
+  background: none;
+  border: none;
+  padding: 0;
+}
+</style>
+
+<div class="leyendas-wrap" id="leyendasWrap">
+  <img id="leyendasBase"
+       src="https://tabulapyrenaei.eu/wp-content/uploads/2024/11/Leyendas-monetales-secundarias.png"
+       alt="Leyendas monetales secundarias">
+  <svg class="areas" id="leyendasAreas" viewBox="0 0 0 0" preserveAspectRatio="none"></svg>
+  <div class="ley-popup" id="leyPopup" style="display:none">
+    <button class="ley-popup-close" id="leyPopupClose" aria-label="Cerrar">&times;</button>
+    <div id="leyPopupBody"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var leyendas = [
+     {
+      id: "arseetar",
+      puntos: [[322,750],[417,750],[417,726],[322,726]],
+      nombre: "arseetar",
+      texto: 'Tossal del Castell (Sagunt)'
+    },
+    {
+      id: "arseetar",
+      puntos: [[1262,613],[1338,613],[1338,593],[1262,593]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>arseetarkiterter</strong></p>'
+        + '<hr>'
+        + '<p style="text-align:center"><strong>etebanar</strong></p>'
+    },
+        {
+      id: "arsaos_1",
+      puntos: [[105,198],[192,198],[192,221],[105,221]],
+      nombre: "arsaos",
+      texto: '¿<em>Fillera-Campo Real</em> (Sos del Rey Católico)?'
+    },
+    {
+      id: "arsaos_on",
+      puntos: [[979,586],[1046,586],[1046,605],[979,605]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>on / arsaos</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1649" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132941.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1649" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/132000/rsc29_rsc170_132942.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "untikesken_1",
+      puntos: [[772,245],[880,245],[880,267],[772,267]],
+      nombre: "untikesken",
+      texto: '<em>Indica</em> (Iνδική, Steph. Byz. 146) L\'Escala'
+    },
+    {
+      id: "untikesken_2",
+      puntos: [[1265,492],[1347,492],[1347,514],[1265,514]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>untikesken / eterder</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/18969" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315789.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/18969" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315790.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Mitad, bronce</p>'
+        + '<hr>'
+        + '<p style="text-align:center"><strong>eba / untikesken</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1007" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315769.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1007" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/315000/rsc29_rsc170_315770.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+        + '<hr>'
+        + '<p style="text-align:center"><strong>untikesken / etaban</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1011" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80590.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1011" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80591.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "keŕe",
+      puntos: [[623,210],[689,210],[689,191],[623,191]],
+      nombre: "keŕe",
+      texto: 'En un lugar por precisar de la Cerdanya'
+    },
+    {
+      id: "ban_keŕe",
+      puntos: [[1450,450],[1495,450],[1495,430],[1450,430]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>ban / </strong><b>keŕe</b></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/19778" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358653.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/19778" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358654.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Quinario, plata</p>'
+    },
+    {
+      id: "neronken",
+      puntos: [[761,71],[656,71],[656,50],[761,50]],
+      nombre: "neronken",
+      texto: '<p style="text-align:center"><em>oppidum</em> de Montlaurès</p>'
+    },
+    {
+      id: "eba_neronken",
+      puntos: [[1381,333],[1300,333],[1300,313],[1381,313]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>eba / neronken</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2693" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121584.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2693" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121585.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "auśesken",
+      puntos: [[679,317],[577,317],[577,298],[679,298]],
+      nombre: "auśesken",
+      texto: '<p style="text-align:center">¿Vic?</p>'
+    },
+    {
+      id: "ban_auśesken",
+      puntos: [[1440,490],[1354,490],[1354,470],[1440,470]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>ban / auśesken</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1297" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324822.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1297" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/324000/rsc29_rsc170_324823.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+    },
+    {
+      id: "śaiti",
+      puntos: [[315,880],[237,880],[237,862],[315,862]],
+      nombre: "śaiti",
+      texto: '<p style="text-align:center">Xátiva</p>'
+    },
+    {
+      id: "eba_śaiti",
+      puntos: [[1377,412],[1318,412],[1318,395],[1377,395]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>eba / śaiti</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2046" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/78000/rsc29_rsc170_78151.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2046" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/78000/rsc29_rsc170_78152.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "iltiŕta",
+      puntos: [[522,385],[433,385],[433,368],[522,368]],
+      nombre: "iltiŕta",
+      texto: '<p style="text-align:center"><em>Turó de la Seu Vella</em>, Lleida</p>'
+    },
+    {
+      id: "iltiŕtaśalirban",
+      puntos: [[1329,693],[1270,694],[1270,676],[1328,676]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>iltiŕtaśalirban</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15199" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/96000/rsc29_rsc170_96463.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15199" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/96000/rsc29_rsc170_96464.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+        + '<hr />'
+        + '<p style="text-align:center"><strong>(iltirta) erder</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80856.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/80000/rsc29_rsc170_80857.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Divisor, bronce</p>'
+    },
+    {
+      id: "bolśkan",
+      puntos: [[386,294],[288,294],[288,275],[386,275]],
+      nombre: "bolśkan",
+      texto: '<p style="text-align:center">Huesca</p>'
+    },
+    {
+      id: "bon_bolśkan",
+      puntos: [[1063,435],[995,435],[995,416],[1063,416]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>bon / </strong><b>bolśkan</b></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1422" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37670.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1422" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37671.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+    },
+    {
+      id: "iaka",
+      puntos: [[325,210],[267,210],[267,193],[325,193]],
+      nombre: "iaka",
+      texto: '<p style="text-align:center">Jaca</p>'
+    },
+    {
+      id: "bon_iaka",
+      puntos: [[1007,337],[969,337],[969,319],[1007,319]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>bon / </strong><strong>iaka</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1438" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48746.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1438" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/48000/rsc29_rsc170_48747.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "sekia",
+      puntos: [[208,299],[148,299],[148,280],[208,280]],
+      nombre: "sekia",
+      texto: '<p style="text-align:center">Ejea de los Caballeros</p>'
+    },
+    {
+      id: "on_sekia",
+      puntos: [[1118,608],[1074,608],[1074,588],[1118,588]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>on / </strong><strong>sekia</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1440" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133641.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1440" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/133000/rsc29_rsc170_133642.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+    },
+    {
+      id: "belse",
+      puntos: [[1565,497],[1519,497],[1519,477],[1565,477]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>belseban</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/378"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121142.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/378"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121143.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Dracma, plata</p>'
+    },
+    {
+      id: "lakine",
+      puntos: [[1426,656],[1370,656],[1370,637],[1426,637]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>ban / lakine</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1506" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/81000/rsc29_rsc170_81393.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1506" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/81000/rsc29_rsc170_81394.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Media unidad, bronce</p>'
+    },
+    {
+      id: "abaŕiltur",
+      puntos: [[1435,574],[1360,574],[1360,555],[1435,555]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>ban / abaŕiltur</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/16626" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/312000/rsc29_rsc170_312149.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/16626" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/312000/rsc29_rsc170_312150.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Media unidad, bronce</p>'
+    },
+    {
+      id: "biŕikantio",
+      puntos: [[1304,357],[1220,357],[1220,338],[1304,338]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>eba / </strong><b>biŕikantio</b></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15800" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/302000/rsc29_rsc170_302488.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15800" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/302000/rsc29_rsc170_302489.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "śelonken",
+      puntos: [[1285,438],[1205,438],[1205,420],[1285,420]],
+      nombre: "",
+      texto: '<p style="text-align:center"><b>eba / śelonken</b></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2701" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121586.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/2701" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/121000/rsc29_rsc170_121587.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "uTanbaate",
+      puntos: [[1240,528],[1165,528],[1165,510],[1240,510]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>etaon / </strong><strong>uTanba<u>a</u>te</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1696" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/322000/rsc29_rsc170_322504.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1696" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/322000/rsc29_rsc170_322505.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "olkairun",
+      puntos: [[1095,680],[1015,680],[1015,660],[1095,660]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>(olkairun) / on</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1692" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200879.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1692" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/200000/rsc29_rsc170_200880.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Media unidad, bronce</p>'
+    },
+    {
+      id: "arsakos",
+      puntos: [[1125,527],[1070,527],[1070,510],[1125,510]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>on / </strong><strong>arsakos</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15363" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/323000/rsc29_rsc170_323499.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15363" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/323000/rsc29_rsc170_323500.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+        + '<hr />'
+        + '<p style="text-align:center"><strong>eta on / arsakos</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15360" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/312000/rsc29_rsc170_312189.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15360" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/312000/rsc29_rsc170_312190.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "sesars",
+      puntos: [[1099,338],[1044,338],[1044,320],[1099,320]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>bon / </strong><strong>sesars</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15284" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/64000/rsc29_rsc170_64389.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/15284" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/64000/rsc29_rsc170_64390.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+    },
+    {
+      id: "bentian",
+      puntos: [[1000,531],[933,530],[934,512],[1000,512]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>benkota / </strong><strong>bentian</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/17739" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/198000/rsc29_rsc170_198201.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/17739" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/198000/rsc29_rsc170_198202.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+        + '<hr />'
+        + '<p style="text-align:center"><strong>benkota on / </strong><strong>bentian</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1674" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/134000/rsc29_rsc170_134771.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1674" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/134000/rsc29_rsc170_134772.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Unidad, bronce</p>'
+    },
+    {
+      id: "baśkunes",
+      puntos: [[895,530],[825,530],[825,511],[895,511]],
+      nombre: "",
+      texto: '<p style="text-align:center"><b>benkota / </b><b>baśkunes</b></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1630" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358660.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/1632" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/358000/rsc29_rsc170_358661.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Denario, plata</p>'
+    },
+    {
+      id: "iltiŕkeśalir",
+      puntos: [[1516,534],[1423,534],[1423,517],[1516,517]],
+      nombre: "",
+      texto: '<p style="text-align:center"><strong>ban / iltiŕkeśalir</strong></p>'
+        + '<div class="pm">'
+        + '<figure><a href="https://monedaiberica.org/v3/type/280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/314000/rsc29_rsc170_314979.jpg" alt=""></a></figure>'
+        + '<figure><a href="https://monedaiberica.org/v3/type/280" target="_blank" rel="noopener"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/314000/rsc29_rsc170_314981.jpg" alt=""></a></figure>'
+        + '</div>'
+        + '<p class="caption">Dracma</p>'
+    }
+  ];
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var imgEl  = document.getElementById('leyendasBase');
+    var svgEl  = document.getElementById('leyendasAreas');
+    var popup  = document.getElementById('leyPopup');
+    var body   = document.getElementById('leyPopupBody');
+    var wrap   = document.getElementById('leyendasWrap');
+
+    function initLeyendas() {
+      var natW = imgEl.naturalWidth  || 1500;
+      var natH = imgEl.naturalHeight || 900;
+      svgEl.setAttribute('viewBox', '0 0 ' + natW + ' ' + natH);
+
+      leyendas.forEach(function(ley) {
+        var pol = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        pol.setAttribute('points', ley.puntos.map(function(p){ return p[0]+','+p[1]; }).join(' '));
+        pol.setAttribute('data-id', ley.id);
+        pol.style.cursor = 'pointer';
+
+        /* Tooltip nativo para hover sin contenido rich */
+        var title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+        title.textContent = ley.nombre;
+        pol.appendChild(title);
+
+        pol.addEventListener('click', function(e) {
+          if (!ley.texto) return; /* sin contenido: no abrir */
+          e.stopPropagation();
+          var wRect = wrap.getBoundingClientRect();
+          var pRect = pol.getBoundingClientRect();
+          /* Centro del polígono relativo al wrap */
+          var cx = pRect.left + pRect.width  / 2 - wRect.left;
+          var cy = pRect.top  + pRect.height / 2 - wRect.top;
+          body.innerHTML = '<h4>' + ley.nombre + '</h4>' + ley.texto;
+          popup.style.display = 'block';
+          /* Posicionar: preferir debajo, ajustar si se sale */
+          var pw = popup.offsetWidth  || 300;
+          var ph = popup.offsetHeight || 200;
+          var left = Math.max(4, Math.min(cx - pw / 2, wrap.offsetWidth - pw - 4));
+          var top  = cy + 12;
+          if (top + ph > wrap.offsetHeight - 4) { top = cy - ph - 12; }
+          popup.style.left = left + 'px';
+          popup.style.top  = top  + 'px';
+        });
+
+        svgEl.appendChild(pol);
+      });
+    }
+
+    if (imgEl.complete) { initLeyendas(); } else { imgEl.addEventListener('load', initLeyendas); }
+
+    /* Cerrar con el botón × */
+    document.getElementById('leyPopupClose').addEventListener('click', function(e) {
+      e.stopPropagation();
+      popup.style.display = 'none';
+    });
+
+    /* Cerrar al pulsar fuera del popup */
+    document.addEventListener('click', function(e) {
+      if (popup.style.display !== 'none' && !popup.contains(e.target)) {
+        popup.style.display = 'none';
+      }
+    });
+  });
+})();
+</script>
+
+<div class="col-2-1-wrap">
+<div class="col-2-1">
+  <div>
+    <p><em>Pasa el cursor o pulsa sobre los textos paleohispánicos para obtener la transcripción e información.</em></p>
+
+    <p>El texto de esta entrada se basa en <a href="https://www.researchgate.net/profile/Jose-Torregrosa/publication/299513365_De_Iberia_a_Hispania_Plata_dracmas_y_denarios_entre_los_siglos_VI_y_I_aC/links/56fcf9fe08aea3275abad547/De-Iberia-a-Hispania-Plata-dracmas-y-denarios-entre-los-siglos-VI-y-I-aC.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Gozalbes, M. &amp; Torregrosa</span>, J. M. «De Iberia a Hispania. Plata, dracmas y denarios entre los siglos VI y I a.C.» <em>Archivo de Prehistoria Levantina</em> Vol. XXX, Valencia (2014), pp. 275-316.</a> Sobre leyendas secundarias puede consultarse: <a href="https://publicacions.iec.cat/repository/pdf/00000431/00000048.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Ferrer i Jané, J</span>. «Sistemes de marques de valor lèxiques en monedes ibèriques.» <em>Acta Numismàtica</em> 37, (2007), pp. 53-73</a> y <a href="https://ifc.dpz.es/recursos/publicaciones/33/39/07estaran.pdf" target="_blank" rel="noreferrer noopener"><span style="font-variant: small-caps;">Estarán Tolosa, M.</span> J. «Paleografía monetal paleohispánica. Las leyenda secundarias», <em>Palaeohispanica</em> 13 (2013), pp. 65-83.</a></p>
+  </div>
+  <div></div>
+</div>
+</div>
