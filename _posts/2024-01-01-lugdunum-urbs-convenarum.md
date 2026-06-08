@@ -2,7 +2,7 @@
 layout: post
 title: "Lugdunum, urbs Convenarum. Epigrafía y arqueología"
 date: 2024-01-01
-image: https://tabulapyrenaei.eu/wp-content/uploads/2024/12/Lugdunum-urbs-Convenarum-Epigrafia-y-arqueologia-detalle.png
+image: /assets/images/2024/12/Lugdunum-urbs-Convenarum-Epigrafia-y-arqueologia-detalle.png
 permalink: /lugdunum-urbs-convenarum-epigrafia-y-arqueologia/
 categories: [arqueologia, epigrafia]
 ---
