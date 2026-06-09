@@ -12,8 +12,3 @@ plugins:
 exclude:
   - Gemfile
   - Gemfile.lock
-  - _posts/markers-part1.html
-  - _posts/markers-part2.html
-  - _posts/markers-part3.html
-  - _posts/markers-part4.html
-  - _posts/markers-part5.html
