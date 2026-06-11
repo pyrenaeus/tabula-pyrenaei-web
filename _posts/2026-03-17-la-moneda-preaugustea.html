@@ -9,6 +9,12 @@ categories: [numismatica]
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
+<script src="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.js"></script>
+<script>
+  L.Map.addInitHook("addHandler", "gestureHandling", L.Handler.GestureHandling);
+  L.Map.mergeOptions({ gestureHandling: true });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Marcellus&display=swap" rel="stylesheet"/>
 <script src="{{ '/assets/js/datos-monedas-narbonense.js' | relative_url }}"></script>
