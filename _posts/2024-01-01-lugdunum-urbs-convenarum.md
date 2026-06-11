@@ -2,7 +2,7 @@
 layout: post
 title: "Lugdunum, urbs Convenarum. Epigrafía y arqueología"
 date: 2024-01-01
-image: /assets/images/2024/12/Lugdunum-urbs-Convenarum-Epigrafia-y-arqueologia-detalle.png
+image: https://tabulapyrenaei.eu/wp-content/uploads/2024/12/Lugdunum-urbs-Convenarum-Epigrafia-y-arqueologia-detalle.png
 permalink: /lugdunum-urbs-convenarum-epigrafia-y-arqueologia/
 categories: [arqueologia, epigrafia]
 ---
@@ -13,6 +13,12 @@ categories: [arqueologia, epigrafia]
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
+<script src="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.js"></script>
+<script>
+  L.Map.addInitHook("addHandler", "gestureHandling", L.Handler.GestureHandling);
+  L.Map.mergeOptions({ gestureHandling: true });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet-ant-path@1.3.0/dist/leaflet-ant-path.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.2/Control.FullScreen.js"></script>
 
