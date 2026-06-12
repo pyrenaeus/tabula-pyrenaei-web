@@ -175,9 +175,14 @@ categories: [numismatica]
     justify-content: center;
   }
   .grid-moneda-2 img {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
+  }
+  @media (max-width: 600px) {
+    .col-2-1-wrap .col-2-1 > div > div[style*="repeat(4,1fr)"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>
 
