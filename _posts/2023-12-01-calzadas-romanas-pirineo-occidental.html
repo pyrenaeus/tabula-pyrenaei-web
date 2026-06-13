@@ -294,10 +294,39 @@ categories: [arqueologia]
 </div>
 </div>
 
+<style>
+  .grid-libro-3 {
+    min-width: 0;
+  }
+  .grid-libro-3 figure {
+    margin: 0;
+    min-width: 0;
+  }
+  .grid-libro-3 img {
+    display: block;
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+    object-position: top;
+  }
+  @media (max-width: 700px) {
+    .grid-libro-3 {
+      grid-template-columns: 1fr !important;
+      gap: 0.4rem !important;
+    }
+    .grid-libro-3 figure[style*="padding-right"] {
+      padding-right: 0 !important;
+    }
+    .grid-libro-3 img {
+      height: 60vh;
+    }
+  }
+</style>
+
 <div class="col-2-1-wrap">
 <div class="col-2-1">
   <div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start">
+    <div class="grid-libro-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start">
       <figure style="margin:0;padding-right:0.4rem">
         <a href="https://archive.org/details/ravennatisanonym00geoguoft/page/308/mode/2up" target="_blank" rel="noopener">
           <img src="https://ia800901.us.archive.org/BookReader/BookReaderImages.php?zip=/23/items/ravennatisanonym00geoguoft/ravennatisanonym00geoguoft_jp2.zip&file=ravennatisanonym00geoguoft_jp2/ravennatisanonym00geoguoft_0339.jp2&id=ravennatisanonym00geoguoft&scale=2&rotate=0" alt="Ravenate p. 309" style="width:100%;height:460px;object-fit:cover;object-position:top">
