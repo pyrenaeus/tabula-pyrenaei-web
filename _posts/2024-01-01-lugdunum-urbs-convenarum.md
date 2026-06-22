@@ -920,7 +920,7 @@ categories: [arqueologia, epigrafia]
 <p class="epigraphy-block"><em>V(ivus) C(aius) Iulius Erotis / l(ibertus) Atticus / |(obita) Iulia Erotis libert(a) / Salviola / |(obitus) C(aius) Iulius Attici f(ilius) Victor / an(norum) XVIII</em>. (<em>CIL</em> XIII, 275 = <em>CAG</em> 31-2, p. 456).</p>
 
 <figure>
-<a href="http://www.cheminscompostelle-patrimoinemondial.fr/fr/composantes/basilique-saint-just-79" target="_blank" rel="noreferrer noopener"><img src="http://www.cheminscompostelle-patrimoinemondial.fr/backoffice/uploads/DSC-5956.jpg" alt="CIL XIII, 275"></a>
+<a href="http://www.cheminscompostelle-patrimoinemondial.fr/fr/composantes/basilique-saint-just-79" target="_blank" rel="noreferrer noopener"><img src="https://tabulapyrenaei.eu/assets/images/2026/06/cil-xiii-275.jpg" alt="CIL XIII, 275"></a>
 <figcaption>(<em>CIL</em> XIII, 275) Photo : Jean-Jacques Gelbart (cheminscompostelle-patrimoinemondial.fr)</figcaption>
 </figure>
 </div>
