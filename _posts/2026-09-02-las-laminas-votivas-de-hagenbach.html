@@ -1649,6 +1649,36 @@ var tileCAWM = L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png',
   {maxZoom:10, attribution:'&copy; <a href="https://cawm.lib.uiowa.edu" target="_blank">CAWM / University of Iowa Libraries</a>'});
 
 /* ════════════════════════════════════════════════════════════════
+   FIX TAMAÑO DEL MAPA (crítico en móvil)
+   Leaflet mide el contenedor en el momento de map.on('load')/creación;
+   si en ese instante el layout aún no está asentado (webfonts, cambio
+   de columna sticky→relative por el media query, orientación del
+   dispositivo, barra de direcciones de Safari/Chrome iOS/Android que
+   se oculta al hacer scroll, etc.) el mapa se queda con un tamaño
+   interno erróneo (a menudo 0) y solo se ve el borde izquierdo.
+   Un ResizeObserver sobre el contenedor, más los eventos clásicos de
+   carga/orientación, obligan a Leaflet a recalcular siempre que el
+   tamaño real del contenedor cambia, sea cual sea la causa.
+   ════════════════════════════════════════════════════════════════ */
+(function () {
+  var mapEl = document.getElementById('map-onomastica');
+  function fixMapSize() { map.invalidateSize(false); }
+
+  if (window.ResizeObserver && mapEl) {
+    new ResizeObserver(fixMapSize).observe(mapEl);
+  }
+  window.addEventListener('load', fixMapSize);
+  window.addEventListener('resize', fixMapSize);
+  window.addEventListener('orientationchange', function () {
+    setTimeout(fixMapSize, 300);
+  });
+  // Red de seguridad: por si algo tarda en asentarse (fuentes, imágenes)
+  setTimeout(fixMapSize, 100);
+  setTimeout(fixMapSize, 600);
+  setTimeout(fixMapSize, 1500);
+})();
+
+/* ════════════════════════════════════════════════════════════════
    TOOLTIP CHART.JS
    ════════════════════════════════════════════════════════════════ */
 var tipEl = document.createElement('div');
