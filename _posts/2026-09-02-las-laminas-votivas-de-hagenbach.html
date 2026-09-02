@@ -294,10 +294,10 @@ categories: [epigrafia, onomastica]
 
 /* ── RESPONSIVE ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hag-outer { flex-direction: column; }
-  .hag-scroll-col { flex: none; max-width: 100%; order: 2; }
-  .hag-map-col { flex: none; max-width: 100%; position: relative; height: 55vw; min-height: 280px; order: 1; top: 0; }
-  #map-onomastica { height: 100%; }
+  .hag-outer { flex-direction: column; align-items: stretch; }
+  .hag-scroll-col { flex: none; width: 100%; max-width: 100%; order: 2; }
+  .hag-map-col { flex: none; width: 100%; max-width: 100%; position: relative; height: 55vw; min-height: 280px; order: 1; top: 0; }
+  #map-onomastica { width: 100%; height: 100%; }
   .hag-scene { min-height: auto; padding: 2rem 1rem; }
   .hag-progress { display: none; }
 }
