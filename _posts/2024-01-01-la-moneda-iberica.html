@@ -324,9 +324,9 @@ categories: [numismatica]
 
   document.addEventListener("DOMContentLoaded", function() {
     var m = L.map('map', { scrollWheelZoom: false, attributionControl: true, zoomControl: true })
-             .setView([42.2, 3.15], 8);
+             .setView([42.2, 3.0], 8);
     m.zoomControl.setPosition('topright');
-    L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+    L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
       maxZoom: 12,
       attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>'
     }).addTo(m);
@@ -422,11 +422,11 @@ categories: [numismatica]
 /* global L */
 document.addEventListener("DOMContentLoaded", function() {
 
-  var map2 = L.map('mapa-iltiŕkes', { scrollWheelZoom: false }).setView([42.0, 1.8], 7);
+  var map2 = L.map('mapa-iltiŕkes', { scrollWheelZoom: false }).setView([42.5, 1.8], 8);
 
-  L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+  L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
     attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
-    maxZoom: 10
+    maxZoom: 11
   }).addTo(map2);
 
   var radioMin = 4;
@@ -605,7 +605,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var mapSekia = L.map('mapa-sekia', { scrollWheelZoom: false }).setView([41.9, -1.2], 9);
 
-    L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+    L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
       attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
       maxZoom: 12
     }).addTo(mapSekia);
@@ -875,7 +875,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var mapBask = L.map('mapa-baskunes', { scrollWheelZoom: false }).setView([42.6, -1.9], 8);
 
-  L.tileLayer('https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png', {
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
     maxZoom: 10
   }).addTo(mapBask);
