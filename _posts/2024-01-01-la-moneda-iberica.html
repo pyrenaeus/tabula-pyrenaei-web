@@ -127,6 +127,14 @@ categories: [numismatica]
   .mapa-interactivo { order: 1; }
 }
 .leaflet-interactive:focus { outline: none !important; }
+
+/* Tabla de cecas: que no ensanche la columna en móvil */
+.col-2-1 > div { min-width: 0; }
+.tabla-scroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+@media (max-width: 600px) {
+  .tabla-scroll table { font-size: 0.75rem !important; }
+  .tabla-scroll th, .tabla-scroll td { padding: 0.15rem 0.3rem; }
+}
 </style>
 
 <div class="col-2-1-wrap">
@@ -328,7 +336,7 @@ categories: [numismatica]
     m.zoomControl.setPosition('topright');
     L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
       maxZoom: 12,
-      attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>'
+      attribution: '<a href="https://github.com/pyrenaeus/tabula-pyrenaei-tiles#readme" title="Créditos del relieve y la hidrografía">Créditos</a> · &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(m);
 
     var locs = [
@@ -425,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var map2 = L.map('mapa-iltiŕkes', { scrollWheelZoom: false }).setView([42.5, 1.8], 8);
 
   L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
-    attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+    attribution: '<a href="https://github.com/pyrenaeus/tabula-pyrenaei-tiles#readme" title="Créditos del relieve y la hidrografía">Créditos</a> · &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 11
   }).addTo(map2);
 
@@ -520,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <p>Con sutiles diferencias iconográficas, y especialmente de estilo, todos estos talleres adoptaron diseños muy similares en sus acuñaciones. Salvo excepciones todos cuentan con dos motivos iconográficos fundamentales formados por el par cabeza masculina y jinete, hacen uso del signario ibérico y se atienen a un mismo estándar metrológico.</p>
 
     <figure style="margin-top: 1.5rem;">
-      <table style="width:100%; border-collapse: collapse; font-family: var(--fuente-principal); font-size: 0.85rem;">
+      <div class="tabla-scroll"><table style="width:100%; border-collapse: collapse; font-family: var(--fuente-principal); font-size: 0.85rem;">
         <thead>
           <tr style="border-bottom: 1px solid var(--color-borde);">
             <th></th><th style="text-align:center" colspan="3">Siglo II a.C.</th><th style="text-align:center" colspan="2">Siglo I a.C.</th>
@@ -546,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function() {
           <tr><td><em>arekorata</em></td><td></td><td style="text-align:center">2</td><td style="text-align:center">265,4</td><td></td><td style="text-align:center">267,4</td></tr>
           <tr><td><em>bolśkan</em></td><td></td><td style="text-align:center">3</td><td style="text-align:center">420,1</td><td style="text-align:center">127,6</td><td style="text-align:center">550,7</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <figcaption class="mapa-titulo-pie">Estimación de la producción (cuños) de diferentes cecas según Villaronga (<a rel="noreferrer noopener" href="http://www.academia.edu/1564447/Circulacion_y_uso_de_los_denarios_ibericos" target="_blank">Gozalbes 2009, 87</a>)</figcaption>
     </figure>
   </div>
@@ -606,7 +614,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var mapSekia = L.map('mapa-sekia', { scrollWheelZoom: false }).setView([41.9, -1.2], 9);
 
     L.tileLayer('https://pyrenaeus.github.io/tabula-pyrenaei-tiles/{z}/{x}/{y}.png', {
-      attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+      attribution: '<a href="https://github.com/pyrenaeus/tabula-pyrenaei-tiles#readme" title="Créditos del relieve y la hidrografía">Créditos</a> · &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 12
     }).addTo(mapSekia);
 
@@ -876,7 +884,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var mapBask = L.map('mapa-baskunes', { scrollWheelZoom: false }).setView([42.6, -1.9], 8);
 
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; <a href="https://cawm.lib.uiowa.edu/#tiles/ol3">CAWM</a>',
+    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
     maxZoom: 10
   }).addTo(mapBask);
 
