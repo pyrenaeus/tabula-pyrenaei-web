@@ -279,7 +279,11 @@ categories: [epigrafia]
     { count: 1, lat: 41.659105, lng: 1.121764, popup: `<em>Tossal del Mor</em> (Tàrrega)<br>(L.17.01)` },
     { count: 2, lat: 41.03563, lng: 0.593908, popup: `Castell de Miravet<br>(T.05)` },
     { count: 10, lat: 41.004611, lng: -0.669231, popup: `<em>El Palomar</em> (Oliete)<br>(TE.05)` },
-    { count: 32, lat: 41.050367, lng: -0.131594, popup: `Alcañiz<br>(E.12)` },
+    { count: 3, lat: 41.025448, lng: -0.183577, popup: `El Palao (Alcañiz)<hr>(TE.11.17) ]la<br>(TE.11.18) i<br>(TE.11.19) ta ` },
+    { count: 1, lat: 41.160033, lng: -0.210199, popup: `La Caraza (Alcañiz)<hr>(TE.11.20) eI lSΠIIIΙ ` },
+    { count: 5, lat: 41.099981, lng: -0.197520, popup: `Masico de Ponz  (Alcañiz, localización aproximada)<hr>(TE.11.01) a<br>(TE.11.02) ]to<br>(TE.11.03) ]+ balti<br>(TE.11.05) ]l̲ti[<br>(TE.11.04) aiunin ` },
+    { count: 21, lat: 41.064842, lng: -0.161123, popup: `El Tiro de Cañón (Alcañiz)<hr>(TE.11.08 y ss)` },
+    { count: 2, lat: 41.044316, lng: 0.019792, popup: `Cabezo del Moro (Alcañiz)<hr>(TE.11.21) ton<br>(TE.11.22) to<br> ` },
     { count: 2, lat: 41.119532, lng: -0.50484, popup: `<em>Cabezo de Cantalobos</em> (Albalate del Arzobispo)<br>(TE.07)` },
     { count: 2, lat: 41.266936, lng: -0.56547, popup: `<em>Cabezo de la Bovina</em> (Vinaceite)<br>(TE.01)` },
     { count: 1, lat: 41.047966, lng: 0.386619, popup: `Batea<br>(T.04.01)` },
@@ -357,6 +361,8 @@ categories: [epigrafia]
     { lat: 42.117837, lng: 1.0440565, iconurl: "/assets/images/2025/01/eso.svg", w: 30, h: 30, ax: 40, ay: 20, popup: `<strong>eśo</strong><a href="https://monedaiberica.org/v3/mint/78" target="_blank" rel="noopener noreferrer"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/37000/rsc29_rsc170_37888.jpg" alt="eśo"></a><div style="text-align:center; font-size:0.85em; color:#555; margin:0;">Unidad (bronce) de eśo, ca. 100-72 a.C. (MIB)</div><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=46" target="_blank" rel="noreferrer noopener">(Mon.17)</a>` },
     { lat: 41.061776, lng: 0.665788, iconurl: "/assets/images/2026/10/kum.svg", w: 22, h: 12, ax: -10, ay: 6, popup: `<strong>kuḿ</strong><br><div style="display:flex;gap:4px;align-items:flex-start;"><a href="https://monedaiberica.org/v6/type/392" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:0;"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/439000/rsc29_rsc170_439516.jpg" alt="kuḿ (MIB 392), imagen 1" style="width:100%;"></a><a href="https://monedaiberica.org/v6/type/392" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:0;"><img src="https://monedaiberica.org/dedalo/media/image/1.5MB/439000/rsc29_rsc170_439517.jpg" alt="kuḿ (MIB 392), imagen 2" style="width:100%;"></a></div><a href="https://monedaiberica.org/v6/type/392" target="_blank" rel="noopener noreferrer">(MIB 392)</a>` },
     { lat: 41.118557, lng: 1.256868, iconurl: "/assets/images/2026/10/kese.svg", w: 23, h: 12, ax: -15, ay: -10, pay: -45, popup: `<strong>kese</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=41" target="_blank" rel="noreferrer noopener">(Mon.12)</a>` },
+    { lat: 41.025448, lng: -0.183577, iconurl: "/assets/images/2026/10/usekerte.svg", w: 58, h: 58, ax: 70, ay: 30, popup: `<strong>usekerte</strong><br><a href="http://hesperia.ucm.es/consulta_hesperia/numismatica/general.php?id=2" target="_blank" rel="noreferrer noopener">(Mon.26)</a>` },
+
   ];
 
   const cecaTowns = [
@@ -393,6 +399,7 @@ categories: [epigrafia]
     { lat: 41.323977, lng: -1.666267, denario: false, popup: `<strong><em>Bilbilis (Valdeherrera-Cerro de Bámbola</em> (Calatayud)</strong>.` },
     { lat: 42.134850, lng: 3.120603, denario: false, popup: `<strong>L’Escala (Empúries)</strong>` },
     { lat: 41.061776, lng: 0.665788, denario: false, popup: `<strong><em>Castellet de Banyoles</em> (Tivissa)</strong>` },
+    { lat: 41.025448, lng: -0.183577, denario: false, popup: `<strong>El Palao (Alcañiz)</strong>` },
   ];
 
   // Fix popup con imágenes: reajustar al cargar
@@ -405,12 +412,21 @@ categories: [epigrafia]
     });
   });
 
+  // Popups con imágenes en 2 columnas (display:flex) necesitan más ancho que el máximo por defecto (300px)
+  function popupOpts(html) {
+    if (html.indexOf('display:flex') === -1) return {};
+    // Ancho fijo (min = max): Leaflet lo calcula antes de que carguen las imágenes y se quedaría corto
+    var w = Math.min(450, window.innerWidth - 60);
+    return { minWidth: w, maxWidth: w };
+  }
+
   inscripciones.forEach(function(d) {
     var r = getRadius(d.count);
+    var popupHtml = '<strong>' + (d.count === 1 ? '1 inscripción' : d.count + ' inscripciones') + '</strong><br>' + d.popup;
     L.circleMarker([d.lat, d.lng], {
       radius: r, color: '#E61876', fillColor: '#E61876',
       fillOpacity: 0.7, weight: 1, opacity: 0.7
-    }).bindPopup('<strong>' + (d.count === 1 ? '1 inscripción' : d.count + ' inscripciones') + '</strong><br>' + d.popup)
+    }).bindPopup(popupHtml, popupOpts(popupHtml))
       .addTo(inscLayer);
   });
 
@@ -418,14 +434,14 @@ categories: [epigrafia]
     L.marker([c.lat, c.lng], {
       icon: L.icon({ iconUrl: c.iconurl, iconSize: [c.w, c.h], iconAnchor: [c.ax, c.ay], popupAnchor: [0, (c.pay !== undefined ? c.pay : -c.ay)] }),
       zIndexOffset: 200
-    }).bindPopup(c.popup).addTo(cecasLayer);
+    }).bindPopup(c.popup, popupOpts(c.popup)).addTo(cecasLayer);
   });
 
   cecaTowns.forEach(function(t) {
     var r = t.denario ? 4 : 3;
     L.circleMarker([t.lat, t.lng], {
       radius: r, color: '#555', fillColor: '#aaa', fillOpacity: 0.0, weight: 2.5
-    }).bindPopup(t.popup).addTo(cecasLayer);
+    }).bindPopup(t.popup, popupOpts(t.popup)).addTo(cecasLayer);
   });
 
   inscLayer.addTo(map1);
